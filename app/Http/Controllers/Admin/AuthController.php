@@ -15,9 +15,9 @@ class AuthController extends Controller
 
         //Tymon\JWTAuth
         if (!$token = JWTAuth::attempt($input)) {
-            return response()->json(['result' => '邮箱或密码错误.']);
+            return responseFail('email or password was wrong');
         }
-        return response()->json(['result' => $token]);
+        return responseSuccess(['token' => $token]);
     }
 
     public function logout()

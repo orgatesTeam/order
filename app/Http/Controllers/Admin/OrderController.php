@@ -15,6 +15,6 @@ class OrderController extends Controller
 {
     public function index()
     {
-        return response()->json(['1' => '1']);
+        return responseSuccess(['test' => 'ok']);
     }
 }

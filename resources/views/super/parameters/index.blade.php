@@ -93,8 +93,8 @@
                 $.get({
                     url: url,
                     success: function (result) {
-                        if (result.parameters) {
-                            that.parameters = result.parameters;
+                        if (result.items) {
+                            that.parameters = result.items;
                             that.$nextTick(function () {
                                 $('select').show();
                             });
@@ -112,14 +112,14 @@
                 var data = that.getStoreData();
                 axios.post(url, data, {})
                         .then(function (response) {
-                            if (response.data.status == 'fail') {
+                            if (response.data.errors) {
                                 alert('更新失敗');
                                 return;
                             }
-                            if (response.data.parameters) {
+                            if (response.data.items) {
                                 alert('更新成功');
-                                console.log(response.data);
-                                that.parameters = response.data.parameters;
+                                console.log(response.data.items);
+                                that.parameters = response.data.items;
                                 that.$nextTick(function () {
                                     $('select').show();
                                 });

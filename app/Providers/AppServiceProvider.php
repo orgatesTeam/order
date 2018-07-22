@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Formatters\Fail;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        require_once (app_path('/Util/helper.php'));
     }
 
     /**

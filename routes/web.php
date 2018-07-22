@@ -15,10 +15,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//開發管理者平台
 Route::group(['namespace' => 'Super', 'prefix' => 'super'], function () {
-    Route::get('/parameters', 'ParametersController@index');
-    Route::get('/parameters/all', 'ParametersController@all')->name('parameters.all');
-    Route::post('/parameters/update', 'ParametersController@update')->name('parameters.update');
+
+    //參數管理模塊
+    Route::group(['prefix' => 'parameters'], function () {
+        Route::get('/', 'ParametersController@index');
+        Route::get('/all', 'ParametersController@all')->name('parameters.all');
+        Route::post('/update', 'ParametersController@update')->name('parameters.update');
+    });
+
 });
 
 

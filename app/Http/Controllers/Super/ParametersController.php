@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Super;
 
+use App\Formatters\Success;
+use App\Formatters\SuccessFormat;
 use App\Http\Controllers\Controller;
 use File;
 
@@ -17,7 +19,11 @@ class ParametersController extends Controller
     public function all()
     {
         $parameters = config('super');
-        return response()->json(['parameters' => $parameters]);
+        if(is_array($parameters)){
+            return responseSuccess($parameters);
+        }
+
+        return responseFail();
     }
 
     public function update()
@@ -43,10 +49,10 @@ class ParametersController extends Controller
             //產生未錯誤的版本
             $newSuperFile = $this->array2File($super);
             file_put_contents(config_path() . '/super.php', $newSuperFile);
-            return response()->json(['status' => 'fail']);
+            return responseFail();
         }
 
-        return response()->json(['parameters' => $newSuper]);
+        return responseSuccess($newSuper);
     }
 
     protected function array2File($super)
