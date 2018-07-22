@@ -14,3 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(['namespace' => 'Super', 'prefix' => 'super'], function () {
+    Route::get('/parameters', 'ParametersController@index');
+    Route::get('/parameters/all', 'ParametersController@all')->name('parameters.all');
+    Route::post('/parameters/update', 'ParametersController@update')->name('parameters.update');
+});
+
+
