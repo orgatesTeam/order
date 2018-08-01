@@ -11,7 +11,7 @@ class AuthController extends Controller
     /*登陆*/
     public function login(Request $request)
     {
-        $input = $request->only(['email','password']);
+        $input = $request->only(['email', 'password']);
 
         //Tymon\JWTAuth
         if (!$token = JWTAuth::attempt($input)) {

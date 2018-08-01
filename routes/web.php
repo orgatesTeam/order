@@ -20,9 +20,15 @@ Route::group(['namespace' => 'Super', 'prefix' => 'super'], function () {
 
     //參數管理模塊
     Route::group(['prefix' => 'parameters'], function () {
-        Route::get('/', 'ParametersController@index');
+        Route::get('/', 'ParametersController@index')->name('parameters.index');
+        //ajax
         Route::get('/all', 'ParametersController@all')->name('parameters.all');
         Route::post('/update', 'ParametersController@update')->name('parameters.update');
+    });
+
+    //帳號管理模塊
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('/', 'ParametersController@index')->name('users.index');
     });
 
 });
