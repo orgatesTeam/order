@@ -11,24 +11,30 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'Super\UsersController@index');
 
 //開發管理者平台
-Route::group(['namespace' => 'Super', 'prefix' => 'super'], function () {
+Route::group(['namespace' => 'Super', 'prefix' => 'super', 'as' => 'super.'], function () {
 
     //參數管理模塊
-    Route::group(['prefix' => 'parameters'], function () {
-        Route::get('/', 'ParametersController@index')->name('parameters.index');
+    Route::group(['prefix' => 'parameters','as' => 'parameters.'], function () {
+        Route::get('/', 'ParametersController@index')->name('index');
         //ajax
-        Route::get('/all', 'ParametersController@all')->name('parameters.all');
-        Route::post('/update', 'ParametersController@update')->name('parameters.update');
+        Route::get('/all', 'ParametersController@all')->name('all');
+        Route::post('/update', 'ParametersController@update')->name('update');
     });
 
     //帳號管理模塊
-    Route::group(['prefix' => 'users'], function () {
-        Route::get('/', 'ParametersController@index')->name('users.index');
+    Route::group(['prefix' => 'users','as' => 'users.'], function () {
+        Route::get('/', 'UsersController@index')->name('index');
+        Route::get('/create', 'UsersController@create')->name('create');
+        Route::get('/update', 'UsersController@update')->name('update');
+
+        //ajax
+        Route::group(['namespace' => 'Api','prefix' => 'ajax','as' => 'ajax.'], function () {
+            Route::get('/list', 'UsersController@list')->name('list');
+        });
+
     });
 
 });

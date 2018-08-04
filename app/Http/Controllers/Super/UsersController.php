@@ -8,8 +8,20 @@
 
 namespace App\Http\Controllers\Super;
 
-
 class UsersController
 {
+    public function index()
+    {
+        return view('super.users.index');
+    }
 
+    public function create()
+    {
+        return view('super.user.input');
+    }
+
+    public function update()
+    {
+        return view('super.user.input');
+    }
 }

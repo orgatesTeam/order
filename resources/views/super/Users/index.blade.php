@@ -1,128 +1,149 @@
 @extends('super.layouts.template')
 
-@section('title', '參數管理')
+@section('title', '帳號管理(列表)')
 
 @section('content')
-    <div>
-        <div class="section no-pad-bot" id="index-banner">
-            <div class="container">
-                <div class="section">
-                    <div class="row" v-for="parameter, parameterKey in parameters">
+    <!-- Modal Trigger -->
 
-                        <div class="input-field col s3">
-                            <i class="material-icons prefix">account_circle</i>
-                            <label for="icon_prefix">@{{ parameter.name }}</label>
-                        </div>
-                        <div class="input-field col s9">
-
-                            <div v-if="parameter.type == 'boolean'">
+    <!-- Modal Structure -->
+    <div v-show="modalShow">
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+                <h4>Modal Header</h4>
+                <div class="row">
+                    <form class="col s12">
+                        <div class="row">
+                            <div class="col s12">
+                                <label>帳號</label>
+                                <input v-model="modalUser.email" id="modalEmail" type="text">
+                            </div>
+                            <div class="col s6">
+                                <label>姓名</label>
+                                <input v-model="modalUser.name" id="modalName" type="text">
+                            </div>
+                            <div class="col s6">
+                                <label>啟用</label>
                                 <p>
                                     <label>
-                                        <input name="group1" type="radio"
-                                               :checked="parameter.value=='true'?'checked':''"
-                                               @click="parameter.value='true'"
-                                        />
-                                        <span>開啟(TRUE)</span>
-                                    </label>
-                                    <label>
-                                        <input name="group1" type="radio"
-                                               :checked="parameter.value=='true'?'':'checked'"
-                                               @click="parameter.value='false'"
-                                        />
-                                        <span>關閉(FALSE)</span>
+                                        <input type="checkbox" class="filled-in"
+                                               :checked="modalUser.enable==1?'checked':''"/>
+                                        <span>Filled in</span>
                                     </label>
                                 </p>
                             </div>
-
-                            <div v-if="parameter.type == 'select'">
-                                <select :id="parameterKey" @change="updateSelect(parameterKey)">
-                                    <option :value="value" v-for="value,key in parameter.options"
-                                            :selected="parameter.value==value?'selected':''">
-                                        @{{ key }}
-                                    </option>
-                                </select>
-                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="section">
-                    <a class="waves-effect waves-light btn-small" @click="store">
-                        <i class="material-icons right">archive</i>儲存
-                    </a>
+                    </form>
                 </div>
             </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">關閉</a>
+            </div>
         </div>
-        <input type="hidden" id="parameters-all" value="{{route('parameters.all')}}">
-        <input type="hidden" id="parameters-update" value="{{route('parameters.update')}}">
     </div>
+
+
+
+    <div class="section no-pad-bot" id="index-banner">
+        <div class="container">
+            <div class="section">
+                <p> @{{ '總數:'+ total }}</p>
+                <table class="highlight responsive-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>姓名</th>
+                        <th>帳號</th>
+                        <th>啟用狀態</th>
+                        <th>建立時間</th>
+                        <th>更新時間</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="user,index in users">
+                        <td>@{{ user.id }}</td>
+                        <td>@{{ user.name }}</td>
+                        <td>@{{ user.email }}</td>
+                        <td>@{{ user.enable == 1 ? '啟用':'關閉' }}</td>
+                        <td>@{{ user.created_at }}</td>
+                        <td>@{{ user.updated_at }}</td>
+                        <td>
+                            <a class="waves-effect waves-light btn modal-trigger btn-floating btn cyan pulse"
+                               href="#modal1" @click="edit(index)">
+                                <i class="material-icons">edit</i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <paginate
+                    :page-count="paginate.pageCount"
+                    :click-handler="clickPage"
+                    :prev-text="'上一頁'"
+                    :next-text="'下一頁'"
+                    :container-class="'pagination'"
+                    :value="paginate.currentPage"
+                    :page-range="paginate.range"
+            >
+            </paginate>
+        </div>
+    </div>
+    <input type="hidden" id="users-ajax-list" value="{{route('super.users.ajax.list')}}">
 @endsection
-
-
 @section('js')
     <script>
-        var app = new Vue({
+        var vm = new Vue({
             el: '#app',
-            mode: 'develop',
             data: {
-                test: 'test',
-                parameters: {},
+                users: {},
+                paginate: {
+                    pageCount: 1,
+                    currentPage: 1,
+                    range: 5,
+                },
+                total: 0,
+                modalUser: {},
+                modalShow: false
             },
             mounted: function () {
-                this.getParameters();
+                this.getList(1);
             },
             methods: {
-                getParameters: function () {
+                getList: function (page) {
                     var that = this;
-                    var url = $('#parameters-all').val();
-                    $.get({
+                    var url = $('#users-ajax-list').val();
+                    $.ajax({
                         url: url,
-                        success: function (result) {
-                            if (result.items) {
-                                that.parameters = result.items;
-                                that.$nextTick(function () {
-                                    $('select').show();
-                                });
+                        type: 'get',
+                        data: {page: page},
+                        success: function (response) {
+                            if (response.code == 202) {
+                                var users = response.items.users;
+                                that.users = users.data;
+                                that.paginate.pageCount = users.last_page;
+                                that.paginate.currentPage = users.current_page;
+                                that.total = users.total;
                             }
                         }
                     })
                 },
-                updateSelect: function (parameterKey) {
-                    var value = $(`#${parameterKey}`).val();
-                    this.parameters[parameterKey].value = value;
+                clickPage: function (pageNum) {
+                    this.paginate.currentPage = pageNum;
+                    this.getList(pageNum);
                 },
-                store: function () {
-                    var that = this;
-                    var url = $('#parameters-update').val();
-                    var data = that.getStoreData();
-                    axios.post(url, data, {})
-                        .then(function (response) {
-                            if (response.data.errors) {
-                                alert('更新失敗');
-                                return;
-                            }
-                            if (response.data.items) {
-                                alert('更新成功');
-                                console.log(response.data.items);
-                                that.parameters = response.data.items;
-                                that.$nextTick(function () {
-                                    $('select').show();
-                                });
-                            }
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        });
-                },
-                getStoreData: function () {
-                    var that = this;
-                    var data = {};
-                    Object.keys(that.parameters).forEach(function (key) {
-                        data[key] = that.parameters[key].value;
-                    });
-                    console.log(data);
-                    return data;
+                edit: function (index) {
+                    this.modalShow = false;
+                    this.modalShow = true;
+                    var user = this.users[index];
+                    this.modalUser = user;
                 }
             }
         })
+
+        $(document).ready(function () {
+            $('.modal').modal();
+        });
     </script>
 @endsection
