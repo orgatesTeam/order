@@ -49,4 +49,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function scopeEnable($queryBuilder)
+    {
+        return $queryBuilder->where('enable', 1);
+    }
 }

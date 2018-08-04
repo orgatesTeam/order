@@ -52,19 +52,15 @@
                 </div>
             </div>
         </div>
-        <input type="hidden" id="parameters-all" value="{{route('parameters.all')}}">
-        <input type="hidden" id="parameters-update" value="{{route('parameters.update')}}">
+        <input type="hidden" id="parameters-all" value="{{route('super.parameters.all')}}">
+        <input type="hidden" id="parameters-update" value="{{route('super.parameters.update')}}">
     </div>
 @endsection
-
-
 @section('js')
     <script>
         var app = new Vue({
             el: '#app',
-            mode: 'develop',
             data: {
-                test: 'test',
                 parameters: {},
             },
             mounted: function () {
