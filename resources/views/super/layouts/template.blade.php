@@ -16,6 +16,10 @@
     [v-cloak] {
         display: none;
     }
+
+    .text-danger {
+        color: red;
+    }
 </style>
 <body>
 <div id="app" v-cloak>

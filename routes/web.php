@@ -33,6 +33,8 @@ Route::group(['namespace' => 'Super', 'prefix' => 'super', 'as' => 'super.'], fu
         //ajax
         Route::group(['namespace' => 'Api','prefix' => 'ajax','as' => 'ajax.'], function () {
             Route::get('/list', 'UsersController@list')->name('list');
+            Route::get('/check-value-exist', 'UsersController@checkValueExist')->name('check');
+            Route::post('/store', 'UsersController@store')->name('store');
         });
 
     });

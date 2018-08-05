@@ -986,7 +986,6 @@ window.Vue = __webpack_require__(31);
 
 var Paginate = __webpack_require__(34);
 Vue.component('paginate', Paginate);
-
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
