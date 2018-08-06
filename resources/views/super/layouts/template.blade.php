@@ -29,7 +29,8 @@
             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="left hide-on-med-and-down">
                 <li><a href="{{route('super.parameters.index')}}">參數管理</a></li>
-                <li><a class="dropdown-trigger" href="#!" data-target="dropdown-users">帳號管理<i
+                <li><a href="{{route('super.users.index')}}">帳號管理</a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown-users">XXXX<i
                                 class="material-icons right">arrow_drop_down</i></a></li>
                 <ul id="dropdown-users" class="dropdown-content">
                     <li><a href="{{route('super.users.index')}}">列表</a></li>
@@ -42,7 +43,8 @@
 
     <ul class="sidenav" id="mobile-demo">
         <li><a href="{{route('super.parameters.index')}}">參數管理</a></li>
-        <li><a class="dropdown-trigger" href="#!" data-target="dropdown-users-m">帳號管理<i class="material-icons right">arrow_drop_down</i></a>
+        <li><a href="{{route('super.users.index')}}">帳號管理</a></li>
+        <li><a class="dropdown-trigger" href="#!" data-target="dropdown-users-m">XXXXX<i class="material-icons right">arrow_drop_down</i></a>
         </li>
         <ul id="dropdown-users-m" class="dropdown-content">
             <li><a href="{{route('super.users.index')}}">列表</a></li>

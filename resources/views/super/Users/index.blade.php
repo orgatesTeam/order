@@ -1,6 +1,6 @@
 @extends('super.layouts.template')
 
-@section('title', '帳號管理(列表)')
+@section('title', '帳號管理')
 
 @section('content')
     <!-- Modal Trigger -->
