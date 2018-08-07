@@ -18,7 +18,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
      * 驗證 jwt
      */
     Route::group(['middleware' => 'jwt.auth'], function () {
-        //Route::get('order', 'OrderController@index');
+        Route::post('menu/list', 'MenuController@list');
     });
 });
 
