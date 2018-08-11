@@ -15,6 +15,13 @@ class MenuController extends Controller
         $user = auth()->user();
         $menus = Menu::where('user_id', $user->id)->paginate(15);
 
+        $formatter = [];
+        foreach ($menus as $menu) {
+            $menu->type = $menu->menu_type_id;
+            $formatter[] = $menu;
+        }
+
+        $menus['data'] = $formatter;
         return responseSuccess(['menus' => $menus]);
     }
 }

@@ -14,12 +14,17 @@ const router = new VueRouter({
                     component: require('../views/Hello')
                 },
                 {
-                    path: 'order',
-                    name: 'order',
-                    component: require('../views/order/Order')
+                    path: 'menu',
+                    name: 'menu',
+                    component: require('../views/menu/Menu')
+                },
+                {
+                    path: 'menu-edit',
+                    name: 'menu-edit',
+                    component: require('../views/menu/Edit')
                 }
             ]
-        }
+        },
     ]
 });
 

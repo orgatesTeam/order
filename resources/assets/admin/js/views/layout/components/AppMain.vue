@@ -1,9 +1,9 @@
 <template>
     <section class="app-main">
         <transition name="fade-transform" mode="out-in">
-            <keep-alive :include="cachedViews">
+            <keep-alive>
                 <div class="container">
-                    <router-view :key="key"></router-view>
+                    <router-view></router-view>
                 </div>
             </keep-alive>
         </transition>
@@ -16,5 +16,7 @@
 </script>
 
 <style scoped>
-
+    .app-main {
+        margin-top: 10%;
+    }
 </style>

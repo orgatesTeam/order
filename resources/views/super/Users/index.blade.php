@@ -275,6 +275,7 @@
         })
 
         $(document).ready(function () {
+            console.log('ready');
             $('.modal').modal();
         });
     </script>

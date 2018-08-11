@@ -14,7 +14,7 @@
         components: {
             Navbar,
             AppMain
-        },
+        }
     }
 </script>
 

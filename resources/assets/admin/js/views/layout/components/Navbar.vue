@@ -1,34 +1,43 @@
 <template>
     <div>
-        <nav class="light-blue lighten-1">
-            <div class="nav-wrapper">
-                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                <ul class="left hide-on-med-and-down">
-                    <li>
-                        <router-link :to="{ name: 'order' }">Order</router-link>
-                    </li>
-                    <li>
-                        <router-link :to="{ name: 'hello' }">Hello</router-link>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <ul class="sidenav" id="mobile-demo">
-            <li>
-                <router-link :to="{ name: 'order' }">Order</router-link>
-            </li>
-            <li>
-                <router-link :to="{ name: 'hello' }">Hello</router-link>
-            </li>
-        </ul>
-
+        <mt-header fixed :title="getTitle()">
+            <router-link :to="back()" slot="left">
+                <mt-button icon="back">返回</mt-button>
+            </router-link>
+            <mt-button icon="more" slot="right"></mt-button>
+        </mt-header>
     </div>
 </template>
+<style>
+    .mint-button-text {
+        color: #ffffff;
+        font-size: 1.2rem;
+    }
 
+    .mint-header-title {
+        font-size: 2.2rem;
+        margin: 0;
+    }
+
+    .mint-header {
+        height: 8%;
+    }
+
+</style>
 <script>
+    import {Header} from 'mint-ui';
+
     export default {
-        name: "navbar"
+        name: "navbar",
+        comments: [Header.name, Header],
+        methods: {
+            getTitle() {
+                return this.$store.state.form.title
+            },
+            back() {
+                return this.$store.state.form.linkName
+            }
+        }
     }
 </script>
 
