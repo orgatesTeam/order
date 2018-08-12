@@ -11,7 +11,5 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/super/js/app.js', 'public/super/js')
-    .js('resources/assets/admin/js/app.js', 'public/admin/js')
-    .js('resources/assets/utils/js/utils.js', 'public/utils/js');
-;
+mix.js('resources/assets/js/super/app.js', 'public/js/super')
+    .js('resources/assets/js/admin/app.js', 'public/js/admin');

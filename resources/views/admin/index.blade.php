@@ -7,19 +7,19 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
     <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
 
+    <link rel="stylesheet" href="{{asset('css/main.css')}}">
 </head>
 <style>
 
 </style>
 <body>
-<div id="app">
+<div id="app" class="main-app">
     <template>
-        <div class="container">
+        <div>
             <transition name="fade">
                 <keep-alive>
                     <router-view></router-view>
@@ -28,6 +28,6 @@
         </div>
     </template>
 </div>
-<script src="{{asset('/admin/js/app.js')}}"></script>
+<script src="{{asset('/js/admin/app.js')}}"></script>
 </body>
 </html>

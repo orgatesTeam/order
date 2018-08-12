@@ -58,7 +58,7 @@
 
 {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>--}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
-<script src="{{asset('/super/js/app.js')}}"></script>
+<script src="{{asset('/js/super/app.js')}}"></script>
 
 <script>
     // Or with jQuery
