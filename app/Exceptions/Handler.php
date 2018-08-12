@@ -50,7 +50,8 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof UnauthorizedHttpException) {
-            return responseFail('無效的 jwt ');
+            logError('無效的 jwt');
+            return responseFail('請登入系統');
         }
         return parent::render($request, $exception);
     }

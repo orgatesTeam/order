@@ -29,10 +29,14 @@ if (!function_exists('responseSuccess')) {
 if (!function_exists('logError')) {
     function logError($message, $recordRequest = true)
     {
+        if (auth()->check()) {
+            $user = auth()->user()->id;
+        }
+
         $records = [
             'ip'   => request()->ip(),
             'url'  => request()->url(),
-            'user' => auth()->user()->id
+            'user' => $user ?? '未登入'
         ];
 
         if ($recordRequest) {
