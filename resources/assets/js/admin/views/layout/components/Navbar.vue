@@ -22,14 +22,12 @@
         height: 50px;
     }
     .navbar-header {
-        display: block;
         position: fixed;
         color:#ffffff;
         border-bottom: 1px solid #039be5;
         background-color: #039be5;
         height: 50px;
         line-height: 50px;
-        margin-bottom: 5%;
         z-index: 1;
         margin: 0;
         width: 100%;

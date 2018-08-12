@@ -3,7 +3,7 @@
         <navbar></navbar>
         <app-main :class="appMainCss"></app-main>
         <popup></popup>
-        <footer></footer>
+        <footer-menu></footer-menu>
     </div>
 </template>
 
@@ -11,7 +11,7 @@
     import Navbar from './components/Navbar'
     import AppMain from './components/AppMain'
     import Popup from './components/Popup'
-    import Footer from './components/Footer'
+    import FooterMenu from './components/FooterMenu'
 
     export default {
         name: "layout",
@@ -19,7 +19,7 @@
             Navbar,
             AppMain,
             Popup,
-            Footer
+            FooterMenu,
         },
         computed: {
             appMainCss() {

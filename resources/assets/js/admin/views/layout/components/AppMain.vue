@@ -2,7 +2,7 @@
     <section class="app-main">
         <transition name="fade-transform" mode="out-in">
             <keep-alive>
-                <div class="container">
+                <div>
                     <router-view></router-view>
                 </div>
             </keep-alive>
@@ -20,5 +20,6 @@
         position: absolute;
         height: calc(100% - 100px);
         width: 100%;
+        overflow: auto;
     }
 </style>
