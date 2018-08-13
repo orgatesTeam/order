@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div @click="tabClick">
         <mt-tabbar v-model="selected">
-            <mt-tab-item id="main">
+            <mt-tab-item id="menu">
                 <i class="material-icons dp48">call_to_action</i>
                 主頁
             </mt-tab-item>
@@ -13,7 +13,7 @@
                 <i class="material-icons dp48">event_note</i>
                 系統
             </mt-tab-item>
-            <mt-tab-item id="menu" class="menu">
+            <mt-tab-item id="system-menu" class="menu">
                 <i class="material-icons dp48">menu</i>
                 選單
             </mt-tab-item>
@@ -52,17 +52,32 @@
         comments: [Tabbar.name, Tabbar, TabItem.name, TabItem],
         data() {
             return {
-                selected: 'main'
+                oldSelected: 'menu'
             }
         },
-        watch: {
-            selected() {
-                if (this.selected == 'main') {
-                    this.$router.push({name: 'menu'})
+        computed: {
+            selected: {
+                set(selected) {
+                    this.$store.commit('setFooterMenu', selected)
+                },
+                get() {
+                    return this.$store.state.form.footerMenu
                 }
-                if (this.selected == 'menu') {
-                    alert(1)
+            }
+        },
+        methods: {
+            tabClick() {
+
+                this.$router.push({name: this.selected})
+                //置頂
+                if (this.sameMenu()) {
+                    $(".app-main").animate({scrollTop: 0}, 0)
                 }
+
+                this.oldSelected = this.selected
+            },
+            sameMenu() {
+                return this.oldSelected == this.selected
             }
         }
     }

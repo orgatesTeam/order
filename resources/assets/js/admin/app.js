@@ -15,9 +15,5 @@ window.app = new Vue({
     store,
     created() {
     },
-    watch: {
-        '$route': function () {
-        }
-    },
     render: h => h(App),
 });

@@ -12,11 +12,11 @@
                     <mt-field label="菜單名稱" v-model="editMenu.name"></mt-field>
                     <mt-field label="價格" type="tel" v-model="editMenu.price"
                               :state="editPriceError"></mt-field>
-                    <div @click="triggerMenuTypes=true" >
+                    <div @click="triggerMenuTypes=true">
                         <mt-field label="種類" v-model="editMenu.type" class="unselectable"></mt-field>
                     </div>
                 </div>
-                <mt-button :disabled="!canStoreEdit" type="primary" size="large" @click="editStore">儲存</mt-button>
+                <mt-button :disabled="!canStoreEdit" type="primary" size="large" @click="editStore()">儲存</mt-button>
             </mt-tab-container-item>
             <mt-tab-container-item id="create">
                 <div class="section">
@@ -26,7 +26,7 @@
                         <mt-field label="種類" v-model="createMenu.type" class="unselectable"></mt-field>
                     </div>
                 </div>
-                <mt-button :disabled="!canStoreCreate" type="primary" size="large" class="store">儲存</mt-button>
+                <mt-button  :disabled="!canStoreCreate" type="primary" size="large" @click="createStore()">儲存</mt-button>
             </mt-tab-container-item>
             <mt-actionsheet
                     :actions="actionMenuTypes"
@@ -43,7 +43,7 @@
 <script>
     import {Field} from 'mint-ui';
     import {Navbar, TabItem} from 'mint-ui';
-    import {fetchMenuTypes, updateMenu} from '../../api/menu'
+    import {fetchMenuTypes, updateMenu, createMenu} from '../../api/menu'
     import {Actionsheet} from 'mint-ui';
     import {Button} from 'mint-ui';
     import {Toast} from 'mint-ui';
@@ -110,6 +110,20 @@
             },
             canStoreCreate() {
 
+                let menu = this.createMenu
+
+                if (menu.menu_type_id < 1) {
+                    return false
+                }
+
+                if (menu.name == '') {
+                    return false
+                }
+
+                if (menu.price < 1) {
+                    return false
+                }
+                return true
             }
         },
         watch: {
@@ -180,10 +194,25 @@
                         that.$router.push({name: 'menu'})
                     }
                 })
-                console.log('store')
             },
             createStore() {
-
+                console.log(1)
+                let that = this
+                let {name, price, menu_type_id} = this.createMenu
+                let data = {
+                    name: name,
+                    price: price,
+                    menu_type_id: menu_type_id
+                }
+                createMenu(data).then(response => {
+                    if (response.data.code == '202') {
+                        Toast({
+                            message: '操作成功',
+                            iconClass: 'icon icon-success'
+                        });
+                        that.$router.push({name: 'menu'})
+                    }
+                })
             }
         }
     }

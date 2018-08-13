@@ -21,10 +21,11 @@ class MenuTableSeeder extends Seeder
             ]);
         }
 
-        foreach (range(1, 3) as $index) {
+        $types = ['主食(飯類)', '主食(麵類)', '主食(肉類)', '下酒菜', '開胃菜', '前菜', '主菜'];
+        foreach ($types as $type) {
             \App\MenuType::create([
                 'user_id' => $user->id,
-                'name'    => '主菜'
+                'name'    => $type
             ]);
         }
     }

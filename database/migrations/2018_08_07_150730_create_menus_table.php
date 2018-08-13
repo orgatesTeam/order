@@ -17,7 +17,7 @@ class CreateMenusTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->string('name');
-            $table->integer('price');
+            $table->float('price', 8, 2);
             $table->integer('menu_type_id')->default(0)->comment('菜單種類,關聯 menu_types');
             $table->timestamps();
         });

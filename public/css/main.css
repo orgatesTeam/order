@@ -6,3 +6,12 @@ html, body {
 .unselectable {
     pointer-events: none;
 }
+
+.comming-soon {
+    position: fixed;
+    top: 30vh;
+    width: 100vw;
+    color: #0c5460;
+    font-size: 3rem;
+    text-align: center;
+}

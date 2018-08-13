@@ -20,7 +20,7 @@ class MenuController extends Controller
     public function list()
     {
         $user = auth()->user();
-        $menus = Menu::where('user_id', $user->id)->paginate(15);
+        $menus = Menu::where('user_id', $user->id)->orderBy('id', 'desc')->paginate(15);
 
         $menuTypes = $this->makeMappingMenuTypes($menus);
 
@@ -68,7 +68,7 @@ class MenuController extends Controller
     public function menuTypes()
     {
         $user = auth()->user();
-        $menuTypes = MenuType::select('id', 'name')->where('user_id', $user->id)->get();
+        $menuTypes = MenuType::select('id', 'name')->where('user_id', $user->id)->orderBy('id', 'desc')->get();
         return responseSuccess(['menuTypes' => $menuTypes]);
     }
 
@@ -97,6 +97,31 @@ class MenuController extends Controller
         $menu->price = request('price');
         $menu->menu_type_id = request('menu_type_id');
         $menu->save();
+
+        return responseSuccess(['menu' => $menu]);
+    }
+
+    public function createMenu()
+    {
+        $keys = ['name', 'price', 'menu_type_id'];
+
+        if (!request()->exists($keys)) {
+            logError('請求參數缺失');
+            return responseFail('資料錯誤');
+        }
+
+        $menuType = MenuType::where('id', request('menu_type_id'))->where('user_id', auth()->user()->id)->first();
+        if (!$menuType) {
+            logError('找無此菜單種類ID');
+            return responseFail('資料錯誤');
+        }
+
+        $menu = Menu::create([
+            'user_id'      => auth()->user()->id,
+            'name'         => request('name'),
+            'price'        => request('price'),
+            'menu_type_id' => request('menu_type_id')
+        ]);
 
         return responseSuccess(['menu' => $menu]);
     }

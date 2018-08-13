@@ -3,7 +3,8 @@ const form = {
     state: {
         title: '後台管理',
         linkName: {name: 'menu'},
-        from: null
+        from: null,
+        footerMenu: 'menu'
     },
     mutations: {
         setFormTitle(state, title) {
@@ -14,6 +15,9 @@ const form = {
         },
         setFrom(state, from) {
             state.form = from
+        },
+        setFooterMenu(state, menu) {
+            state.footerMenu = menu
         }
     },
     actions: {}

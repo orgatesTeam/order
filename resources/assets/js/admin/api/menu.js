@@ -23,3 +23,11 @@ export function updateMenu(data) {
         data: data
     })
 }
+
+export function createMenu(data) {
+    return request({
+        url: '/admin/menu/create-menu',
+        method: 'post',
+        data: data
+    })
+}
