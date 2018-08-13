@@ -46,6 +46,7 @@
 </style>
 <script>
     import {Tabbar, TabItem} from 'mint-ui';
+    import {settingFooterMenu} from '../../../utils/helper'
 
     export default {
         name: "FooterMenu",
@@ -54,6 +55,9 @@
             return {
                 oldSelected: 'menu'
             }
+        },
+        mounted() {
+            this.selected = this.$route.name
         },
         computed: {
             selected: {

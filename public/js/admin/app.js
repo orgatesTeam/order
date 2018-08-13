@@ -23719,16 +23719,7 @@ router.afterEach(function (to, from) {
 
     //防呆還沒初始好
     if (app instanceof Object && app.hasOwnProperty('$store') && app.$store.hasOwnProperty('commit')) {
-        var checkFooterMenu = function checkFooterMenu() {
-            var checkPath = ['menu', 'report', 'system', 'system-menu'];
-            checkPath.forEach(function (path) {
-                if (path == to.name) {
-                    app.$store.commit('setFooterMenu', path);
-                }
-            });
-        };
-
-        checkFooterMenu();
+        app.$store.commit('setFooterMenu', to.name);
     }
 });
 
@@ -26684,17 +26675,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "navbar",
     computed: {
         title: function title() {
             return this.$store.state.form.title;
-        },
+        }
+    },
+    methods: {
         back: function back() {
-            return this.$store.state.form.linkName;
+            this.$router.back();
         }
     }
 });
@@ -26709,18 +26700,9 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("header", { staticClass: "navbar-header" }, [
-      _c(
-        "div",
-        { staticClass: "navbar-left" },
-        [
-          _c(
-            "router-link",
-            { attrs: { slot: "left", to: _vm.back }, slot: "left" },
-            [_c("i", { staticClass: "mintui mintui-back" }, [_vm._v("返回")])]
-          )
-        ],
-        1
-      ),
+      _c("div", { staticClass: "navbar-left", on: { click: _vm.back } }, [
+        _c("i", { staticClass: "mintui mintui-back" }, [_vm._v("返回")])
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "navbar-title" }, [
         _vm._v("\n            " + _vm._s(_vm.title) + "\n        ")
@@ -29563,6 +29545,8 @@ exports.push([module.i, "\ni[data-v-485072a1] {\n    display: block;\n    margin
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mint_ui__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_mint_ui__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_helper__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_helper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__utils_helper__);
 //
 //
 //
@@ -29609,6 +29593,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -29619,6 +29604,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             oldSelected: 'menu'
         };
+    },
+    mounted: function mounted() {
+        this.selected = this.$route.name;
     },
 
     computed: {
@@ -30424,6 +30412,12 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-339bc0cb", module.exports)
   }
 }
+
+/***/ }),
+/* 146 */
+/***/ (function(module, exports) {
+
+
 
 /***/ })
 /******/ ]);

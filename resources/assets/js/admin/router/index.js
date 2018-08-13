@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import {getToken} from "../utils/auth";
+import {getToken} from '../utils/auth';
 
 Vue.use(VueRouter)
 
@@ -77,16 +77,7 @@ router.afterEach((to, from) => {
     if (app instanceof Object &&
         app.hasOwnProperty('$store') &&
         app.$store.hasOwnProperty('commit')) {
-        let checkFooterMenu = () => {
-            let checkPath = ['menu', 'report', 'system', 'system-menu']
-            checkPath.forEach(path => {
-                if (path == to.name) {
-                    app.$store.commit('setFooterMenu', path)
-                }
-            })
-        }
-
-        checkFooterMenu()
+        app.$store.commit('setFooterMenu', to.name)
     }
 })
 

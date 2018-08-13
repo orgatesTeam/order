@@ -1,10 +1,8 @@
 <template>
     <div>
         <header class="navbar-header">
-            <div class="navbar-left">
-                <router-link :to="back" slot="left">
-                    <i class="mintui mintui-back">返回</i>
-                </router-link>
+            <div class="navbar-left" @click="back">
+                <i class="mintui mintui-back">返回</i>
             </div>
             <div class="navbar-title">
                 {{title}}
@@ -63,8 +61,10 @@
             title(){
                 return  this.$store.state.form.title
             },
+        },
+        methods:{
             back(){
-                return this.$store.state.form.linkName
+                this.$router.back()
             }
         }
     }
