@@ -8,6 +8,9 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException as Unauthor
 
 class Handler extends ExceptionHandler
 {
+    //回應前端清除 token
+    const REMOVE_TOKEN = '100';
+
     /**
      * A list of the exception types that are not reported.
      *
@@ -50,8 +53,8 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof UnauthorizedHttpException) {
-            logError('無效的 jwt');
-            return responseFail('請登入系統');
+            logError($exception);
+            return responseFail('無效的 jwt ', self::REMOVE_TOKEN);
         }
         return parent::render($request, $exception);
     }

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {getToken} from './auth'
+import {getToken, removeToken} from './auth'
 import {Toast} from 'mint-ui';
 
 // create an axios instance
@@ -28,10 +28,20 @@ service.interceptors.request.use(config => {
 // respone interceptor
 service.interceptors.response.use(
     response => {
+        console.log(response)
         if (response.data.code != '202') {
             Toast({
                 message: response.data.errors.message,
             });
+        }
+
+        //remove token
+        if (response.data.errors && response.data.errors.status == '100') {
+            Toast({
+                message: '一段時間未使用,請重新登入',
+            });
+            removeToken()
+            app.$router.push({name: 'login'})
         }
         app.$store.commit('setLoadingStatus', false)
         return response

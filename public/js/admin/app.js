@@ -27306,10 +27306,20 @@ service.interceptors.request.use(function (config) {
 
 // respone interceptor
 service.interceptors.response.use(function (response) {
+    console.log(response);
     if (response.data.code != '202') {
         Object(__WEBPACK_IMPORTED_MODULE_2_mint_ui__["Toast"])({
             message: response.data.errors.message
         });
+    }
+
+    //remove token
+    if (response.data.errors && response.data.errors.status == '100') {
+        Object(__WEBPACK_IMPORTED_MODULE_2_mint_ui__["Toast"])({
+            message: '一段時間未使用,請重新登入'
+        });
+        Object(__WEBPACK_IMPORTED_MODULE_1__auth__["c" /* removeToken */])();
+        app.$router.push({ name: 'login' });
     }
     app.$store.commit('setLoadingStatus', false);
     return response;
