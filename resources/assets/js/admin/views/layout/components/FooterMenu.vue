@@ -71,17 +71,33 @@
         },
         methods: {
             tabClick() {
-
-                this.$router.push({name: this.selected})
-                //置頂
                 if (this.sameMenu()) {
+
+                    //選單事件
+                    switch (this.selected) {
+                        case 'menu':
+                            this.refreshStoreMenu()
+                            break
+                    }
+
+                    //置頂
                     $(".app-main").animate({scrollTop: 0}, 0)
                 }
 
+                this.$router.push({name: this.selected})
                 this.oldSelected = this.selected
             },
             sameMenu() {
                 return this.oldSelected == this.selected
+            },
+            refreshStoreMenu() {
+                this.$store.commit('resetMenus')
+                this.$store.commit('setMenuPage', 1)
+                this.$store.commit('setHackAppMainResetStatue',false)
+                this.$nextTick(()=>{
+                    this.$store.commit('setHackAppMainResetStatue',true)
+                })
+
             }
         }
     }

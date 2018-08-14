@@ -46,7 +46,6 @@
 <script>
     import {fetchList} from '../../api/menu'
     import {Toast} from 'mint-ui';
-    import {Button} from 'mint-ui';
 
     let Paginate = require('vuejs-paginate')
     export default {
@@ -70,20 +69,34 @@
         },
         methods: {
             getMenus: (that, callback) => {
-                let data = {page: that.$store.state.menu.page}
+
+                let page = that.$store.state.menu.page
+                if (that.$store.state.menu.menus[page]) {
+                    that.pushMenus(that.$store.state.menu.menus[page])
+                    if (callback) {
+                        callback()
+                    }
+                    return
+                }
+
+                let data = {page: page}
                 fetchList(data).then(response => {
                     if (response.data.code == 202) {
                         console.log(response)
-                        that.menus = (response.data.items.menus.data)
-                        let menus = response.data.items.menus;
-                        that.paginate.pageCount = menus.last_page;
-                        that.paginate.currentPage = menus.current_page;
-                        that.total = menus.total;
+                        let menus = response.data.items.menus
+                        that.pushMenus(menus)
+                        that.$store.commit('setMenus', {page: page, menus: menus})
                         if (callback) {
                             callback()
                         }
                     }
                 })
+            },
+            pushMenus(menus) {
+                this.menus = menus.data
+                this.paginate.pageCount = menus.last_page;
+                this.paginate.currentPage = menus.current_page;
+                this.total = menus.total;
             },
             clickPage: function (pageNum) {
                 this.paginate.currentPage = pageNum;

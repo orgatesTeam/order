@@ -1,7 +1,7 @@
 <template>
     <div>
         <navbar></navbar>
-        <app-main :class="appMainCss"></app-main>
+        <app-main :class="appMainCss" v-if="appMainHackReset"></app-main>
         <popup></popup>
         <footer-menu></footer-menu>
     </div>
@@ -26,6 +26,9 @@
                 if (this.$store.state.popup.showLoading) {
                     return 'unselectable'
                 }
+            },
+            appMainHackReset(){
+                return this.$store.state.form.hackAppMainReset
             }
         }
     }

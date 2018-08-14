@@ -26444,6 +26444,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.$store.state.popup.showLoading) {
                 return 'unselectable';
             }
+        },
+        appMainHackReset: function appMainHackReset() {
+            return this.$store.state.form.hackAppMainReset;
         }
     }
 });
@@ -27132,7 +27135,9 @@ var render = function() {
     [
       _c("navbar"),
       _vm._v(" "),
-      _c("app-main", { class: _vm.appMainCss }),
+      _vm.appMainHackReset
+        ? _c("app-main", { class: _vm.appMainCss })
+        : _vm._e(),
       _vm._v(" "),
       _c("popup"),
       _vm._v(" "),
@@ -27209,7 +27214,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
 var Paginate = __webpack_require__(35);
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Menu",
@@ -27233,21 +27237,36 @@ var Paginate = __webpack_require__(35);
 
     methods: {
         getMenus: function getMenus(that, callback) {
-            var data = { page: that.$store.state.menu.page };
+
+            var page = that.$store.state.menu.page;
+            if (that.$store.state.menu.menus[page]) {
+                that.pushMenus(that.$store.state.menu.menus[page]);
+                if (callback) {
+                    callback();
+                }
+                return;
+            }
+
+            var data = { page: page };
             Object(__WEBPACK_IMPORTED_MODULE_0__api_menu__["b" /* fetchList */])(data).then(function (response) {
                 if (response.data.code == 202) {
                     console.log(response);
-                    that.menus = response.data.items.menus.data;
                     var menus = response.data.items.menus;
-                    that.paginate.pageCount = menus.last_page;
-                    that.paginate.currentPage = menus.current_page;
-                    that.total = menus.total;
+                    that.pushMenus(menus);
+                    that.$store.commit('setMenus', { page: page, menus: menus });
                     if (callback) {
                         callback();
                     }
                 }
             });
         },
+        pushMenus: function pushMenus(menus) {
+            this.menus = menus.data;
+            this.paginate.pageCount = menus.last_page;
+            this.paginate.currentPage = menus.current_page;
+            this.total = menus.total;
+        },
+
         clickPage: function clickPage(pageNum) {
             this.paginate.currentPage = pageNum;
             this.$store.commit('setMenuPage', pageNum);
@@ -29379,7 +29398,8 @@ var index_esm = {
 "use strict";
 var menu = {
     state: {
-        page: 1
+        page: 1,
+        menus: []
     },
     mutations: {
         setMenuPage: function setMenuPage(state, page) {
@@ -29387,6 +29407,12 @@ var menu = {
         },
         setEditMenu: function setEditMenu(state, menu) {
             state.editMenu = menu;
+        },
+        setMenus: function setMenus(state, response) {
+            state.menus[response.page] = response.menus;
+        },
+        resetMenus: function resetMenus(state) {
+            state.menus = [];
         }
     },
     actions: {}
@@ -29405,7 +29431,8 @@ var form = {
         title: '後台管理',
         linkName: { name: 'menu' },
         from: null,
-        footerMenu: 'menu'
+        footerMenu: 'menu',
+        hackAppMainReset: true
     },
     mutations: {
         setFormTitle: function setFormTitle(state, title) {
@@ -29419,6 +29446,9 @@ var form = {
         },
         setFooterMenu: function setFooterMenu(state, menu) {
             state.footerMenu = menu;
+        },
+        setHackAppMainResetStatue: function setHackAppMainResetStatue(state, status) {
+            state.hackAppMainReset = status;
         }
     },
     actions: {}
@@ -29631,17 +29661,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         tabClick: function tabClick() {
-
-            this.$router.push({ name: this.selected });
-            //置頂
             if (this.sameMenu()) {
+
+                //選單事件
+                switch (this.selected) {
+                    case 'menu':
+                        this.refreshStoreMenu();
+                        break;
+                }
+
+                //置頂
                 $(".app-main").animate({ scrollTop: 0 }, 0);
             }
 
+            this.$router.push({ name: this.selected });
             this.oldSelected = this.selected;
         },
         sameMenu: function sameMenu() {
             return this.oldSelected == this.selected;
+        },
+        refreshStoreMenu: function refreshStoreMenu() {
+            var _this = this;
+
+            this.$store.commit('resetMenus');
+            this.$store.commit('setMenuPage', 1);
+            this.$store.commit('setHackAppMainResetStatue', false);
+            this.$nextTick(function () {
+                _this.$store.commit('setHackAppMainResetStatue', true);
+            });
         }
     }
 });

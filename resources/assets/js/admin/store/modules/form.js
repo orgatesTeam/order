@@ -4,7 +4,8 @@ const form = {
         title: '後台管理',
         linkName: {name: 'menu'},
         from: null,
-        footerMenu: 'menu'
+        footerMenu: 'menu',
+        hackAppMainReset: true
     },
     mutations: {
         setFormTitle(state, title) {
@@ -18,6 +19,9 @@ const form = {
         },
         setFooterMenu(state, menu) {
             state.footerMenu = menu
+        },
+        setHackAppMainResetStatue(state, status) {
+            state.hackAppMainReset = status
         }
     },
     actions: {}
