@@ -1,6 +1,6 @@
 const store = {
     state: {
-        editStore:{}
+        editStore:null
     },
     mutations: {
         setEditStore(state, store) {

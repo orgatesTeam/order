@@ -27958,6 +27958,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     comments: [__WEBPACK_IMPORTED_MODULE_0_mint_ui__["Field"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Field"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Navbar"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Navbar"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["TabItem"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["TabItem"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Button"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Button"]],
     data: function data() {
         return {
+            //菜單種類彈窗
             triggerMenuTypes: false,
             //用來比對是否資料變更
             originEditMenu: {},
@@ -28108,7 +28109,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         createStore: function createStore() {
-            console.log(1);
             var that = this;
             var _createMenu = this.createMenu,
                 name = _createMenu.name,
@@ -29812,7 +29812,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -29823,40 +29823,18 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mint_ui__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_mint_ui__);
 //
 //
 //
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "System",
     data: function data() {
-        return {
-            tabContainer: '1'
-        };
+        return {};
     },
-
-    comments: [__WEBPACK_IMPORTED_MODULE_0_mint_ui__["Field"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Field"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Cell"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Cell"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["TabContainer"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["TabContainer"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["TabContainerItem"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["TabContainerItem"]],
     mounted: function mounted() {
         this.$store.commit('setFormTitle', '系統管理');
     },
@@ -29872,61 +29850,18 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c(
-        "mt-tab-container",
-        {
-          attrs: { swipeable: "true" },
-          model: {
-            value: _vm.tabContainer,
-            callback: function($$v) {
-              _vm.tabContainer = $$v
-            },
-            expression: "tabContainer"
-          }
-        },
-        [
-          _c(
-            "mt-tab-container-item",
-            { attrs: { id: "1" } },
-            _vm._l(_vm.stores, function(store) {
-              return _c(
-                "div",
-                [
-                  _c("mt-field", {
-                    attrs: { label: "用户名", placeholder: "请输入用户名" },
-                    model: {
-                      value: _vm.username,
-                      callback: function($$v) {
-                        _vm.username = $$v
-                      },
-                      expression: "username"
-                    }
-                  })
-                ],
-                1
-              )
-            })
-          ),
-          _vm._v(" "),
-          _c(
-            "mt-tab-container-item",
-            { attrs: { id: "2" } },
-            [
-              _c("mt-cell", { attrs: { title: "标题文字", value: "说明文字" } })
-            ],
-            1
-          )
-        ],
-        1
-      )
-    ],
-    1
-  )
+  return _vm._m(0)
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("div", { staticClass: "comming-soon" }, [_vm._v("comming soon")])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -31040,7 +30975,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         getStore: function getStore() {
             var that = this;
-            Object(__WEBPACK_IMPORTED_MODULE_0__api_store__["a" /* fetchList */])({}).then(function (response) {
+            Object(__WEBPACK_IMPORTED_MODULE_0__api_store__["b" /* fetchList */])({}).then(function (response) {
                 if (response.data.code == 202) {
                     console.log(response);
                     var stores = response.data.items.stores;
@@ -31183,9 +31118,9 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = fetchList;
-/* unused harmony export createStore */
-/* unused harmony export updateStore */
+/* harmony export (immutable) */ __webpack_exports__["b"] = fetchList;
+/* harmony export (immutable) */ __webpack_exports__["a"] = createStore;
+/* harmony export (immutable) */ __webpack_exports__["c"] = updateStore;
 /* unused harmony export addMenu */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_request__ = __webpack_require__(80);
 
@@ -31229,19 +31164,19 @@ function addMenu(data) {
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(177)
+  __webpack_require__(182)
 }
 var normalizeComponent = __webpack_require__(2)
 /* script */
 var __vue_script__ = __webpack_require__(179)
 /* template */
-var __vue_template__ = __webpack_require__(180)
+var __vue_template__ = __webpack_require__(184)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-1ef3ffcb"
+var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -31274,91 +31209,198 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 177 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(178);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(4)("1c45722c", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1ef3ffcb\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Edit.vue", function() {
-     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1ef3ffcb\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Edit.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 178 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 177 */,
+/* 178 */,
 /* 179 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mint_ui__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_mint_ui__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_store__ = __webpack_require__(175);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
 //
 
+
+
+
+
+
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Edit",
+    data: function data() {
+        return {
+            editStore: {},
+            originEditStore: {},
+            mode: '',
+            createStore: {
+                name: '',
+                tel: '',
+                address: ''
+            }
+        };
+    },
+
+    comments: [__WEBPACK_IMPORTED_MODULE_0_mint_ui__["Field"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Field"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Navbar"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Navbar"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["TabItem"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["TabItem"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Button"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Button"]],
     mounted: function mounted() {
-        this.$store.commit('setFormTitle', '編輯店家');
+        this.mode = this.$route.query.from;
+
+        //預設值
+        if (this.mode === '') {
+            this.mode = 'create';
+        }
+
+        //有編輯 menu 帶入
+        if (this.$store.state.storeManager.editStore) {
+            this.editStore = this.$store.state.storeManager.editStore;
+            this.originEditStore = Object.assign({}, this.editStore);
+        } else {
+            this.mode = 'create';
+        }
+    },
+
+    computed: {
+        editMode: function editMode() {
+            return this.mode === 'edit';
+        },
+        createMode: function createMode() {
+            return this.mode === 'create';
+        },
+        canEdit: function canEdit() {
+            var status = false;
+            //判斷跟資料是否差異,儲存按鈕開啟
+            for (var key in this.originEditStore) {
+                if (this.originEditStore[key] != this.editStore[key]) {
+                    console.log({ ori: this.originEditStore[key], edit: this.editStore[key] });
+                    status = true;
+                }
+            }
+            return status;
+        },
+        canCreate: function canCreate() {
+            var store = this.createStore;
+
+            if (store.name == '') {
+                return false;
+            }
+
+            if (store.tel == '') {
+                return false;
+            }
+
+            if (store.address == '') {
+                return false;
+            }
+            return true;
+        }
+    },
+    watch: {
+        mode: function mode() {
+            if (this.editMode) {
+                this.$store.commit('setFormTitle', '編輯店家');
+            }
+            if (this.createMode) {
+                this.$store.commit('setFormTitle', '新增店家');
+            }
+        }
+    },
+    methods: {
+        storeEdit: function storeEdit() {
+            var that = this;
+            var _editStore = this.editStore,
+                id = _editStore.id,
+                name = _editStore.name,
+                tel = _editStore.tel,
+                address = _editStore.address,
+                store_id = _editStore.store_id;
+
+            var data = {
+                id: id,
+                name: name,
+                tel: tel,
+                address: address
+            };
+
+            Object(__WEBPACK_IMPORTED_MODULE_1__api_store__["c" /* updateStore */])(data).then(function (response) {
+                if (response.data.code == '202') {
+                    Object(__WEBPACK_IMPORTED_MODULE_0_mint_ui__["Toast"])({
+                        message: '操作成功',
+                        iconClass: 'icon icon-success'
+                    });
+                    that.$router.push({ name: 'store' });
+                }
+            });
+        },
+        storeCreate: function storeCreate() {
+
+            var that = this;
+            var _createStore = this.createStore,
+                name = _createStore.name,
+                tel = _createStore.tel,
+                address = _createStore.address;
+
+            var data = {
+                name: name,
+                tel: tel,
+                address: address
+            };
+
+            Object(__WEBPACK_IMPORTED_MODULE_1__api_store__["a" /* createStore */])(data).then(function (response) {
+                if (response.data.code == '202') {
+                    Object(__WEBPACK_IMPORTED_MODULE_0_mint_ui__["Toast"])({
+                        message: '操作成功',
+                        iconClass: 'icon icon-success'
+                    });
+                    that.$router.push({ name: 'store' });
+                }
+            });
+        }
     }
 });
 
 /***/ }),
-/* 180 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div")
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-1ef3ffcb", module.exports)
-  }
-}
-
-/***/ }),
+/* 180 */,
 /* 181 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 var store = {
     state: {
-        editStore: {}
+        editStore: null
     },
     mutations: {
         setEditStore: function setEditStore(state, store) {
@@ -31369,6 +31411,224 @@ var store = {
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (store);
+
+/***/ }),
+/* 182 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(183);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(4)("347023ea", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1ef3ffcb\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Edit.vue", function() {
+     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1ef3ffcb\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Edit.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 183 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\nlabel {\n    color: #ffffff;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 184 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "mt-navbar",
+        {
+          model: {
+            value: _vm.mode,
+            callback: function($$v) {
+              _vm.mode = $$v
+            },
+            expression: "mode"
+          }
+        },
+        [
+          _c("mt-tab-item", { attrs: { id: "edit" } }, [_vm._v("編輯")]),
+          _vm._v(" "),
+          _c("mt-tab-item", { attrs: { id: "create" } }, [_vm._v("新增")])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "mt-tab-container",
+        {
+          model: {
+            value: _vm.mode,
+            callback: function($$v) {
+              _vm.mode = $$v
+            },
+            expression: "mode"
+          }
+        },
+        [
+          _c(
+            "mt-tab-container-item",
+            { attrs: { id: "edit" } },
+            [
+              _c(
+                "div",
+                { staticClass: "section" },
+                [
+                  _c("mt-field", {
+                    attrs: { label: "名稱" },
+                    model: {
+                      value: _vm.editStore.name,
+                      callback: function($$v) {
+                        _vm.$set(_vm.editStore, "name", $$v)
+                      },
+                      expression: "editStore.name"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("mt-field", {
+                    attrs: { label: "電話", type: "tel" },
+                    model: {
+                      value: _vm.editStore.tel,
+                      callback: function($$v) {
+                        _vm.$set(_vm.editStore, "tel", $$v)
+                      },
+                      expression: "editStore.tel"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("mt-field", {
+                    attrs: { label: "地址", type: "tel" },
+                    model: {
+                      value: _vm.editStore.address,
+                      callback: function($$v) {
+                        _vm.$set(_vm.editStore, "address", $$v)
+                      },
+                      expression: "editStore.address"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "mt-button",
+                {
+                  attrs: {
+                    disabled: !_vm.canEdit,
+                    type: "primary",
+                    size: "large"
+                  },
+                  on: { click: _vm.storeEdit }
+                },
+                [_vm._v("儲存")]
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "mt-tab-container-item",
+            { attrs: { id: "create" } },
+            [
+              _c(
+                "div",
+                { staticClass: "section" },
+                [
+                  _c("mt-field", {
+                    attrs: { label: "名稱" },
+                    model: {
+                      value: _vm.createStore.name,
+                      callback: function($$v) {
+                        _vm.$set(_vm.createStore, "name", $$v)
+                      },
+                      expression: "createStore.name"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("mt-field", {
+                    attrs: { label: "電話", type: "tel" },
+                    model: {
+                      value: _vm.createStore.tel,
+                      callback: function($$v) {
+                        _vm.$set(_vm.createStore, "tel", $$v)
+                      },
+                      expression: "createStore.tel"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("mt-field", {
+                    attrs: { label: "地址", type: "tel" },
+                    model: {
+                      value: _vm.createStore.address,
+                      callback: function($$v) {
+                        _vm.$set(_vm.createStore, "address", $$v)
+                      },
+                      expression: "createStore.address"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "mt-button",
+                {
+                  attrs: {
+                    disabled: !_vm.canCreate,
+                    type: "primary",
+                    size: "large"
+                  },
+                  on: { click: _vm.storeCreate }
+                },
+                [_vm._v("儲存")]
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1ef3ffcb", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

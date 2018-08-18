@@ -44,7 +44,7 @@
     import {Field} from 'mint-ui';
     import {Navbar, TabItem} from 'mint-ui';
     import {fetchMenuTypes, updateMenu, createMenu} from '../../api/menu'
-    import {Actionsheet} from 'mint-ui';
+    import {Actionsheet} from 'mint-ui'
     import {Button} from 'mint-ui';
     import {Toast} from 'mint-ui';
 
@@ -53,6 +53,7 @@
         comments: [Field.name, Field, Navbar.name, Navbar, TabItem.name, TabItem, Button.name, Button],
         data() {
             return {
+                //菜單種類彈窗
                 triggerMenuTypes: false,
                 //用來比對是否資料變更
                 originEditMenu: {},
@@ -196,7 +197,6 @@
                 })
             },
             createStore() {
-                console.log(1)
                 let that = this
                 let {name, price, menu_type_id} = this.createMenu
                 let data = {

@@ -101,13 +101,13 @@ class StoreController extends Controller
      */
     public function update()
     {
-        $keys = ['name', 'tel', 'address', 'store_id'];
+        $keys = ['id', 'name', 'tel', 'address'];
         if (!request()->exists($keys)) {
             logError('請求參數缺失');
             return responseFail('資料錯誤');
         }
 
-        $store = Store::find(request('store_id'));
+        $store = Store::find(request('id'));
 
         if (!$this->checkUpdate($store)) {
             return responseFail('資料錯誤');
