@@ -6,7 +6,10 @@
 
 <script>
     export default {
-        name: "report"
+        name: "report",
+        mounted() {
+            this.$store.commit('setFormTitle', '報表管理')
+        },
     }
 </script>
 

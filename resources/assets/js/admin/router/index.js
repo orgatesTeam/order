@@ -33,6 +33,22 @@ const router = new VueRouter({
                 },
             ]
         },
+        //store
+        {
+            path: '/admin/store', component: require('../views/layout/Layout'),
+            children: [
+                {
+                    path: '/',
+                    name: 'store',
+                    component: require('../views/store/Store')
+                },
+                {
+                    path: 'edit',
+                    name: 'store-edit',
+                    component: require('../views/store/Edit')
+                },
+            ]
+        },
         //report
         {
             path: '/admin/report', component: require('../views/layout/Layout'),

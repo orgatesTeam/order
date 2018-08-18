@@ -23,14 +23,27 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     Route::post('login', 'AuthController@login');
 
     /**
-     * 驗證 jwt
+     * 驗證 jwt  在驗證使用者狀態
      */
-    Route::group(['middleware' => 'jwt.auth'], function () {
-        Route::post('menu/list', 'MenuController@list');
-        Route::post('menu/menu-types', 'MenuController@menuTypes');
-        Route::post('menu/update-menu', 'MenuController@updateMenu');
-        Route::post('menu/create-menu', 'MenuController@createMenu');
-
+    Route::group(['middleware' => ['jwt.auth', 'checkUser']], function () {
+        /**
+         * menu
+         */
+        Route::group(['prefix' => 'menu'], function () {
+            Route::post('/list', 'MenuController@list');
+            Route::post('/menu-types', 'MenuController@menuTypes');
+            Route::post('/update-menu', 'MenuController@updateMenu');
+            Route::post('/create-menu', 'MenuController@createMenu');
+        });
+        /**
+         * store
+         */
+        Route::group(['prefix' => 'store'], function () {
+            Route::post('/list', 'StoreController@list');
+            Route::post('/create', 'StoreController@create');
+            Route::post('/add-menu', 'StoreController@addMenu');
+            Route::post('/update', 'StoreController@update');
+        });
     });
 });
 

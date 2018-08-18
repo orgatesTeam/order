@@ -1,7 +1,7 @@
 <template>
-    <div class="popup-middle" v-if="showLoading">
+    <div class="popup-middle" v-show="showLoading">
         <mt-spinner type="fading-circle" :size="100"
-                    color="rgb(100, 100, 100)"></mt-spinner>
+                    color="#26a69a"></mt-spinner>
     </div>
 </template>
 

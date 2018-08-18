@@ -23682,6 +23682,19 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
             component: __webpack_require__(89)
         }]
     },
+    //store
+    {
+        path: '/admin/store', component: __webpack_require__(48),
+        children: [{
+            path: '/',
+            name: 'store',
+            component: __webpack_require__(170)
+        }, {
+            path: 'edit',
+            name: 'store-edit',
+            component: __webpack_require__(176)
+        }]
+    },
     //report
     {
         path: '/admin/report', component: __webpack_require__(48),
@@ -27103,22 +27116,26 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.showLoading
-    ? _c(
-        "div",
-        { staticClass: "popup-middle" },
-        [
-          _c("mt-spinner", {
-            attrs: {
-              type: "fading-circle",
-              size: 100,
-              color: "rgb(100, 100, 100)"
-            }
-          })
-        ],
-        1
-      )
-    : _vm._e()
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.showLoading,
+          expression: "showLoading"
+        }
+      ],
+      staticClass: "popup-middle"
+    },
+    [
+      _c("mt-spinner", {
+        attrs: { type: "fading-circle", size: 100, color: "#26a69a" }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -28356,8 +28373,11 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_menu__ = __webpack_require__(98);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_form__ = __webpack_require__(99);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_popup__ = __webpack_require__(100);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__getters__ = __webpack_require__(101);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__getters__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_store__ = __webpack_require__(181);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__getters__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__getters__);
+
+
 
 
 
@@ -28371,7 +28391,8 @@ var store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
     modules: {
         menu: __WEBPACK_IMPORTED_MODULE_2__modules_menu__["a" /* default */],
         form: __WEBPACK_IMPORTED_MODULE_3__modules_form__["a" /* default */],
-        popup: __WEBPACK_IMPORTED_MODULE_4__modules_popup__["a" /* default */]
+        popup: __WEBPACK_IMPORTED_MODULE_4__modules_popup__["a" /* default */],
+        storeManager: __WEBPACK_IMPORTED_MODULE_5__modules_store__["a" /* default */]
     }
 });
 
@@ -29791,7 +29812,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -29802,14 +29823,40 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mint_ui__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_mint_ui__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
 //
 //
 
+
+
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "System",
+    data: function data() {
+        return {
+            tabContainer: '1'
+        };
+    },
+
+    comments: [__WEBPACK_IMPORTED_MODULE_0_mint_ui__["Field"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Field"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Cell"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Cell"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["TabContainer"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["TabContainer"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["TabContainerItem"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["TabContainerItem"]],
     mounted: function mounted() {
         this.$store.commit('setFormTitle', '系統管理');
     },
@@ -29825,18 +29872,61 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    [
+      _c(
+        "mt-tab-container",
+        {
+          attrs: { swipeable: "true" },
+          model: {
+            value: _vm.tabContainer,
+            callback: function($$v) {
+              _vm.tabContainer = $$v
+            },
+            expression: "tabContainer"
+          }
+        },
+        [
+          _c(
+            "mt-tab-container-item",
+            { attrs: { id: "1" } },
+            _vm._l(_vm.stores, function(store) {
+              return _c(
+                "div",
+                [
+                  _c("mt-field", {
+                    attrs: { label: "用户名", placeholder: "请输入用户名" },
+                    model: {
+                      value: _vm.username,
+                      callback: function($$v) {
+                        _vm.username = $$v
+                      },
+                      expression: "username"
+                    }
+                  })
+                ],
+                1
+              )
+            })
+          ),
+          _vm._v(" "),
+          _c(
+            "mt-tab-container-item",
+            { attrs: { id: "2" } },
+            [
+              _c("mt-cell", { attrs: { title: "标题文字", value: "说明文字" } })
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "comming-soon" }, [_vm._v("comming soon")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -29932,7 +30022,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -29951,7 +30041,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "report"
+    name: "report",
+    mounted: function mounted() {
+        this.$store.commit('setFormTitle', '報表管理');
+    }
 });
 
 /***/ }),
@@ -30314,7 +30407,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -30328,6 +30421,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mint_ui__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_mint_ui__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_auth__ = __webpack_require__(81);
+//
+//
+//
 //
 //
 //
@@ -30382,7 +30478,7 @@ var render = function() {
           }
         }
       },
-      [_c("mt-cell", { attrs: { title: "菜單選單" } })],
+      [_c("mt-cell", { attrs: { title: "菜單管理" } })],
       1
     ),
     _vm._v(" "),
@@ -30396,6 +30492,19 @@ var render = function() {
         }
       },
       [_c("mt-cell", { attrs: { title: "桌位管理" } })],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        on: {
+          click: function($event) {
+            _vm.routerPush("store")
+          }
+        }
+      },
+      [_c("mt-cell", { attrs: { title: "店家管理" } })],
       1
     ),
     _vm._v(" "),
@@ -30766,6 +30875,500 @@ function getQRCode(toURL) {
 
     return "http://chart.apis.google.com/chart?cht=qr&chl=\"" + toURL + "\"&chs=" + width + "x" + height;
 }
+
+/***/ }),
+/* 170 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(171)
+}
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(173)
+/* template */
+var __vue_template__ = __webpack_require__(174)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-d3823820"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/admin/views/store/Store.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-d3823820", Component.options)
+  } else {
+    hotAPI.reload("data-v-d3823820", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 171 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(172);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(4)("e1812400", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d3823820\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Store.vue", function() {
+     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d3823820\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Store.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 172 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 173 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__api_store__ = __webpack_require__(175);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mint_ui__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_mint_ui__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "store",
+    comments: [__WEBPACK_IMPORTED_MODULE_1_mint_ui__["PaletteButton"].name, __WEBPACK_IMPORTED_MODULE_1_mint_ui__["PaletteButton"]],
+    data: function data() {
+        return {
+            stores: []
+        };
+    },
+    mounted: function mounted() {
+        this.$store.commit('setFormTitle', '店家管理');
+        this.getStore();
+    },
+
+    methods: {
+        getStore: function getStore() {
+            var that = this;
+            Object(__WEBPACK_IMPORTED_MODULE_0__api_store__["a" /* fetchList */])({}).then(function (response) {
+                if (response.data.code == 202) {
+                    console.log(response);
+                    var stores = response.data.items.stores;
+                    that.stores = stores;
+                }
+            });
+        },
+        edit: function edit(index) {
+            var store = Object.assign({}, this.stores[index]);
+            this.$store.commit('setEditStore', store);
+            this.$router.push({ name: 'store-edit', query: { from: 'edit' } });
+        },
+        create: function create() {
+            this.$router.push({ name: 'store-edit', query: { from: 'create' } });
+        }
+    }
+});
+
+/***/ }),
+/* 174 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "section no-pad-bot", attrs: { id: "index-banner" } },
+      [
+        _c("div", { staticClass: "container" }, [
+          _c("div", { staticClass: "section" }, [
+            _c(
+              "div",
+              {
+                on: {
+                  click: function($event) {
+                    _vm.create()
+                  }
+                }
+              },
+              [
+                _c(
+                  "mt-palette-button",
+                  {
+                    attrs: {
+                      content: "+",
+                      mainButtonStyle: "color:#fff;background-color:#26a2ff;"
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "my-icon-button" }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "my-icon-button" }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "my-icon-button" })
+                  ]
+                )
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "section" }, [
+            _c("table", { staticClass: "highlight responsive-table" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.stores, function(store, index) {
+                  return _c("tr", [
+                    _c("td", [_vm._v(_vm._s(store.name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(store.tel))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(store.address))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(store.created_at))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(store.updated_at))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "waves-effect waves-light btn",
+                          on: {
+                            click: function($event) {
+                              _vm.edit(index)
+                            }
+                          }
+                        },
+                        [_vm._v("編輯")]
+                      )
+                    ])
+                  ])
+                })
+              )
+            ])
+          ])
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("名稱")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("電話")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("地址")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("建立時間")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("更新時間")]),
+        _vm._v(" "),
+        _c("th")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-d3823820", module.exports)
+  }
+}
+
+/***/ }),
+/* 175 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = fetchList;
+/* unused harmony export createStore */
+/* unused harmony export updateStore */
+/* unused harmony export addMenu */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_request__ = __webpack_require__(80);
+
+
+function fetchList(data) {
+    return Object(__WEBPACK_IMPORTED_MODULE_0__utils_request__["a" /* default */])({
+        url: '/admin/store/list',
+        method: 'post',
+        data: data
+    });
+}
+
+function createStore(data) {
+    return Object(__WEBPACK_IMPORTED_MODULE_0__utils_request__["a" /* default */])({
+        url: '/admin/store/create',
+        method: 'post',
+        data: data
+    });
+}
+
+function updateStore(data) {
+    return Object(__WEBPACK_IMPORTED_MODULE_0__utils_request__["a" /* default */])({
+        url: '/admin/store/update',
+        method: 'post',
+        data: data
+    });
+}
+
+function addMenu(data) {
+    return Object(__WEBPACK_IMPORTED_MODULE_0__utils_request__["a" /* default */])({
+        url: '/admin/store/add-menu',
+        method: 'post',
+        data: data
+    });
+}
+
+/***/ }),
+/* 176 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(177)
+}
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(179)
+/* template */
+var __vue_template__ = __webpack_require__(180)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-1ef3ffcb"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/admin/views/store/Edit.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1ef3ffcb", Component.options)
+  } else {
+    hotAPI.reload("data-v-1ef3ffcb", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 177 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(178);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(4)("1c45722c", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1ef3ffcb\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Edit.vue", function() {
+     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1ef3ffcb\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Edit.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 178 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 179 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "Edit",
+    mounted: function mounted() {
+        this.$store.commit('setFormTitle', '編輯店家');
+    }
+});
+
+/***/ }),
+/* 180 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div")
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1ef3ffcb", module.exports)
+  }
+}
+
+/***/ }),
+/* 181 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var store = {
+    state: {
+        editStore: {}
+    },
+    mutations: {
+        setEditStore: function setEditStore(state, store) {
+            state.editStore = store;
+        }
+    },
+    actions: {}
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (store);
 
 /***/ })
 /******/ ]);

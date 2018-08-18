@@ -1,10 +1,13 @@
 <template>
     <div>
         <div @click="routerPush('menu')">
-            <mt-cell title="菜單選單"></mt-cell>
+            <mt-cell title="菜單管理"></mt-cell>
         </div>
         <div @click="routerPush('system-table-manager')">
             <mt-cell title="桌位管理"></mt-cell>
+        </div>
+        <div @click="routerPush('store')">
+            <mt-cell title="店家管理"></mt-cell>
         </div>
         <div @click="logout()">
             <mt-cell title="登出"></mt-cell>
