@@ -3,7 +3,7 @@
         <div @click="routerPush('menu')">
             <mt-cell title="菜單選單"></mt-cell>
         </div>
-        <div @click="routerPush('table-manager')">
+        <div @click="routerPush('system-table-manager')">
             <mt-cell title="桌位管理"></mt-cell>
         </div>
         <div @click="logout()">

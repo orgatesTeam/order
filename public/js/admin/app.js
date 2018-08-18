@@ -23667,12 +23667,17 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
             path: '/',
             name: '/',
             component: __webpack_require__(36)
-        }, {
-            path: 'menu',
+        }]
+    },
+    //menu
+    {
+        path: '/admin/menu', component: __webpack_require__(48),
+        children: [{
+            path: '/',
             name: 'menu',
             component: __webpack_require__(36)
         }, {
-            path: 'menu-edit',
+            path: 'edit',
             name: 'menu-edit',
             component: __webpack_require__(89)
         }]
@@ -23699,7 +23704,7 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
             component: __webpack_require__(141)
         }, {
             path: 'table-manager',
-            name: 'table-manager',
+            name: 'system-table-manager',
             component: __webpack_require__(160)
         }]
     }, {
@@ -30387,7 +30392,7 @@ var render = function() {
       {
         on: {
           click: function($event) {
-            _vm.routerPush("table-manager")
+            _vm.routerPush("system-table-manager")
           }
         }
       },

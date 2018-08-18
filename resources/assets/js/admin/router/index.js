@@ -15,13 +15,19 @@ const router = new VueRouter({
                     name: '/',
                     component: require('../views/menu/Menu')
                 },
+            ]
+        },
+        //menu
+        {
+            path: '/admin/menu', component: require('../views/layout/Layout'),
+            children: [
                 {
-                    path: 'menu',
+                    path: '/',
                     name: 'menu',
                     component: require('../views/menu/Menu')
                 },
                 {
-                    path: 'menu-edit',
+                    path: 'edit',
                     name: 'menu-edit',
                     component: require('../views/menu/Edit')
                 },
@@ -54,7 +60,7 @@ const router = new VueRouter({
                 },
                 {
                     path: 'table-manager',
-                    name: 'table-manager',
+                    name: 'system-table-manager',
                     component: require('../views/system/TableManager')
                 },
             ]
