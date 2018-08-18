@@ -29517,7 +29517,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mint_ui__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_mint_ui__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_helper__ = __webpack_require__(146);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_helper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__utils_helper__);
 //
 //
 //
@@ -30426,9 +30425,14 @@ if (false) {
 
 /***/ }),
 /* 146 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = paddingLeft;
+function paddingLeft(str, length) {
+    str = str.toString();
+    if (str.length >= length) return str;else return paddingLeft("0" + str, length);
+}
 
 /***/ }),
 /* 147 */,
@@ -30506,6 +30510,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mint_ui__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_mint_ui__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_qrcode__ = __webpack_require__(169);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_helper__ = __webpack_require__(146);
 //
 //
 //
@@ -30526,6 +30531,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -30533,12 +30563,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "TableManager",
-    comments: [__WEBPACK_IMPORTED_MODULE_0_mint_ui__["Range"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Range"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Cell"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Cell"]],
+    comments: [__WEBPACK_IMPORTED_MODULE_0_mint_ui__["Range"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Range"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Cell"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Cell"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Badge"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Badge"]],
     data: function data() {
         return {
             rangeValue: 1,
             start: 1,
-            end: 50
+            end: 50,
+            tableNo: 1
         };
     },
     mounted: function mounted() {
@@ -30547,7 +30578,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     computed: {
         qrCodeURL: function qrCodeURL() {
-            return Object(__WEBPACK_IMPORTED_MODULE_1__utils_qrcode__["a" /* getQRCode */])('http://e614f201.ngrok.io/admin/system/table-manager');
+            // let url = 'http://order.com.tw/menu/no/1'
+            var url = 'http://aedd7ebb.ngrok.io/admin/system/table-manager';
+            var queryString = 'table-mode=no&no=' + this.tableNo;
+            return Object(__WEBPACK_IMPORTED_MODULE_1__utils_qrcode__["a" /* getQRCode */])(url + '?' + queryString);
+        }
+    },
+    methods: {
+        paddingLeft: function paddingLeft(index) {
+            return Object(__WEBPACK_IMPORTED_MODULE_2__utils_helper__["a" /* paddingLeft */])(index, 2);
         }
     }
 });
@@ -30594,7 +30633,33 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("img", { attrs: { src: _vm.qrCodeURL, alt: "" } })
+      _c(
+        "div",
+        { staticClass: "section" },
+        _vm._l(_vm.rangeValue, function(index) {
+          return _c(
+            "div",
+            {
+              staticClass: "qrcode-select",
+              class: _vm.tableNo == index ? "selected" : "",
+              on: {
+                click: function($event) {
+                  _vm.tableNo = index
+                }
+              }
+            },
+            [
+              _vm._v(
+                "\n            " + _vm._s(_vm.paddingLeft(index)) + "\n        "
+              )
+            ]
+          )
+        })
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "section" }, [
+        _c("img", { attrs: { src: _vm.qrCodeURL, alt: "" } })
+      ])
     ],
     1
   )
@@ -30644,7 +30709,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n.range {\n    width: 60vw;\n}\n\n", ""]);
+exports.push([module.i, "\n.range {\n    width: 60vw;\n}\n.qrcode-select {\n    display: inline-block;\n    margin: 6px 6px 0 6px;\n    color: #ffffff;\n    width: 32px;\n    height: 20px;\n    background-color: #26a2ff;\n    text-align: center;\n    border-radius: 5px;\n}\n.qrcode-select.selected {\n    background: #ee6e73;\n}\n", ""]);
 
 // exports
 
@@ -30684,7 +30749,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
