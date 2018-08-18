@@ -90,6 +90,7 @@
             sameMenu() {
                 return this.oldSelected == this.selected
             },
+            //清除快取 並且 刷新 component
             refreshStoreMenu() {
                 this.$store.commit('resetMenus')
                 this.$store.commit('setMenuPage', 1)

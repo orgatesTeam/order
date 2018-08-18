@@ -5,7 +5,12 @@
 </template>
 <script>
     export default {
-        name: "system"
+        name: "System",
+        mounted() {
+            this.$store.commit('setFormTitle', '系統管理')
+        },
+        methods: {
+        }
     }
 </script>
 

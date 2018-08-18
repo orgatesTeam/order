@@ -1,7 +1,10 @@
 <template>
     <div>
-        <div @click="toMenu()">
+        <div @click="routerPush('menu')">
             <mt-cell title="菜單選單"></mt-cell>
+        </div>
+        <div @click="routerPush('table-manager')">
+            <mt-cell title="桌位管理"></mt-cell>
         </div>
         <div @click="logout()">
             <mt-cell title="登出"></mt-cell>
@@ -20,8 +23,8 @@
         },
         comments: [CellSwipe.name, CellSwipe],
         methods: {
-            toMenu() {
-                this.$router.push({name: 'menu'})
+            routerPush(name) {
+                this.$router.push({name: name})
             },
             logout() {
                 removeToken()

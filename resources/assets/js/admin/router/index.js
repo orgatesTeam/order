@@ -14,11 +14,6 @@ const router = new VueRouter({
                     path: '/',
                     name: '/',
                     component: require('../views/menu/Menu')
-                }, ,
-                {
-                    path: 'hello',
-                    name: 'hello',
-                    component: require('../views/Hello')
                 },
                 {
                     path: 'menu',
@@ -30,21 +25,38 @@ const router = new VueRouter({
                     name: 'menu-edit',
                     component: require('../views/menu/Edit')
                 },
+            ]
+        },
+        //report
+        {
+            path: '/admin/report', component: require('../views/layout/Layout'),
+            children: [
                 {
-                    path: 'system-menu',
-                    name: 'system-menu',
-                    component: require('../views/system/SystemMenu')
-                },
+                    path: '/',
+                    name: 'report',
+                    component: require('../views/report/Report')
+                }
+            ]
+        },
+        //system
+        {
+            path: '/admin/system', component: require('../views/layout/Layout'),
+            children: [
                 {
-                    path: 'system',
+                    path: '/',
                     name: 'system',
                     component: require('../views/system/System')
                 },
                 {
-                    path: 'report',
-                    name: 'report',
-                    component: require('../views/report/Report')
-                }
+                    path: 'menu',
+                    name: 'system-menu',
+                    component: require('../views/system/SystemMenu')
+                },
+                {
+                    path: 'table-manager',
+                    name: 'table-manager',
+                    component: require('../views/system/TableManager')
+                },
             ]
         },
         {

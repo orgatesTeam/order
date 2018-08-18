@@ -3,6 +3,15 @@
         <div class="section no-pad-bot" id="index-banner">
             <div class="container">
                 <div class="section">
+                    <div @click="create()">
+                        <mt-palette-button content="+" mainButtonStyle="color:#fff;background-color:#26a2ff;">
+                            <div class="my-icon-button"></div>
+                            <div class="my-icon-button"></div>
+                            <div class="my-icon-button"></div>
+                        </mt-palette-button>
+                    </div>
+                </div>
+                <div class="section">
                     <table class="highlight responsive-table">
                         <thead>
                         <tr>
@@ -46,11 +55,13 @@
 <script>
     import {fetchList} from '../../api/menu'
     import {Toast} from 'mint-ui';
+    import {PaletteButton} from 'mint-ui';
 
     let Paginate = require('vuejs-paginate')
     export default {
         name: "Menu",
         components: {Paginate},
+        comments: [PaletteButton.name, PaletteButton],
         data() {
             return {
                 errors: '',
@@ -114,6 +125,9 @@
                 this.$store.commit('setEditMenu', menu)
                 this.$router.push({name: 'menu-edit', query: {from: 'edit'}})
             },
+            create: function () {
+                this.$router.push({name: 'menu-edit', query: {from: 'create'}})
+            }
         }
     }
 </script>
