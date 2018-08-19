@@ -3,15 +3,6 @@
         <div class="section no-pad-bot" id="index-banner">
             <div class="container">
                 <div class="section">
-                    <div @click="create()">
-                        <mt-palette-button content="+" mainButtonStyle="color:#fff;background-color:#26a2ff;">
-                            <div class="my-icon-button"></div>
-                            <div class="my-icon-button"></div>
-                            <div class="my-icon-button"></div>
-                        </mt-palette-button>
-                    </div>
-                </div>
-                <div class="section">
                     <table class="highlight responsive-table">
                         <thead>
                         <tr>
@@ -21,7 +12,18 @@
                             <th>配置菜單數</th>
                             <th>建立時間</th>
                             <th>更新時間</th>
-                            <th></th>
+                            <th>
+                                <div class="section">
+                                    <div @click="create()">
+                                        <mt-palette-button content="+"
+                                                           mainButtonStyle="color:#fff;background-color:#26a2ff;">
+                                            <div class="my-icon-button"></div>
+                                            <div class="my-icon-button"></div>
+                                            <div class="my-icon-button"></div>
+                                        </mt-palette-button>
+                                    </div>
+                                </div>
+                            </th>
                             <th></th>
                         </tr>
                         </thead>

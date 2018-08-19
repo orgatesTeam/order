@@ -27277,6 +27277,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -27665,40 +27667,55 @@ var render = function() {
           { staticClass: "container" },
           [
             _c("div", { staticClass: "section" }, [
-              _c(
-                "div",
-                {
-                  on: {
-                    click: function($event) {
-                      _vm.create()
-                    }
-                  }
-                },
-                [
-                  _c(
-                    "mt-palette-button",
-                    {
-                      attrs: {
-                        content: "+",
-                        mainButtonStyle: "color:#fff;background-color:#26a2ff;"
-                      }
-                    },
-                    [
-                      _c("div", { staticClass: "my-icon-button" }),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "my-icon-button" }),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "my-icon-button" })
-                    ]
-                  )
-                ],
-                1
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "section" }, [
               _c("table", { staticClass: "highlight responsive-table" }, [
-                _vm._m(0),
+                _c("thead", [
+                  _c("tr", [
+                    _c("th", [_vm._v("菜單名稱")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("價格")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("種類")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("建立時間")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("更新時間")]),
+                    _vm._v(" "),
+                    _c("th", [
+                      _c("div", { staticClass: "section" }, [
+                        _c(
+                          "div",
+                          {
+                            on: {
+                              click: function($event) {
+                                _vm.create()
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "mt-palette-button",
+                              {
+                                attrs: {
+                                  content: "+",
+                                  mainButtonStyle:
+                                    "color:#fff;background-color:#26a2ff;"
+                                }
+                              },
+                              [
+                                _c("div", { staticClass: "my-icon-button" }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "my-icon-button" }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "my-icon-button" })
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ])
+                    ])
+                  ])
+                ]),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -27752,28 +27769,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("菜單名稱")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("價格")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("種類")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("建立時間")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("更新時間")]),
-        _vm._v(" "),
-        _c("th")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -30908,7 +30904,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -30922,6 +30918,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__api_store__ = __webpack_require__(175);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mint_ui__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_mint_ui__);
+//
+//
 //
 //
 //
@@ -31038,40 +31036,59 @@ var render = function() {
       [
         _c("div", { staticClass: "container" }, [
           _c("div", { staticClass: "section" }, [
-            _c(
-              "div",
-              {
-                on: {
-                  click: function($event) {
-                    _vm.create()
-                  }
-                }
-              },
-              [
-                _c(
-                  "mt-palette-button",
-                  {
-                    attrs: {
-                      content: "+",
-                      mainButtonStyle: "color:#fff;background-color:#26a2ff;"
-                    }
-                  },
-                  [
-                    _c("div", { staticClass: "my-icon-button" }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "my-icon-button" }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "my-icon-button" })
-                  ]
-                )
-              ],
-              1
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "section" }, [
             _c("table", { staticClass: "highlight responsive-table" }, [
-              _vm._m(0),
+              _c("thead", [
+                _c("tr", [
+                  _c("th", [_vm._v("名稱")]),
+                  _vm._v(" "),
+                  _c("th", [_vm._v("電話")]),
+                  _vm._v(" "),
+                  _c("th", [_vm._v("地址")]),
+                  _vm._v(" "),
+                  _c("th", [_vm._v("配置菜單數")]),
+                  _vm._v(" "),
+                  _c("th", [_vm._v("建立時間")]),
+                  _vm._v(" "),
+                  _c("th", [_vm._v("更新時間")]),
+                  _vm._v(" "),
+                  _c("th", [
+                    _c("div", { staticClass: "section" }, [
+                      _c(
+                        "div",
+                        {
+                          on: {
+                            click: function($event) {
+                              _vm.create()
+                            }
+                          }
+                        },
+                        [
+                          _c(
+                            "mt-palette-button",
+                            {
+                              attrs: {
+                                content: "+",
+                                mainButtonStyle:
+                                  "color:#fff;background-color:#26a2ff;"
+                              }
+                            },
+                            [
+                              _c("div", { staticClass: "my-icon-button" }),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "my-icon-button" }),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "my-icon-button" })
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("th")
+                ])
+              ]),
               _vm._v(" "),
               _c(
                 "tbody",
@@ -31128,32 +31145,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("名稱")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("電話")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("地址")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("配置菜單數")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("建立時間")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("更新時間")]),
-        _vm._v(" "),
-        _c("th"),
-        _vm._v(" "),
-        _c("th")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
