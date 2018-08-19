@@ -1,7 +1,7 @@
 <template>
     <div @click="tabClick">
         <mt-tabbar v-model="selected">
-            <mt-tab-item id="menu">
+            <mt-tab-item id="dashboard">
                 <i class="material-icons dp48">call_to_action</i>
                 主頁
             </mt-tab-item>
@@ -53,32 +53,16 @@
         comments: [Tabbar.name, Tabbar, TabItem.name, TabItem],
         data() {
             return {
-                oldSelected: 'menu'
+                oldSelected: 'dashboard',
+                selected: 'dashboard',
             }
         },
         mounted() {
             this.selected = this.$route.name
         },
-        computed: {
-            selected: {
-                set(selected) {
-                    this.$store.commit('setFooterMenu', selected)
-                },
-                get() {
-                    return this.$store.state.form.footerMenu
-                }
-            }
-        },
         methods: {
             tabClick() {
                 if (this.sameMenu()) {
-
-                    //選單事件
-                    switch (this.selected) {
-                        case 'menu':
-                            this.refreshStoreMenu()
-                            break
-                    }
 
                     //置頂
                     $(".app-main").animate({scrollTop: 0}, 0)
@@ -94,9 +78,9 @@
             refreshStoreMenu() {
                 this.$store.commit('resetMenus')
                 this.$store.commit('setMenuPage', 1)
-                this.$store.commit('setHackAppMainResetStatue',false)
-                this.$nextTick(()=>{
-                    this.$store.commit('setHackAppMainResetStatue',true)
+                this.$store.commit('setHackAppMainResetStatue', false)
+                this.$nextTick(() => {
+                    this.$store.commit('setHackAppMainResetStatue', true)
                 })
 
             }

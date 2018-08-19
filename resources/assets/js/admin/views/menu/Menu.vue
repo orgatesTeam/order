@@ -82,8 +82,8 @@
             getMenus: (that, callback) => {
 
                 let page = that.$store.state.menu.page
-                if (that.$store.state.menu.menus[page]) {
-                    that.pushMenus(that.$store.state.menu.menus[page])
+                if (that.$store.state.menu.cacheMenus[page]) {
+                    that.pushMenus(that.$store.state.menu.cacheMenus[page])
                     if (callback) {
                         callback()
                     }
@@ -96,7 +96,7 @@
                         console.log(response)
                         let menus = response.data.items.menus
                         that.pushMenus(menus)
-                        that.$store.commit('setMenus', {page: page, menus: menus})
+                        that.$store.commit('setCacheMenus', {page: page, menus: menus})
                         if (callback) {
                             callback()
                         }

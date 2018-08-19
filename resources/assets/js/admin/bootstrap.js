@@ -9,8 +9,8 @@
  */
 
 try {
-    // window.$ = window.jQuery = require('jquery');
-
+    window.$ = window.jQuery = require('jquery');
+    require('jquery-confirm');
     //require('bootstrap');
 } catch (e) {}
 

@@ -31,3 +31,19 @@ export function createMenu(data) {
         data: data
     })
 }
+
+export function searchMenuByName(data) {
+    return request({
+        url: '/admin/menu/search-by-name',
+        method: 'post',
+        data: data
+    })
+}
+
+export function listByStoreMenu(data) {
+    return request({
+        url: '/admin/menu/list-by-store-menu',
+        method: 'post',
+        data: data
+    })
+}

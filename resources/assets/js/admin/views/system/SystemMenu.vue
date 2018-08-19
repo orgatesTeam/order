@@ -4,7 +4,7 @@
             <mt-cell title="菜單管理"></mt-cell>
         </div>
         <div @click="routerPush('system-table-manager')">
-            <mt-cell title="桌位管理"></mt-cell>
+            <mt-cell title="桌位 QR Code "></mt-cell>
         </div>
         <div @click="routerPush('store')">
             <mt-cell title="店家管理"></mt-cell>

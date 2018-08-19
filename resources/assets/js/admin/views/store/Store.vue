@@ -18,8 +18,10 @@
                             <th>名稱</th>
                             <th>電話</th>
                             <th>地址</th>
+                            <th>配置菜單數</th>
                             <th>建立時間</th>
                             <th>更新時間</th>
+                            <th></th>
                             <th></th>
                         </tr>
                         </thead>
@@ -28,10 +30,14 @@
                             <td>{{store.name}}</td>
                             <td>{{store.tel}}</td>
                             <td>{{store.address}}</td>
+                            <td>0</td>
                             <td>{{store.created_at}}</td>
                             <td>{{store.updated_at}}</td>
                             <td>
                                 <a class="waves-effect waves-light btn" @click="edit(index)">編輯</a>
+                            </td>
+                            <td>
+                                <a class="waves-effect waves-light btn" @click="importMenu(store)">配置菜單</a>
                             </td>
                         </tr>
                         </tbody>
@@ -60,12 +66,19 @@
         },
         methods: {
             getStore() {
+
+                if (this.$store.state.storeManager.cacheStores) {
+                    this.stores = this.$store.state.storeManager.cacheStores
+                    return
+                }
+
                 let that = this
                 fetchList({}).then(response => {
                     if (response.data.code == 202) {
                         console.log(response)
                         let stores = response.data.items.stores
                         that.stores = stores
+                        this.$store.commit('setCacheStores', stores)
                     }
                 })
             },
@@ -76,7 +89,11 @@
             },
             create() {
                 this.$router.push({name: 'store-edit', query: {from: 'create'}})
-            }
+            },
+            importMenu(store) {
+                this.$store.commit('setStoreToImportMenu', store)
+                this.$router.push({name: 'store-import-menu'})
+            },
         }
     }
 </script>

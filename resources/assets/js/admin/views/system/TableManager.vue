@@ -65,7 +65,7 @@
         computed: {
             qrCodeURL() {
                 // let url = 'http://order.com.tw/menu/no/1'
-                let url = 'http://aedd7ebb.ngrok.io/admin/system/table-manager'
+                let url = 'http://1d70597a.ngrok.io/admin/system/table-manager'
                 let queryString = `table-mode=no&no=${this.tableNo}`
                 return getQRCode(`${url}?${queryString}`)
             }

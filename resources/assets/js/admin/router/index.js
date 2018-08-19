@@ -17,6 +17,17 @@ const router = new VueRouter({
                 },
             ]
         },
+        //dashboard
+        {
+            path: '/admin/dashboard', component: require('../views/layout/Layout'),
+            children: [
+                {
+                    path: '/',
+                    name: 'dashboard',
+                    component: require('../views/dashboard/Dashboard')
+                },
+            ]
+        },
         //menu
         {
             path: '/admin/menu', component: require('../views/layout/Layout'),
@@ -46,6 +57,11 @@ const router = new VueRouter({
                     path: 'edit',
                     name: 'store-edit',
                     component: require('../views/store/Edit')
+                },
+                {
+                    path: 'import-menu',
+                    name: 'store-import-menu',
+                    component: require('../views/store/ImportMenu')
                 },
             ]
         },
@@ -106,13 +122,6 @@ router.beforeEach((to, from, next) => {
     next()
 })
 router.afterEach((to, from) => {
-
-    //防呆還沒初始好
-    if (app instanceof Object &&
-        app.hasOwnProperty('$store') &&
-        app.$store.hasOwnProperty('commit')) {
-        app.$store.commit('setFooterMenu', to.name)
-    }
 })
 
 export default router

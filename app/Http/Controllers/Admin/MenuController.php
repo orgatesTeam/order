@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Menu;
 use App\MenuType;
+use App\StoreMenu;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -124,5 +126,50 @@ class MenuController extends Controller
         ]);
 
         return responseSuccess(['menu' => $menu]);
+    }
+
+    /**
+     * 關鍵字搜尋菜單
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function searchMenuByName()
+    {
+        $keys = ['name'];
+
+        if (!request()->exists($keys)) {
+            logError('請求參數缺失');
+            return responseFail('資料錯誤');
+        }
+
+        $userID = auth()->user()->id;
+
+        $menus = Menu::where('user_id', $userID)->where('name', 'like', '%' . request('name') . '%')->get();
+        return responseSuccess(['menus' => $menus]);
+    }
+
+    /**
+     * 店家配置菜單以及狀態
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function listByStoreMenu()
+    {
+        $userID = auth()->user()->id;
+        $keys = ['store_id'];
+
+        if (!request()->exists($keys)) {
+            logError('請求參數缺失');
+            return responseFail('資料錯誤');
+        }
+
+        $menus = Menu::selectRaw('menus.id as menu_id , name , (store_id > 0) as isChecked,user_id')
+            ->leftJoin(DB::raw('(select * from store_menus where store_id = ' . request('store_id') . ') as store_menus '), function ($join) {
+                $join->on('menus.id', '=', 'store_menus.menu_id');
+            })
+            ->having('menus.user_id', '=', $userID)
+            ->get();
+
+        return responseSuccess(['menus' => $menus]);
     }
 }

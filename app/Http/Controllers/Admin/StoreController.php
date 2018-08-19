@@ -51,7 +51,7 @@ class StoreController extends Controller
      */
     public function addMenu()
     {
-        $keys = ['store_id', 'menu_id'];
+        $keys = ['store_id', 'menu_ids'];
 
         if (!request()->exists($keys)) {
             logError('請求參數缺失');
@@ -59,37 +59,37 @@ class StoreController extends Controller
         }
 
         $storeID = request('store_id');
-        $menuID = request('menu_id');
+        $menuIDs = explode(',', request('menu_ids'));
 
-        if (!$this->checkStoreIDMenuID($storeID, $menuID)) {
+        if (!$this->checkStoreIDMenuIDs($storeID, $menuIDs)) {
             return responseFail('資料錯誤');
         }
-        $storeMenu = StoreMenu::create([
-            'store_id' => $storeID,
-            'menu_id'  => $menuID
-        ]);
 
-        return responseSuccess(['storeMenu' => $storeMenu]);
+        StoreMenu::where('store_id', $storeID)
+            ->forceDelete();
+
+        $createMenus = [];
+        foreach ($menuIDs as $menuID) {
+            $createMenus[] = [
+                'store_id' => $storeID,
+                'menu_id'  => $menuID
+            ];
+        }
+        $result = StoreMenu::insert($createMenus);
+        return responseSuccess(['result' => $result]);
     }
 
-    protected function checkStoreIDMenuID($storeID, $menuID)
+    protected function checkStoreIDMenuIDs($storeID, $menuIDs)
     {
         $userID = auth()->user()->id;
         $store = \App\Store::find($storeID);
-        $menu = \App\Menu::find($menuID);
-        $storeMenu = \App\StoreMenu::where('store_id', $storeID)->where('menu_id', $menuID)->first();
-
         if ($store == null || $store->user_id != $userID) {
             logError('無效的 storeID:' . $storeID);
             return false;
         }
-        if ($menu == null || $menu->user_id != $userID) {
-            logError('無效的 menuID:' . $menuID);
-            return false;
-        }
 
-        if ($storeMenu) {
-            logError('已經存在');
+        if (!is_array($menuIDs) && count($menuIDs) < 0) {
+            logError('無效的 menuIDs:' . $menuIDs);
             return false;
         }
 

@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import menu from './modules/menu'
 import form from './modules/form'
 import popup from './modules/popup'
-import storeManager from './modules/store'
+import storeManager from './modules/storeManager'
 
 import getters from './getters'
 

@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "element-ui": "^2.4.6",
+        "jquery-confirm": "^3.3.2",
         "js-cookie": "^2.2.0",
         "materialize": "^1.0.0",
         "mint-ui": "^2.2.13",

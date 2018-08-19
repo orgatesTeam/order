@@ -132,6 +132,7 @@
                             message: '操作成功',
                             iconClass: 'icon icon-success'
                         });
+                        that.refreshCacheStores()
                         that.$router.push({name: 'store'})
                     }
                 })
@@ -152,9 +153,13 @@
                             message: '操作成功',
                             iconClass: 'icon icon-success'
                         });
+                        that.refreshCacheStores()
                         that.$router.push({name: 'store'})
                     }
                 })
+            },
+            refreshCacheStores() {
+                this.$store.commit('setCacheStores', null)
             }
         }
     }

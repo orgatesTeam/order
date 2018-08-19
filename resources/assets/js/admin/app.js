@@ -3,6 +3,7 @@ import App from './views/App'
 import router from './router'
 import store from './store'
 import MintUI from 'mint-ui'
+require('./bootstrap');
 
 Vue.use(MintUI)
 

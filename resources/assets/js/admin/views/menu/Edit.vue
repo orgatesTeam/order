@@ -26,7 +26,7 @@
                         <mt-field label="種類" v-model="createMenu.type" class="unselectable"></mt-field>
                     </div>
                 </div>
-                <mt-button  :disabled="!canStoreCreate" type="primary" size="large" @click="createStore()">儲存</mt-button>
+                <mt-button :disabled="!canStoreCreate" type="primary" size="large" @click="createStore()">儲存</mt-button>
             </mt-tab-container-item>
             <mt-actionsheet
                     :actions="actionMenuTypes"
@@ -192,6 +192,7 @@
                             message: '操作成功',
                             iconClass: 'icon icon-success'
                         });
+                        that.refreshCacheMenus()
                         that.$router.push({name: 'menu'})
                     }
                 })
@@ -210,9 +211,13 @@
                             message: '操作成功',
                             iconClass: 'icon icon-success'
                         });
+                        that.refreshCacheMenus()
                         that.$router.push({name: 'menu'})
                     }
                 })
+            },
+            refreshCacheMenus() {
+                this.$store.commit('resetMenus')
             }
         }
     }
