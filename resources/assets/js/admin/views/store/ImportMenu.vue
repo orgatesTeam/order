@@ -36,7 +36,7 @@
         comments: [Switch.name, Switch, Cell.name, Cell, Search.name, Search],
         data() {
             return {
-                searchKey: ' ',
+                searchKey: '',
                 store: {},
                 switchMenus: [],
                 switchAll: false,
@@ -129,6 +129,7 @@
                                                 position: 'middle',
                                                 duration: 800
                                             });
+                                            that.refreshCacheStores()
                                             that.$router.push({name: 'store'})
                                         }
                                     }
@@ -142,6 +143,9 @@
             },
             cancel() {
                 this.$router.push({name: 'store'})
+            },
+            refreshCacheStores() {
+                this.$store.commit('setCacheStores', null)
             }
         }
 

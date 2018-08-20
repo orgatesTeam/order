@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Store;
 use App\StoreMenu;
+use DB;
 
 /**
  * 菜單管理
@@ -20,7 +21,33 @@ class StoreController extends Controller
         $stores = Store::where('user_id', $userID)
             ->get();
 
+        $this->addStoresMenuCount($stores);
+
         return responseSuccess(['stores' => $stores]);
+    }
+
+    /**
+     * 增加店家菜單配置數
+     *
+     * @param $stores
+     */
+    protected function addStoresMenuCount(&$stores)
+    {
+        $storeIDs = $stores->map(function ($item) {
+            return $item['id'];
+        });
+
+        $storeCounts = StoreMenu::whereIn('store_id', $storeIDs)
+            ->groupBy('store_id')
+            ->select('store_id', DB::raw('count(*) as count'))
+            ->get()
+            ->keyBy(function ($item) {
+                return strtoupper($item['store_id']);
+            });
+
+        foreach ($stores as $store) {
+            $store->menuCount = isset($storeCounts[$store->id]) ? $storeCounts[$store->id]->count : 0;
+        }
     }
 
     /**
@@ -58,6 +85,11 @@ class StoreController extends Controller
             return responseFail('資料錯誤');
         }
 
+        if (request('menu_ids') == '') {
+            logError('menu_ids空值');
+            return responseFail('資料錯誤');
+        }
+
         $storeID = request('store_id');
         $menuIDs = explode(',', request('menu_ids'));
 
@@ -88,7 +120,7 @@ class StoreController extends Controller
             return false;
         }
 
-        if (!is_array($menuIDs) && count($menuIDs) < 0) {
+        if (!is_array($menuIDs) || count($menuIDs) < 1) {
             logError('無效的 menuIDs:' . $menuIDs);
             return false;
         }

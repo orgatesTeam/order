@@ -32,7 +32,7 @@
                             <td>{{store.name}}</td>
                             <td>{{store.tel}}</td>
                             <td>{{store.address}}</td>
-                            <td>0</td>
+                            <td>{{store.menuCount}}</td>
                             <td>{{store.created_at}}</td>
                             <td>{{store.updated_at}}</td>
                             <td>

@@ -11,13 +11,15 @@ class MenuTableSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Faker\Factory::create('zh_TW');
+
         $user = \App\User::first();
         foreach (range(1, 40) as $index) {
             \App\Menu::create([
                 'user_id'      => $user->id,
-                'name'         => '牛排' . $index,
-                'price'        => $index * 10,
-                'menu_type_id' => 1
+                'name'         => $faker->name(),
+                'price'        => $faker->numberBetween(10, 1000),
+                'menu_type_id' => $faker->numberBetween(1, 7)
             ]);
         }
 

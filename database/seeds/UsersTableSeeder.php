@@ -11,8 +11,10 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Faker\Factory::create('zh_TW');
+
         \App\User::create([
-            'name'     => 'orgates',
+            'name'     => $faker->firstName,
             'email'    => 'orgates@gmail.com',
             'password' => bcrypt('123456'),
             'enable'   => 1
@@ -20,7 +22,7 @@ class UsersTableSeeder extends Seeder
 
         foreach (range(1,40) as $index){
             \App\User::create([
-                'name'     => 'orgates'.$index,
+                'name'     => $faker->firstName,
                 'email'    => 'orgates'.$index.'@gmail.com',
                 'password' => bcrypt('123456'),
                 'enable'   => 1

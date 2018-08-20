@@ -31100,7 +31100,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(store.address))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v("0")]),
+                    _c("td", [_vm._v(_vm._s(store.menuCount))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(store.created_at))]),
                     _vm._v(" "),
@@ -31800,7 +31800,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     comments: [__WEBPACK_IMPORTED_MODULE_0_mint_ui__["Switch"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Switch"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Cell"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Cell"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Search"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Search"]],
     data: function data() {
         return {
-            searchKey: ' ',
+            searchKey: '',
             store: {},
             switchMenus: [],
             switchAll: false,
@@ -31899,6 +31899,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                             position: 'middle',
                                             duration: 800
                                         });
+                                        that.refreshCacheStores();
                                         that.$router.push({ name: 'store' });
                                     }
                                 }
@@ -31911,6 +31912,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         cancel: function cancel() {
             this.$router.push({ name: 'store' });
+        },
+        refreshCacheStores: function refreshCacheStores() {
+            this.$store.commit('setCacheStores', null);
         }
     }
 
