@@ -170,6 +170,7 @@ return [
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         \Yish\Generators\GeneratorsServiceProvider::class,
         \Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
+        YbrNX\MariaDB\MariaDBServiceProvider::class,
 
         /*
          * Application Service Providers...
