@@ -15,6 +15,17 @@ class StoreTableSeeder extends Seeder
 
         $user = \App\User::first();
 
+        foreach ($this->stores() as $store){
+            \App\Store::create([
+                'user_id'     => $user->id,
+                'name'        => $store['name'],
+                'tel'         => $faker->numerify($text='0#-########'),
+                'address'     => "$faker->city"."$faker->streetAddress",
+            ]);
+        }
+
+
+
         $informations=[];
 
         foreach (range(0,4) as $index){
@@ -91,5 +102,12 @@ class StoreTableSeeder extends Seeder
             ]);
         }
 */
+    }
+
+    public function stores()
+    {
+        return [
+            '麥當勞'
+        ];
     }
 }

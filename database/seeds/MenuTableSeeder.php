@@ -23,6 +23,15 @@ class MenuTableSeeder extends Seeder
             ]);
         }
 
+        foreach ($this->mmMenus() as $menu) {
+            \App\Menu::create([
+                'user_id'      => $user->id,
+                'name'         => $menu['name'],
+                'price'        => $faker->numberBetween(10, 1000),
+                'menu_type_id' => $faker->numberBetween(1, 7)
+            ]);
+        }
+
         $types = ['主食(飯類)', '主食(麵類)', '主食(肉類)', '下酒菜', '開胃菜', '前菜', '主菜'];
         foreach ($types as $type) {
             \App\MenuType::create([
@@ -30,5 +39,10 @@ class MenuTableSeeder extends Seeder
                 'name'    => $type
             ]);
         }
+    }
+
+    public function mmMenus()
+    {
+        return [];
     }
 }
