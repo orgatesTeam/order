@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{asset('css/admin/main.css')}}">
     {{--jq confirm--}}
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
 </head>
 <style>
 </style>

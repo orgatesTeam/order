@@ -76,6 +76,17 @@ const router = new VueRouter({
                 }
             ]
         },
+        //order
+        {
+            path: '/admin/order', component: require('../views/layout/Layout'),
+            children: [
+                {
+                    path: '/',
+                    name: 'order',
+                    component: require('../views/order/Order')
+                }
+            ]
+        },
         //system
         {
             path: '/admin/system', component: require('../views/layout/Layout'),

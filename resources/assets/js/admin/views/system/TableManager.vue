@@ -1,23 +1,42 @@
 <template>
     <div>
-        <mt-cell :title="'總桌位:'+rangeValue">
-            <mt-range v-model="rangeValue" :min="start"
-                      :max="end"
-                      :step="1"
-                      class="range">
-                <div slot="start">{{start}}</div>
-                <div slot="end">{{end}}</div>
-            </mt-range>
-        </mt-cell>
-        <div class="section">
-            <div v-for="index in rangeValue" class="qrcode-select"
-                 @click="tableNo = index"
-                 :class="tableNo==index?'selected':''">
-                {{paddingLeft(index)}}
+        <div class="select-container">
+            <div @click="storesVisible = true" class="inline-dev">
+                <mt-button type="danger">選點店家</mt-button>
+            </div>
+            <div @click="saveTable()" class="inline-dev">
+                <mt-button type="primary">儲存</mt-button>
             </div>
         </div>
-        <div class="section">
-            <img :src="qrCodeURL" alt="">
+
+
+        <div v-if="selectStore.id > 0">
+            <mt-cell :title="'總桌位:'+rangeValue">
+                <mt-range v-model="rangeValue" :min="start"
+                          :max="end"
+                          :step="1"
+                          class="range">
+                    <div slot="start">{{start}}</div>
+                    <div slot="end">{{end}}</div>
+                </mt-range>
+            </mt-cell>
+            <div class="section">
+                <div v-for="index in rangeValue" class="qrcode-select"
+                     @click="tableNo = index"
+                     :class="tableNo==index?'selected':''">
+                    {{paddingLeft(index)}}
+                </div>
+            </div>
+            <div class="section">
+                <img :src="qrCodeURL" alt="">
+            </div>
+        </div>
+
+        <div>
+            <mt-actionsheet
+                    :actions="actions"
+                    v-model="storesVisible">
+            </mt-actionsheet>
         </div>
     </div>
 </template>
@@ -40,6 +59,14 @@
     .qrcode-select.selected {
         background: #ee6e73;
     }
+
+    .select-container {
+        padding: 10px 0 10px 20px;
+    }
+
+    .inline-dev {
+        display: inline;
+    }
 </style>
 <script>
     import {Badge} from 'mint-ui';
@@ -47,20 +74,31 @@
     import {Cell} from 'mint-ui';
     import {getQRCode} from '../../utils/qrcode'
     import {paddingLeft} from '../../utils/helper'
+    import {settingTableTotal} from '../../api/store'
+    import {fetchList} from '../../api/store'
+    import {Button} from 'mint-ui';
+    import {Actionsheet} from 'mint-ui'
+    import {Toast} from 'mint-ui';
 
     export default {
         name: "TableManager",
-        comments: [Range.name, Range, Cell.name, Cell, Badge.name, Badge],
         data() {
             return {
                 rangeValue: 1,
                 start: 1,
                 end: 50,
-                tableNo: 1
+                tableNo: 1,
+                selectStore: {
+                    name: '',
+                    id: ''
+                },
+                storesVisible: false,
+                actions: [],
             }
         },
         mounted() {
             this.$store.commit('setFormTitle', '桌位管理')
+            this.getStore()
         },
         computed: {
             qrCodeURL() {
@@ -71,8 +109,57 @@
             }
         },
         methods: {
+            getStore() {
+                let that = this
+                that.actions = []
+                fetchList({}).then(response => {
+                    if (response.data.code == 202) {
+                        console.log(response)
+                        let stores = response.data.items.stores
+                        stores.forEach((store) => {
+                            that.actions.push({
+                                name: store.name,
+                                method: () => {
+                                    that.selectStore.id = store.id
+                                    that.selectStore.name = store.name
+                                    that.rangeValue = store.table_total
+                                    that.$store.commit('setFormTitle', `${store.name}-桌位管理`)
+                                }
+                            })
+                        })
+                    }
+                })
+            },
             paddingLeft(index) {
                 return paddingLeft(index, 2)
+            },
+            saveTable() {
+                let that = this
+                let storeID = this.selectStore.id
+                if (storeID < 1) {
+                    return Toast({
+                        message: '請選擇店家',
+                        position: 'middle',
+                        duration: 3000
+                    });
+                }
+                let tableTotal = this.rangeValue
+                let data = {
+                    id: storeID,
+                    table_total: tableTotal
+                }
+
+                settingTableTotal(data).then(response => {
+                    if (response.data.code == 202) {
+                        Toast({
+                            message: '儲存成功',
+                            position: 'middle',
+                            duration: 2000
+                        });
+                        //重刷配置
+                        that.getStore()
+                    }
+                })
             }
         }
     }

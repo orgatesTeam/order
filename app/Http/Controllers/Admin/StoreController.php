@@ -173,4 +173,28 @@ class StoreController extends Controller
 
         return true;
     }
+
+    /**
+     * 設定店家總桌數
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function settingTableTotal()
+    {
+        $keys = ['id', 'table_total'];
+        if (!request()->exists($keys)) {
+            logError('請求參數缺失');
+            return responseFail('資料錯誤');
+        }
+
+        $store = Store::find(request('id'));
+
+        if (!$this->checkUpdate($store)) {
+            return responseFail('資料錯誤');
+        }
+
+        $store->table_total = request('table_total');
+        $store->save();
+
+        return responseSuccess(['store' => $store]);
+    }
 }

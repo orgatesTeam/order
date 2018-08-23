@@ -47,6 +47,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
             Route::post('/create', 'StoreController@create');
             Route::post('/add-menu', 'StoreController@addMenu');
             Route::post('/update', 'StoreController@update');
+            Route::post('/setting-table-total', 'StoreController@settingTableTotal');
         });
     });
 });
