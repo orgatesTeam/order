@@ -11,7 +11,7 @@
                     <mt-field label="名稱" v-model="editStore.name"></mt-field>
                     <mt-field label="電話" type="tel" v-model="editStore.tel"></mt-field>
                     <mt-field label="地址" type="tel" v-model="editStore.address"></mt-field>
-                    <mt-field label="總桌數" type="tel" v-model="editStore.table_total"></mt-field>
+                    <mt-field label="總桌數" type="tel" v-model="editStore.tableTotal"></mt-field>
 
                 </div>
                 <mt-button :disabled="!canEdit" type="primary" size="large" @click="storeEdit">儲存</mt-button>
@@ -122,12 +122,13 @@
         methods: {
             storeEdit() {
                 let that = this
-                let {id, name, tel, address, store_id} = this.editStore
+                let {id, name, tel, address, tableTotal} = this.editStore
                 let data = {
                     id: id,
                     name: name,
                     tel: tel,
                     address: address,
+                    table_total: tableTotal
                 }
 
                 updateStore(data).then(response => {

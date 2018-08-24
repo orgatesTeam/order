@@ -31573,13 +31573,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 name = _editStore.name,
                 tel = _editStore.tel,
                 address = _editStore.address,
-                store_id = _editStore.store_id;
+                tableTotal = _editStore.tableTotal;
 
             var data = {
                 id: id,
                 name: name,
                 tel: tel,
-                address: address
+                address: address,
+                table_total: tableTotal
             };
 
             Object(__WEBPACK_IMPORTED_MODULE_1__api_store__["e" /* updateStore */])(data).then(function (response) {
@@ -31754,11 +31755,11 @@ var render = function() {
                   _c("mt-field", {
                     attrs: { label: "總桌數", type: "tel" },
                     model: {
-                      value: _vm.editStore.table_total,
+                      value: _vm.editStore.tableTotal,
                       callback: function($$v) {
-                        _vm.$set(_vm.editStore, "table_total", $$v)
+                        _vm.$set(_vm.editStore, "tableTotal", $$v)
                       },
-                      expression: "editStore.table_total"
+                      expression: "editStore.tableTotal"
                     }
                   })
                 ],

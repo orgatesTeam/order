@@ -148,6 +148,7 @@ class StoreController extends Controller
         $store->name = request('name');
         $store->tel = request('tel');
         $store->address = request('address');
+        $store->table_total = request('table_total');
         $store->save();
 
         return responseSuccess(['store' => $store]);
