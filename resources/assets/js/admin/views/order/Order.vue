@@ -53,10 +53,12 @@
                         that.actions.push({
                             name: store.name,
                             method: () => {
+                                that.beforeSelectedStore()
                                 that.selectStore.id = store.id
                                 that.selectStore.name = store.name
                                 that.selectStore.tableTotal = store.table_total
                                 that.$store.commit('setFormTitle', `${store.name}-點餐管理`)
+                                that.afterSelectedStore()
                             }
                         })
                     })
@@ -64,13 +66,28 @@
             })
         },
         methods: {
+            //hook
+            afterSelectedStore() {
+                this.selectTable()
+            },
+            //hook
+            beforeSelectedStore() {
+                this.tableNo = ''
+            },
             selectTable() {
-
-                let confirm = {
-                    title: '選擇桌號',
-                    buttons: {}
-                }
+                let storeName = this.selectStore.name
                 let that = this
+                let confirm = {
+                    title: `店家: ${storeName}`,
+                    content: '請選擇桌號:',
+                    buttons: {
+                        '取消': {
+                            btnClass: 'btn-dark',
+                            action: function () {
+                            }
+                        }
+                    }
+                }
                 let range = this.selectStore.tableTotal
                 Array.from({length: range}, (x, i) => {
                     let tableNo = i + 1

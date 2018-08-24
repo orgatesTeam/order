@@ -42971,10 +42971,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     that.actions.push({
                         name: store.name,
                         method: function method() {
+                            that.beforeSelectedStore();
                             that.selectStore.id = store.id;
                             that.selectStore.name = store.name;
                             that.selectStore.tableTotal = store.table_total;
                             that.$store.commit('setFormTitle', store.name + '-\u9EDE\u9910\u7BA1\u7406');
+                            that.afterSelectedStore();
                         }
                     });
                 });
@@ -42983,13 +42985,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        selectTable: function selectTable() {
+        //hook
+        afterSelectedStore: function afterSelectedStore() {
+            this.selectTable();
+        },
 
-            var confirm = {
-                title: '選擇桌號',
-                buttons: {}
-            };
+        //hook
+        beforeSelectedStore: function beforeSelectedStore() {
+            this.tableNo = '';
+        },
+        selectTable: function selectTable() {
+            var storeName = this.selectStore.name;
             var that = this;
+            var confirm = {
+                title: '\u5E97\u5BB6: ' + storeName,
+                content: '請選擇桌號:',
+                buttons: {
+                    '取消': {
+                        btnClass: 'btn-dark',
+                        action: function action() {}
+                    }
+                }
+            };
             var range = this.selectStore.tableTotal;
             Array.from({ length: range }, function (x, i) {
                 var tableNo = i + 1;
