@@ -31070,7 +31070,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -31084,6 +31084,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__api_store__ = __webpack_require__(175);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mint_ui__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_mint_ui__);
+//
+//
 //
 //
 //
@@ -31213,6 +31215,8 @@ var render = function() {
                   _vm._v(" "),
                   _c("th", [_vm._v("配置菜單數")]),
                   _vm._v(" "),
+                  _c("th", [_vm._v("總桌數")]),
+                  _vm._v(" "),
                   _c("th", [_vm._v("建立時間")]),
                   _vm._v(" "),
                   _c("th", [_vm._v("更新時間")]),
@@ -31267,6 +31271,8 @@ var render = function() {
                     _c("td", [_vm._v(_vm._s(store.address))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(store.menuCount))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(store.table_total))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(store.created_at))]),
                     _vm._v(" "),
@@ -31469,6 +31475,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -31487,7 +31496,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             createStore: {
                 name: '',
                 tel: '',
-                address: ''
+                address: '',
+                tableTotal: 1
             }
         };
     },
@@ -31589,12 +31599,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _createStore = this.createStore,
                 name = _createStore.name,
                 tel = _createStore.tel,
-                address = _createStore.address;
+                address = _createStore.address,
+                tableTotal = _createStore.tableTotal;
 
             var data = {
                 name: name,
                 tel: tel,
-                address: address
+                address: address,
+                table_total: tableTotal
             };
 
             Object(__WEBPACK_IMPORTED_MODULE_1__api_store__["b" /* createStore */])(data).then(function (response) {
@@ -31737,6 +31749,17 @@ var render = function() {
                       },
                       expression: "editStore.address"
                     }
+                  }),
+                  _vm._v(" "),
+                  _c("mt-field", {
+                    attrs: { label: "總桌數", type: "tel" },
+                    model: {
+                      value: _vm.editStore.table_total,
+                      callback: function($$v) {
+                        _vm.$set(_vm.editStore, "table_total", $$v)
+                      },
+                      expression: "editStore.table_total"
+                    }
                   })
                 ],
                 1
@@ -31796,6 +31819,17 @@ var render = function() {
                         _vm.$set(_vm.createStore, "address", $$v)
                       },
                       expression: "createStore.address"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("mt-field", {
+                    attrs: { label: "總桌數", type: "tel" },
+                    model: {
+                      value: _vm.createStore.tableTotal,
+                      callback: function($$v) {
+                        _vm.$set(_vm.createStore, "tableTotal", $$v)
+                      },
+                      expression: "createStore.tableTotal"
                     }
                   })
                 ],

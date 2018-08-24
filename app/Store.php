@@ -12,7 +12,7 @@ class Store extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'name', 'tel', 'address', 'information', 'enable'
+        'user_id', 'name', 'tel', 'address', 'table_total', 'enable'
     ];
 
     /**

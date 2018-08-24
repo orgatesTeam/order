@@ -55,7 +55,7 @@ class StoreController extends Controller
      */
     public function create()
     {
-        $keys = ['name', 'tel', 'address'];
+        $keys = ['name', 'tel', 'address', 'table_total'];
         if (!request()->exists($keys)) {
             logError('請求參數缺失');
             return responseFail('資料錯誤');
@@ -67,7 +67,7 @@ class StoreController extends Controller
             'name'        => request('name'),
             'tel'         => request('tel'),
             'address'     => request('address'),
-            'information' => request('information'),
+            'table_total' => request('table_total'),
         ]);
 
         return responseSuccess(['store' => $store]);
@@ -176,6 +176,7 @@ class StoreController extends Controller
 
     /**
      * 設定店家總桌數
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function settingTableTotal()
