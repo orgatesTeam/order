@@ -133,7 +133,7 @@ class StoreController extends Controller
      */
     public function update()
     {
-        $keys = ['id', 'name', 'tel', 'address'];
+        $keys = ['id', 'name', 'tel', 'address','table_total'];
         if (!request()->exists($keys)) {
             logError('請求參數缺失');
             return responseFail('資料錯誤');
