@@ -15,6 +15,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         require_once (app_path('/Util/helper.php'));
+        
+        //https://laravel-news.com/laravel-5-4-key-too-long-error
         Schema::defaultStringLength(191);
     }
 
