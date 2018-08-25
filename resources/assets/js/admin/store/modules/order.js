@@ -2,7 +2,8 @@ const order = {
     state: {
         menus: null,
         showRegulation: false,
-        regulateMenuIndex: 0
+        regulateMenuIndex: null,
+        regulateMenus: []
     },
     mutations: {
         setOrderMenus(state, menus) {
@@ -13,6 +14,9 @@ const order = {
         },
         setRegulateMenuIndex(state, index) {
             state.regulateMenuIndex = index
+        },
+        setRegulateMenus(state, regulateMenu) {
+            state.regulateMenus.push(regulateMenu)
         }
     },
     actions: {}

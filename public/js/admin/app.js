@@ -27929,7 +27929,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -27940,9 +27940,9 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mint_ui__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_mint_ui__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_menu__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__api_menu__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mint_ui__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_mint_ui__);
 //
 //
 //
@@ -27985,17 +27985,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
-
-
-
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Edit",
-    comments: [__WEBPACK_IMPORTED_MODULE_0_mint_ui__["Field"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Field"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Navbar"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Navbar"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["TabItem"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["TabItem"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Button"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Button"]],
     data: function data() {
         return {
             //菜單種類彈窗
@@ -28119,7 +28114,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         getMenuTypes: function getMenuTypes() {
             var that = this;
-            Object(__WEBPACK_IMPORTED_MODULE_1__api_menu__["c" /* fetchMenuTypes */])({}).then(function (response) {
+            Object(__WEBPACK_IMPORTED_MODULE_0__api_menu__["c" /* fetchMenuTypes */])({}).then(function (response) {
                 console.log(response);
                 that.menuTypes = response.data.items.menuTypes;
             });
@@ -28138,9 +28133,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 price: price,
                 menu_type_id: menu_type_id
             };
-            Object(__WEBPACK_IMPORTED_MODULE_1__api_menu__["f" /* updateMenu */])(data).then(function (response) {
+            Object(__WEBPACK_IMPORTED_MODULE_0__api_menu__["f" /* updateMenu */])(data).then(function (response) {
                 if (response.data.code == '202') {
-                    Object(__WEBPACK_IMPORTED_MODULE_0_mint_ui__["Toast"])({
+                    Object(__WEBPACK_IMPORTED_MODULE_1_mint_ui__["Toast"])({
                         message: '操作成功',
                         iconClass: 'icon icon-success'
                     });
@@ -28161,9 +28156,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 price: price,
                 menu_type_id: menu_type_id
             };
-            Object(__WEBPACK_IMPORTED_MODULE_1__api_menu__["a" /* createMenu */])(data).then(function (response) {
+            Object(__WEBPACK_IMPORTED_MODULE_0__api_menu__["a" /* createMenu */])(data).then(function (response) {
                 if (response.data.code == '202') {
-                    Object(__WEBPACK_IMPORTED_MODULE_0_mint_ui__["Toast"])({
+                    Object(__WEBPACK_IMPORTED_MODULE_1_mint_ui__["Toast"])({
                         message: '操作成功',
                         iconClass: 'icon icon-success'
                     });
@@ -43131,8 +43126,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     value: {
                         id: menu.menu_id,
                         name: menu.menu_name,
-                        price: menu.menu_price,
-                        amount: 1
+                        price: menu.menu_price
                     }
                 };
                 formatter.push(newMenu);
@@ -43424,7 +43418,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -43468,6 +43462,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
+        amount: function amount(menuID) {
+            var amount = 1;
+            this.$store.state.order.regulateMenus.forEach(function (menu) {
+                if (menu.id == menuID) {
+                    amount = menu.amount;
+                }
+            });
+            return amount;
+        },
         regulate: function regulate(index) {
             this.$store.commit('setRegulateMenuIndex', index);
             this.$store.commit('setShowRegulation', true);
@@ -43501,7 +43504,7 @@ var render = function() {
             [
               _c("mt-cell", { attrs: { title: menu.name } }, [
                 _c("span", { staticStyle: { color: "green" } }, [
-                  _vm._v(_vm._s("X" + menu.amount))
+                  _vm._v(_vm._s("X" + _vm.amount(menu.id)))
                 ])
               ])
             ],
@@ -43611,7 +43614,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n.shake[data-v-20a956c4] {\n    -webkit-animation: shake .82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    animation: shake .82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n}\n.bg[data-v-20a956c4] {\n    position: fixed;\n    top: 0;\n    height: 100%;\n    width: 100%;\n    background-color: #444;\n    opacity: .2;\n}\n.regulation[data-v-20a956c4] {\n    position: fixed;\n    top: 0;\n    height: 100%;\n    width: 100%;\n    z-index: 99999999;\n}\n.regulation .table[data-v-20a956c4] {\n    -webkit-perspective: 500px;\n    perspective: 500px;\n    -webkit-perspective-origin: center;\n    perspective-origin: center;\n    display: table;\n    width: 100%;\n    height: 100%;\n}\n.regulation .row[data-v-20a956c4] {\n    display: table-row;\n    width: 100%;\n}\n.regulation .cell[data-v-20a956c4] {\n    display: table-cell;\n    vertical-align: middle;\n}\n.regulation .container[data-v-20a956c4] {\n    margin: 0 auto;\n    max-width: 1280px;\n    width: 90%;\n}\n.regulation .box[data-v-20a956c4] {\n    background: white;\n    border-radius: 4px;\n    position: relative;\n    outline: 0;\n    padding: 15px 15px 0;\n    overflow: hidden;\n    margin-left: auto;\n    margin-right: auto;\n    border-top: solid 7px #e74c3c;\n}\n", ""]);
+exports.push([module.i, "\n.shake[data-v-20a956c4] {\n    -webkit-animation: shake .82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    animation: shake .82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n}\n.bg[data-v-20a956c4] {\n    position: fixed;\n    top: 0;\n    height: 100%;\n    width: 100%;\n    background-color: #444;\n    opacity: .2;\n}\n.regulation[data-v-20a956c4] {\n    position: fixed;\n    top: 0;\n    height: 100%;\n    width: 100%;\n    z-index: 99999999;\n}\n.regulation .table[data-v-20a956c4] {\n    -webkit-perspective: 500px;\n    perspective: 500px;\n    -webkit-perspective-origin: center;\n    perspective-origin: center;\n    display: table;\n    width: 100%;\n    height: 100%;\n}\n.regulation .row[data-v-20a956c4] {\n    display: table-row;\n    width: 100%;\n}\n.regulation .cell[data-v-20a956c4] {\n    display: table-cell;\n    vertical-align: middle;\n}\n.regulation .container[data-v-20a956c4] {\n    margin: 0 auto;\n    max-width: 1280px;\n    width: 90%;\n}\n.regulation .box[data-v-20a956c4] {\n    background: white;\n    border-radius: 4px;\n    position: relative;\n    outline: 0;\n    padding: 15px 15px 0;\n    overflow: hidden;\n    margin-left: auto;\n    margin-right: auto;\n    border-top: solid 7px #e74c3c;\n}\n.box-title[data-v-20a956c4] {\n    display: block;\n    font-size: 22px;\n    line-height: 20px;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    cursor: default;\n    padding-bottom: 15px;\n}\n.box-content[data-v-20a956c4] {\n    margin-bottom: 15px;\n    height: auto;\n    -webkit-transition: height .4s ease-in;\n    transition: height .4s ease-in;\n    display: inline-block;\n    width: 100%;\n    position: relative;\n    overflow-x: hidden;\n    overflow-y: auto;\n}\n.box-buttons[data-v-20a956c4] {\n    float: right;\n    adding-bottom: 11px;\n    padding-bottom: 10px;\n}\n", ""]);
 
 // exports
 
@@ -43642,23 +43645,56 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Regulation",
     data: function data() {
         return {
-            containerShake: ''
+            containerShake: '',
+            amountValue: 1,
+            update: {
+                amount: 1
+            },
+            regulateData: {}
         };
     },
 
+    watch: {
+        show: function show() {
+            var menuID = this.selectMenu.id;
+            var amount = 1;
+            this.$store.state.order.regulateMenus.forEach(function (menu) {
+                if (menu.id == menuID) {
+                    amount = menu.amount;
+                }
+            });
+
+            this.update.amount = amount;
+        }
+    },
     computed: {
         show: function show() {
             return this.$store.state.order.showRegulation;
+        },
+        menuIndex: function menuIndex() {
+            return this.$store.state.order.regulateMenuIndex;
+        },
+        selectMenu: function selectMenu() {
+            return this.$store.state.order.menus[this.menuIndex];
         }
     },
     methods: {
         cancel: function cancel() {
             this.$store.commit('setShowRegulation', false);
+            this.update.amount = 1;
         },
         shake: function shake(event) {
             if (event.target.className == 'cell') {
@@ -43669,7 +43705,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }, 520);
             }
         },
-        not: function not() {}
+        save: function save() {
+            var menu = { amount: this.update.amount, id: this.selectMenu.id };
+            this.$store.commit('setRegulateMenus', menu);
+            this.cancel();
+        }
     }
 });
 
@@ -43690,35 +43730,59 @@ var render = function() {
             _c("div", { staticClass: "cell" }, [
               _c(
                 "div",
-                {
-                  staticClass: "container",
-                  class: _vm.containerShake,
-                  on: {
-                    click: function($event) {
-                      _vm.not()
-                    }
-                  }
-                },
+                { staticClass: "container", class: _vm.containerShake },
                 [
                   _c("div", { staticClass: "box" }, [
-                    _c("h1", [_vm._v("he")]),
+                    _c("div", { staticClass: "box-title" }, [
+                      _c("span", [_vm._v(_vm._s(_vm.selectMenu.name))])
+                    ]),
                     _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        attrs: { "data-v-c47256b6": "" },
-                        on: {
-                          click: function($event) {
-                            _vm.cancel()
+                    _c("div", { staticClass: "box-content" }, [
+                      _c(
+                        "div",
+                        [
+                          _c("mt-field", {
+                            attrs: { label: "數量", type: "tel" },
+                            model: {
+                              value: _vm.update.amount,
+                              callback: function($$v) {
+                                _vm.$set(_vm.update, "amount", $$v)
+                              },
+                              expression: "update.amount"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "box-buttons" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "waves-effect waves-light btn",
+                          on: {
+                            click: function($event) {
+                              _vm.save()
+                            }
                           }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n                            匯入\n                        "
-                        )
-                      ]
-                    )
+                        },
+                        [_vm._v("儲存")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "waves-effect waves-light btn",
+                          on: {
+                            click: function($event) {
+                              _vm.cancel()
+                            }
+                          }
+                        },
+                        [_vm._v("取消")]
+                      )
+                    ])
                   ])
                 ]
               )
@@ -43747,7 +43811,8 @@ var order = {
     state: {
         menus: null,
         showRegulation: false,
-        regulateMenuIndex: 0
+        regulateMenuIndex: null,
+        regulateMenus: []
     },
     mutations: {
         setOrderMenus: function setOrderMenus(state, menus) {
@@ -43758,6 +43823,9 @@ var order = {
         },
         setRegulateMenuIndex: function setRegulateMenuIndex(state, index) {
             state.regulateMenuIndex = index;
+        },
+        setRegulateMenus: function setRegulateMenus(state, regulateMenu) {
+            state.regulateMenus.push(regulateMenu);
         }
     },
     actions: {}

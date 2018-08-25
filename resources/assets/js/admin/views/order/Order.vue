@@ -188,7 +188,6 @@
                             id: menu.menu_id,
                             name: menu.menu_name,
                             price: menu.menu_price,
-                            amount: 1
                         }
                     }
                     formatter.push(newMenu)

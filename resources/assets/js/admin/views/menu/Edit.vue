@@ -41,16 +41,11 @@
     }
 </style>
 <script>
-    import {Field} from 'mint-ui';
-    import {Navbar, TabItem} from 'mint-ui';
     import {fetchMenuTypes, updateMenu, createMenu} from '../../api/menu'
-    import {Actionsheet} from 'mint-ui'
-    import {Button} from 'mint-ui';
     import {Toast} from 'mint-ui';
 
     export default {
         name: "Edit",
-        comments: [Field.name, Field, Navbar.name, Navbar, TabItem.name, TabItem, Button.name, Button],
         data() {
             return {
                 //菜單種類彈窗

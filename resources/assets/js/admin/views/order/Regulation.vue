@@ -4,11 +4,19 @@
         <div class="table" @click="shake">
             <div class="row">
                 <div class="cell">
-                    <div class="container" :class="containerShake" @click="not()">
+                    <div class="container" :class="containerShake">
                         <div class="box">
-                            <h1>he</h1>
-                            <div data-v-c47256b6="" @click="cancel()">
-                                匯入
+                            <div class="box-title">
+                                <span>{{selectMenu.name}}</span>
+                            </div>
+                            <div class="box-content">
+                                <div>
+                                    <mt-field label="數量" type="tel" v-model="update.amount"></mt-field>
+                                </div>
+                            </div>
+                            <div class="box-buttons">
+                                <a class="waves-effect waves-light btn" @click="save()">儲存</a>
+                                <a class="waves-effect waves-light btn" @click="cancel()">取消</a>
                             </div>
                         </div>
                     </div>
@@ -23,17 +31,42 @@
         name: "Regulation",
         data() {
             return {
-                containerShake: ''
+                containerShake: '',
+                amountValue: 1,
+                update: {
+                    amount: 1
+                },
+                regulateData: {}
+            }
+        },
+        watch: {
+            show() {
+                let menuID = this.selectMenu.id
+                let amount = 1
+                this.$store.state.order.regulateMenus.forEach(menu => {
+                    if (menu.id == menuID) {
+                        amount = menu.amount
+                    }
+                })
+
+                this.update.amount = amount
             }
         },
         computed: {
             show() {
                 return this.$store.state.order.showRegulation
-            }
+            },
+            menuIndex() {
+                return this.$store.state.order.regulateMenuIndex
+            },
+            selectMenu() {
+                return this.$store.state.order.menus[this.menuIndex]
+            },
         },
         methods: {
             cancel() {
                 this.$store.commit('setShowRegulation', false)
+                this.update.amount = 1
             },
             shake(event) {
                 if (event.target.className == 'cell') {
@@ -44,8 +77,10 @@
                     }, 520)
                 }
             },
-            not() {
-
+            save() {
+                let menu = {amount: this.update.amount, id: this.selectMenu.id}
+                this.$store.commit('setRegulateMenus', menu)
+                this.cancel()
             }
         }
     }
@@ -114,5 +149,35 @@
         margin-left: auto;
         margin-right: auto;
         border-top: solid 7px #e74c3c;
+    }
+
+    .box-title {
+        display: block;
+        font-size: 22px;
+        line-height: 20px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        cursor: default;
+        padding-bottom: 15px;
+    }
+
+    .box-content {
+        margin-bottom: 15px;
+        height: auto;
+        -webkit-transition: height .4s ease-in;
+        transition: height .4s ease-in;
+        display: inline-block;
+        width: 100%;
+        position: relative;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .box-buttons {
+        float: right;
+        adding-bottom: 11px;
+        padding-bottom: 10px;
     }
 </style>
