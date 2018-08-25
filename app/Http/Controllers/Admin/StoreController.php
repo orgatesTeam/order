@@ -56,10 +56,7 @@ class StoreController extends Controller
     public function create()
     {
         $keys = ['name', 'tel', 'address', 'table_total'];
-        if (!request()->exists($keys)) {
-            logError('請求參數缺失');
-            return responseFail('資料錯誤');
-        }
+        checkRequestExist($keys);
 
         $userID = auth()->user()->id;
         $store = \App\Store::create([
@@ -79,11 +76,7 @@ class StoreController extends Controller
     public function addMenu()
     {
         $keys = ['store_id', 'menu_ids'];
-
-        if (!request()->exists($keys)) {
-            logError('請求參數缺失');
-            return responseFail('資料錯誤');
-        }
+        checkRequestExist($keys);
 
         if (request('menu_ids') == '') {
             logError('menu_ids空值');
@@ -134,10 +127,7 @@ class StoreController extends Controller
     public function update()
     {
         $keys = ['id', 'name', 'tel', 'address','table_total'];
-        if (!request()->exists($keys)) {
-            logError('請求參數缺失');
-            return responseFail('資料錯誤');
-        }
+        checkRequestExist($keys);
 
         $store = Store::find(request('id'));
 
@@ -182,10 +172,7 @@ class StoreController extends Controller
     public function settingTableTotal()
     {
         $keys = ['id', 'table_total'];
-        if (!request()->exists($keys)) {
-            logError('請求參數缺失');
-            return responseFail('資料錯誤');
-        }
+        checkRequestExist($keys);
 
         $store = Store::find(request('id'));
 

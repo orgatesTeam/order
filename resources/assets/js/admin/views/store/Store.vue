@@ -54,11 +54,9 @@
 
 <script>
     import {fetchList} from '../../api/store'
-    import {PaletteButton} from 'mint-ui';
 
     export default {
         name: "store",
-        comments: [PaletteButton.name, PaletteButton],
         data() {
             return {
                 stores: []

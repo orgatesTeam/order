@@ -24,8 +24,6 @@
 
 </style>
 <script>
-    import {Field} from 'mint-ui';
-    import {Button} from 'mint-ui';
     import {login} from '../../api/auth'
     import {setToken, setEmail, getEmail} from '../../utils/auth'
 
@@ -37,7 +35,6 @@
             }
         },
         name: "Login",
-        comments: [Field.name, Field, Button.name, Button],
         mounted() {
             this.email = getEmail()
         },

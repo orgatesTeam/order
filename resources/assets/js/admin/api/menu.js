@@ -47,3 +47,11 @@ export function listByStoreMenu(data) {
         data: data
     })
 }
+
+export function listByStore(data) {
+    return request({
+        url: '/admin/menu/list-by-store',
+        method: 'post',
+        data: data
+    })
+}

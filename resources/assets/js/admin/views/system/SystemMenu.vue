@@ -19,7 +19,6 @@
 </template>
 
 <script>
-    import {CellSwipe} from 'mint-ui';
     import {removeToken} from '../../utils/auth'
 
     export default {
@@ -27,7 +26,6 @@
         mounted() {
             this.$store.commit('setFormTitle', '選單')
         },
-        comments: [CellSwipe.name, CellSwipe],
         methods: {
             routerPush(name) {
                 this.$router.push({name: name})

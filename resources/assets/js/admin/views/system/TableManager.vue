@@ -40,7 +40,7 @@
         </div>
     </div>
 </template>
-<style>
+<style scoped>
     .range {
         width: 60vw;
     }
@@ -69,15 +69,10 @@
     }
 </style>
 <script>
-    import {Badge} from 'mint-ui';
-    import {Range} from 'mint-ui';
-    import {Cell} from 'mint-ui';
     import {getQRCode} from '../../utils/qrcode'
     import {paddingLeft} from '../../utils/helper'
     import {settingTableTotal} from '../../api/store'
     import {fetchList} from '../../api/store'
-    import {Button} from 'mint-ui';
-    import {Actionsheet} from 'mint-ui'
     import {Toast} from 'mint-ui';
 
     export default {

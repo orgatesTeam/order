@@ -30,14 +30,21 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
          * menu
          */
         Route::group(['prefix' => 'menu'], function () {
+
+            //取得菜單
             Route::post('/list', 'MenuController@list');
+
+            //所有店家配置菜單以及狀態
+            Route::post('/list-by-store-menu', 'MenuController@listByStoreMenu');
+
+            //取得單一店家的菜單,並排序菜單種類
+            Route::post('/list-by-store', 'MenuController@listByStore');
+
             Route::post('/menu-types', 'MenuController@menuTypes');
             Route::post('/update-menu', 'MenuController@updateMenu');
             Route::post('/create-menu', 'MenuController@createMenu');
 
-            Route::post('/list-by-store-menu', 'MenuController@listByStoreMenu');
             Route::post('/search-by-name', 'MenuController@searchMenuByName');
-
         });
         /**
          * store
