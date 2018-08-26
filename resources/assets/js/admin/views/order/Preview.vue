@@ -1,7 +1,7 @@
 <template>
     <div class="main-container">
         <div v-for="menu,index in menus">
-            <div @click="regulate(index)">
+            <div @click="regulate(menu)">
                 <mt-cell :title="menu.name">
                     <span style="color: green">{{`X${amount(menu.id)}`}}</span>
                 </mt-cell>
@@ -17,11 +17,6 @@
     export default {
         name: "Preview",
         components: {Regulation},
-        data() {
-            return {
-                menu: null
-            }
-        },
         computed: {
             menus() {
                 return this.$store.state.order.menus
@@ -37,14 +32,10 @@
                 })
                 return amount
             },
-            regulate(index) {
-                this.$store.commit('setRegulateMenuIndex', index)
+            regulate(menu) {
+                this.$store.commit('setRegulateTempMenu', menu)
                 this.$store.commit('setShowRegulation', true)
             },
         }
     }
 </script>
-
-<style scoped>
-
-</style>

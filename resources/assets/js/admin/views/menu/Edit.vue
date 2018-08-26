@@ -35,11 +35,7 @@
         </mt-tab-container>
     </div>
 </template>
-<style scope>
-    label {
-        color: #ffffff;
-    }
-</style>
+
 <script>
     import {fetchMenuTypes, updateMenu, createMenu} from '../../api/menu'
     import {Toast} from 'mint-ui';
@@ -219,5 +215,7 @@
 </script>
 
 <style scoped>
-
+    label {
+        color: #ffffff;
+    }
 </style>

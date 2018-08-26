@@ -7,16 +7,21 @@
                     <div class="container" :class="containerShake">
                         <div class="box">
                             <div class="box-title">
-                                <span>{{selectMenu.name}}</span>
+                                <span>{{selectedMenu.name}}</span>
                             </div>
                             <div class="box-content">
                                 <div>
-                                    <mt-field label="數量" type="tel" v-model="update.amount"></mt-field>
+                                    <mt-field label="數量" type="tel" v-model="amount">
+                                        <div class="amount-regulation">
+                                            <a class="waves-effect waves-light btn" @click="addAmount()">＋</a>
+                                            <a class="waves-effect waves-light btn" @click="minusAmount()">一</a>
+                                        </div>
+                                    </mt-field>
                                 </div>
                             </div>
                             <div class="box-buttons">
                                 <a class="waves-effect waves-light btn" @click="save()">儲存</a>
-                                <a class="waves-effect waves-light btn" @click="cancel()">取消</a>
+                                <a class="waves-effect waves-light btn" @click="close()">取消</a>
                             </div>
                         </div>
                     </div>
@@ -33,40 +38,38 @@
             return {
                 containerShake: '',
                 amountValue: 1,
-                update: {
-                    amount: 1
-                },
+                amount: 1,
                 regulateData: {}
             }
         },
         watch: {
             show() {
-                let menuID = this.selectMenu.id
+                let menuID = this.selectedMenu.id
                 let amount = 1
-                this.$store.state.order.regulateMenus.forEach(menu => {
+                this.order.regulateMenus.forEach(menu => {
                     if (menu.id == menuID) {
                         amount = menu.amount
                     }
                 })
 
-                this.update.amount = amount
+                this.amount = amount
             }
         },
         computed: {
+            order() {
+                return this.$store.state.order
+            },
             show() {
-                return this.$store.state.order.showRegulation
+                return this.order.showRegulation
             },
-            menuIndex() {
-                return this.$store.state.order.regulateMenuIndex
-            },
-            selectMenu() {
-                return this.$store.state.order.menus[this.menuIndex]
-            },
+            selectedMenu() {
+                return this.order.regulateTempMenu
+            }
         },
         methods: {
-            cancel() {
+            close() {
                 this.$store.commit('setShowRegulation', false)
-                this.update.amount = 1
+                this.amount = 1
             },
             shake(event) {
                 if (event.target.className == 'cell') {
@@ -78,9 +81,19 @@
                 }
             },
             save() {
-                let menu = {amount: this.update.amount, id: this.selectMenu.id}
+                let menu = {amount: this.amount, id: this.selectedMenu.id}
                 this.$store.commit('setRegulateMenus', menu)
-                this.cancel()
+                this.close()
+            },
+            addAmount() {
+                this.amount = parseInt(this.amount)
+                this.amount += 1
+            },
+            minusAmount() {
+                this.amount = parseInt(this.amount)
+                if (this.amount > 1) {
+                    this.amount -= 1
+                }
             }
         }
     }
@@ -179,5 +192,9 @@
         float: right;
         adding-bottom: 11px;
         padding-bottom: 10px;
+    }
+
+    .amount-regulation {
+        float: right;
     }
 </style>

@@ -9,7 +9,7 @@
         </div>
     </div>
 </template>
-<style scope>
+<style scoped>
     label {
         color: #ffffff;
     }

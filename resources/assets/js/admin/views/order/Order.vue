@@ -18,17 +18,17 @@
             <mt-tab-container-item id="order">
                 <div class="section select-store">
                     <div>
-                        <div @click="storesVisible = true" class="inline-dev">
+                        <div @click="storeActionSheet = true" class="inline-dev">
                             <mt-button type="danger">選點店家</mt-button>
                         </div>
                         <div @click="selectTable()" class="inline-dev">
                             <mt-button type="primary">選點桌號</mt-button>
                         </div>
                         <div v-if="tableNo > 0" class="inline-dev">
-                            <mt-button type="default">{{tableNo}}桌</mt-button>
+                            <mt-button type="default">桌號:{{tableNo}}</mt-button>
                         </div>
                         <div v-if="checkMenuCount > 0" class="inline-dev">
-                            <mt-button type="default">點選:{{checkMenuCount}}</mt-button>
+                            <mt-button type="default">選項:{{checkMenuCount}}</mt-button>
                         </div>
                     </div>
                 </div>
@@ -43,8 +43,8 @@
                 </div>
                 <div>
                     <mt-actionsheet
-                            :actions="actions"
-                            v-model="storesVisible">
+                            :actions="storeActions"
+                            v-model="storeActionSheet">
                     </mt-actionsheet>
                 </div>
             </mt-tab-container-item>
@@ -54,8 +54,6 @@
             </mt-tab-container-item>
 
         </mt-tab-container>
-
-
     </div>
 </template>
 
@@ -72,8 +70,8 @@
             return {
                 selectedNavbar: 'order',
                 checkMenus: [],
-                storesVisible: false,
-                actions: [],
+                storeActionSheet: false,
+                storeActions: [],
                 selectStore: {
                     name: '',
                     id: '',
@@ -93,7 +91,7 @@
                     console.log(response)
                     let stores = response.data.items.stores
                     stores.forEach((store) => {
-                        that.actions.push({
+                        that.storeActions.push({
                             name: store.name,
                             method: () => {
                                 that.beforeSelectedStore()
@@ -122,7 +120,7 @@
             }
         },
         methods: {
-            getMenus() {
+            getMenus(callback) {
                 let that = this
                 let data = {store_id: this.selectStore.id}
                 listByStore(data).then(response => {
@@ -130,18 +128,52 @@
                         console.log(response)
                         that.menuTypes = response.data.items.menuTypes
                         that.menus = response.data.items.menus
+                        callback()
                     }
                 })
             },
-            //hook
+            //選擇店家 hook
             afterSelectedStore() {
-                this.selectTable()
-                this.getMenus()
+                let that = this
+                this.getMenus(() => {
+
+                    //未匯入菜單
+                    if (that.menus.length < 1) {
+                        return that.toImportMenu()
+                    }
+                    //選擇桌位
+                    that.selectTable()
+                })
+
             },
-            //hook
+            //選擇店家 hook
             beforeSelectedStore() {
                 this.tableNo = ''
-
+            },
+            toImportMenu() {
+                let store = this.selectStore
+                let that = this
+                $.confirm({
+                    title: '提醒! 店家未匯入菜單',
+                    content: `前往『${store.name}』店家管理匯入菜單`,
+                    type: 'red',
+                    typeAnimated: true,
+                    buttons: {
+                        go: {
+                            text: '前往',
+                            btnClass: 'btn-red',
+                            action: function () {
+                                that.$store.commit('setStoreToImportMenu', store)
+                                that.$router.push({name: 'store-import-menu'})
+                            }
+                        },
+                        close:{
+                            text: '取消',
+                            action: function () {
+                            }
+                        }
+                    }
+                });
             },
             selectTable() {
                 let storeName = this.selectStore.name

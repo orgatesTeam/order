@@ -2,7 +2,7 @@ const order = {
     state: {
         menus: null,
         showRegulation: false,
-        regulateMenuIndex: null,
+        regulateTempMenu: null,
         regulateMenus: []
     },
     mutations: {
@@ -12,11 +12,22 @@ const order = {
         setShowRegulation(state, show) {
             state.showRegulation = show
         },
-        setRegulateMenuIndex(state, index) {
-            state.regulateMenuIndex = index
+        setRegulateTempMenu(state, menu) {
+            state.regulateTempMenu = menu
         },
         setRegulateMenus(state, regulateMenu) {
-            state.regulateMenus.push(regulateMenu)
+
+            let exist = false
+            state.regulateMenus.forEach((menu, index) => {
+                if (menu.id == regulateMenu.id) {
+                    exist = true
+                    state.regulateMenus[index] = regulateMenu
+                }
+            })
+
+            if (!false) {
+                state.regulateMenus.push(regulateMenu)
+            }
         }
     },
     actions: {}
