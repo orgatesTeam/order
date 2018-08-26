@@ -30,6 +30,8 @@ class MenuTableSeeder extends Seeder
                 'name'    => $type
             ]);
         }
+
+        $this->addTaste();
     }
 
     protected function addTaste()
