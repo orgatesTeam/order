@@ -27,7 +27,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
      */
     Route::group(['middleware' => ['jwt.auth', 'checkUser']], function () {
         /**
-         * menu
+         * 菜單 menu
          */
         Route::group(['prefix' => 'menu'], function () {
 
@@ -47,7 +47,15 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
             Route::post('/search-by-name', 'MenuController@searchMenuByName');
         });
         /**
-         * store
+         * 口味 taste
+         */
+        Route::group(['prefix' => 'taste'], function () {
+            Route::post('/list', 'TasteController@list');
+            Route::post('/new', 'TasteController@new');
+            Route::post('/edit', 'TasteController@edit');
+        });
+        /**
+         * 店家 store
          */
         Route::group(['prefix' => 'store'], function () {
             Route::post('/list', 'StoreController@list');

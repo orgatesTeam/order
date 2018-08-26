@@ -57,13 +57,11 @@
 <script>
     import {fetchList} from '../../api/menu'
     import {Toast} from 'mint-ui';
-    import {PaletteButton} from 'mint-ui';
 
     let Paginate = require('vuejs-paginate')
     export default {
         name: "Menu",
         components: {Paginate},
-        comments: [PaletteButton.name, PaletteButton],
         data() {
             return {
                 errors: '',

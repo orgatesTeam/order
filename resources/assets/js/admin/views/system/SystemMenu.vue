@@ -3,6 +3,9 @@
         <div @click="routerPush('menu')">
             <mt-cell title="菜單管理"></mt-cell>
         </div>
+        <div @click="routerPush('menu-taste')">
+            <mt-cell title="口味管理"></mt-cell>
+        </div>
         <div @click="routerPush('system-table-manager')">
             <mt-cell title="桌位管理"></mt-cell>
         </div>

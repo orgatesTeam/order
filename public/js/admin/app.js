@@ -23717,6 +23717,10 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
             path: 'edit',
             name: 'menu-edit',
             component: __webpack_require__(89)
+        }, {
+            path: 'taste',
+            name: 'menu-taste',
+            component: __webpack_require__(235)
         }]
     },
     //store
@@ -27224,12 +27228,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
 var Paginate = __webpack_require__(35);
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Menu",
     components: { Paginate: Paginate },
-    comments: [__WEBPACK_IMPORTED_MODULE_1_mint_ui__["PaletteButton"].name, __WEBPACK_IMPORTED_MODULE_1_mint_ui__["PaletteButton"]],
     data: function data() {
         return {
             errors: '',
@@ -28259,6 +28261,8 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modules_order__ = __webpack_require__(228);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__getters__ = __webpack_require__(101);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__getters___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__getters__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__modules_taste__ = __webpack_require__(261);
+
 
 
 
@@ -28276,7 +28280,8 @@ var store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
         form: __WEBPACK_IMPORTED_MODULE_3__modules_form__["a" /* default */],
         popup: __WEBPACK_IMPORTED_MODULE_4__modules_popup__["a" /* default */],
         storeManager: __WEBPACK_IMPORTED_MODULE_5__modules_storeManager__["a" /* default */],
-        order: __WEBPACK_IMPORTED_MODULE_6__modules_order__["a" /* default */]
+        order: __WEBPACK_IMPORTED_MODULE_6__modules_order__["a" /* default */],
+        taste: __WEBPACK_IMPORTED_MODULE_8__modules_taste__["a" /* default */]
     }
 });
 
@@ -30201,7 +30206,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -30213,6 +30218,9 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_auth__ = __webpack_require__(81);
+//
+//
+//
 //
 //
 //
@@ -30272,6 +30280,19 @@ var render = function() {
         }
       },
       [_c("mt-cell", { attrs: { title: "菜單管理" } })],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        on: {
+          click: function($event) {
+            _vm.routerPush("menu-taste")
+          }
+        }
+      },
+      [_c("mt-cell", { attrs: { title: "口味管理" } })],
       1
     ),
     _vm._v(" "),
@@ -30343,10 +30364,21 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = paddingLeft;
+/* harmony export (immutable) */ __webpack_exports__["c"] = paddingLeft;
+/* harmony export (immutable) */ __webpack_exports__["b"] = gotoBottom;
+/* harmony export (immutable) */ __webpack_exports__["a"] = deepClone;
 function paddingLeft(str, length) {
     str = str.toString();
     if (str.length >= length) return str;else return paddingLeft("0" + str, length);
+}
+
+function gotoBottom(id) {
+    var element = document.getElementById(id);
+    element.scrollTop = element.scrollHeight - element.clientHeight;
+}
+
+function deepClone(object) {
+    return JSON.parse(JSON.stringify(object));
 }
 
 /***/ }),
@@ -30594,7 +30626,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         paddingLeft: function paddingLeft(index) {
-            return Object(__WEBPACK_IMPORTED_MODULE_1__utils_helper__["a" /* paddingLeft */])(index, 2);
+            return Object(__WEBPACK_IMPORTED_MODULE_1__utils_helper__["c" /* paddingLeft */])(index, 2);
         },
         saveTable: function saveTable() {
             var that = this;
@@ -43795,6 +43827,1135 @@ exports.push([module.i, "\nlabel[data-v-45c85c77] {\n    color: #ffffff;\n}\n", 
 
 // exports
 
+
+/***/ }),
+/* 235 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(236)
+}
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(238)
+/* template */
+var __vue_template__ = __webpack_require__(239)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-00f2550c"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/admin/views/menu/Taste.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-00f2550c", Component.options)
+  } else {
+    hotAPI.reload("data-v-00f2550c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 236 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(237);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(4)("6e8917a1", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-00f2550c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Taste.vue", function() {
+     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-00f2550c\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Taste.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 237 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.options[data-v-00f2550c] {\n    display: inline-block;\n    margin: 0 2px 0 2px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 238 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__api_taste__ = __webpack_require__(240);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__taste_TasteOptions__ = __webpack_require__(246);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__taste_TasteOptions___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__taste_TasteOptions__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "Taste",
+    components: { TasteOptions: __WEBPACK_IMPORTED_MODULE_1__taste_TasteOptions___default.a },
+    mounted: function mounted() {
+        this.$store.commit('setFormTitle', '口味管理');
+        this.getTastes();
+    },
+    data: function data() {
+        return {
+            tastes: {},
+            show: true
+        };
+    },
+
+    methods: {
+        getTastes: function getTastes() {
+            var that = this;
+            Object(__WEBPACK_IMPORTED_MODULE_0__api_taste__["a" /* fetchList */])({}).then(function (response) {
+                if (response.data.code == 202) {
+                    that.tastes = response.data.items.tastes;
+                }
+            });
+        },
+        parseOptions: function parseOptions(options) {
+            return JSON.parse(options);
+        },
+        create: function create() {},
+        edit: function edit(index) {
+            var taste = this.tastes[index];
+            this.$store.commit('setTasteName', taste.name);
+            this.$store.commit('setTasteOptions', JSON.parse(taste.options));
+            this.show = true;
+        },
+        seeOptionChecks: function seeOptionChecks(option) {},
+        close: function close() {
+            this.show = false;
+        }
+    }
+});
+
+/***/ }),
+/* 239 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "div",
+        { staticClass: "section no-pad-bot", attrs: { id: "index-banner" } },
+        [
+          _c("div", { staticClass: "container" }, [
+            _c("div", { staticClass: "section" }, [
+              _c("table", { staticClass: "highlight responsive-table" }, [
+                _c("thead", [
+                  _c("tr", [
+                    _c("th", [_vm._v("口味名稱")]),
+                    _vm._v(" "),
+                    _c("th"),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("項目")]),
+                    _vm._v(" "),
+                    _c("th", [
+                      _c("div", { staticClass: "section" }, [
+                        _c(
+                          "div",
+                          {
+                            on: {
+                              click: function($event) {
+                                _vm.show = true
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "mt-palette-button",
+                              {
+                                attrs: {
+                                  content: "+",
+                                  mainButtonStyle:
+                                    "color:#fff;background-color:#26a2ff;"
+                                }
+                              },
+                              [
+                                _c("div", { staticClass: "my-icon-button" }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "my-icon-button" }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "my-icon-button" })
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.tastes, function(taste, index) {
+                    return _c("tr", [
+                      _c("td", [_vm._v(_vm._s(taste.name))]),
+                      _vm._v(" "),
+                      _c("td"),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        _vm._l(_vm.parseOptions(taste.options), function(
+                          option
+                        ) {
+                          return _c("div", { staticClass: "options" }, [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "waves-effect tabs btn orange",
+                                on: {
+                                  click: function($event) {
+                                    _vm.seeOptionChecks(option)
+                                  }
+                                }
+                              },
+                              [_vm._v(_vm._s(option.name))]
+                            )
+                          ])
+                        })
+                      ),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "waves-effect waves-light btn",
+                            on: {
+                              click: function($event) {
+                                _vm.edit(index)
+                              }
+                            }
+                          },
+                          [_vm._v("編輯")]
+                        )
+                      ])
+                    ])
+                  })
+                )
+              ])
+            ])
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _vm.show
+        ? _c("taste-options", { on: { "close-taste-options": _vm.close } })
+        : _vm._e()
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-00f2550c", module.exports)
+  }
+}
+
+/***/ }),
+/* 240 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = fetchList;
+/* harmony export (immutable) */ __webpack_exports__["b"] = newTaste;
+/* unused harmony export editTaste */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_request__ = __webpack_require__(80);
+
+
+function fetchList(data) {
+    return Object(__WEBPACK_IMPORTED_MODULE_0__utils_request__["a" /* default */])({
+        url: '/admin/taste/list',
+        method: 'post',
+        data: data
+    });
+}
+
+function newTaste(data) {
+    return Object(__WEBPACK_IMPORTED_MODULE_0__utils_request__["a" /* default */])({
+        url: '/admin/taste/new',
+        method: 'post',
+        data: data
+    });
+}
+
+function editTaste(data) {
+    return Object(__WEBPACK_IMPORTED_MODULE_0__utils_request__["a" /* default */])({
+        url: '/admin/taste/edit',
+        method: 'post',
+        data: data
+    });
+}
+
+/***/ }),
+/* 241 */,
+/* 242 */,
+/* 243 */,
+/* 244 */,
+/* 245 */,
+/* 246 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(247)
+}
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(249)
+/* template */
+var __vue_template__ = __webpack_require__(255)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-032767ac"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/admin/views/menu/taste/TasteOptions.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-032767ac", Component.options)
+  } else {
+    hotAPI.reload("data-v-032767ac", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 247 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(248);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(4)("09be9e8e", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-032767ac\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TasteOptions.vue", function() {
+     var newContent = require("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-032767ac\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TasteOptions.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 248 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.shake[data-v-032767ac] {\n    -webkit-animation: shake .82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    animation: shake .82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n}\n.bg[data-v-032767ac] {\n    position: fixed;\n    top: 0;\n    height: 100%;\n    width: 100%;\n    background-color: #444;\n    opacity: .2;\n}\n.regulation[data-v-032767ac] {\n    position: fixed;\n    top: 0;\n    height: 100%;\n    width: 100%;\n    z-index: 99999999;\n}\n.regulation .table[data-v-032767ac] {\n    -webkit-perspective: 500px;\n    perspective: 500px;\n    -webkit-perspective-origin: center;\n    perspective-origin: center;\n    display: table;\n    width: 100%;\n    height: 100%;\n}\n.regulation .row[data-v-032767ac] {\n    display: table-row;\n    width: 100%;\n}\n.regulation .cell[data-v-032767ac] {\n    display: table-cell;\n    vertical-align: middle;\n}\n.regulation .container[data-v-032767ac] {\n    margin: 0 auto;\n    max-width: 1280px;\n    width: 90%;\n}\n.regulation .box[data-v-032767ac] {\n    background: white;\n    border-radius: 4px;\n    position: relative;\n    outline: 0;\n    padding: 15px 15px 0;\n    overflow: hidden;\n    margin-left: auto;\n    margin-right: auto;\n    border-top: solid 7px rgb(38, 162, 255);\n}\n.box-title[data-v-032767ac] {\n    display: block;\n    font-size: 22px;\n    line-height: 20px;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    cursor: default;\n    padding-bottom: 15px;\n}\n.box-content[data-v-032767ac] {\n    margin-bottom: 15px;\n    height: auto;\n    -webkit-transition: height .4s ease-in;\n    transition: height .4s ease-in;\n    display: inline-block;\n    width: 100%;\n    position: relative;\n    overflow-x: hidden;\n    overflow-y: auto;\n}\n.box-buttons-right[data-v-032767ac] {\n    float: right;\n    adding-bottom: 11px;\n    padding-bottom: 10px;\n}\n.box-buttons-left[data-v-032767ac] {\n    float: left;\n    adding-bottom: 11px;\n    padding-bottom: 10px;\n}\n.orange[data-v-032767ac] {\n    margin: 0 2px 0 2px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 249 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__TasteOption__ = __webpack_require__(256);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__TasteOption___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__TasteOption__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_taste__ = __webpack_require__(240);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "TasteOptions",
+    components: { TasteOption: __WEBPACK_IMPORTED_MODULE_0__TasteOption___default.a },
+    data: function data() {
+        return {
+            containerShake: '',
+            tasteName: '',
+            showTasteOption: false,
+            title: ''
+        };
+    },
+    mounted: function mounted() {
+        this.setTitle();
+    },
+
+    computed: {
+        taste: function taste() {
+            return this.$store.state.taste;
+        },
+        options: function options() {
+            return this.$store.state.taste.options;
+        },
+        show: function show() {
+            return true;
+        }
+    },
+    methods: {
+        setTitle: function setTitle() {
+            if (this.taste.name == '') {
+                this.title = '新增口味:';
+            } else {
+                this.title = "\u7DE8\u8F2F-" + this.taste.name;
+            }
+        },
+        shake: function shake(event) {
+            if (event.target.className == 'cell') {
+                this.containerShake = 'shake';
+                var that = this;
+                setTimeout(function () {
+                    that.containerShake = '';
+                }, 520);
+            }
+        },
+        close: function close() {
+            this.$emit('close-taste-options');
+        },
+        save: function save() {
+            var data = {
+                name: this.tasteName,
+                options: JSON.stringify(this.options)
+            };
+            Object(__WEBPACK_IMPORTED_MODULE_1__api_taste__["b" /* newTaste */])(data).then(function (response) {
+                console.log(response);
+            });
+            this.close();
+        },
+        closeOption: function closeOption() {
+            this.showTasteOption = false;
+        },
+        editOption: function editOption(index) {
+            this.$store.commit('setTasteOptionsIndex', index);
+            this.showTasteOption = true;
+        },
+        addOption: function addOption() {
+            this.$store.commit('setTasteOptionsIndex', null);
+            this.showTasteOption = true;
+        }
+    }
+});
+
+/***/ }),
+/* 250 */,
+/* 251 */,
+/* 252 */,
+/* 253 */,
+/* 254 */,
+/* 255 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.show
+    ? _c("div", { staticClass: "regulation" }, [
+        _c("div", { staticClass: "bg" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "table", on: { click: _vm.shake } }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "cell" }, [
+              _c(
+                "div",
+                { staticClass: "container", class: _vm.containerShake },
+                [
+                  _c("div", { staticClass: "box" }, [
+                    _c("div", { staticClass: "box-title" }, [
+                      _c("span", [_vm._v(_vm._s(_vm.title))])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "box-content" }, [
+                      _c(
+                        "div",
+                        [
+                          _c("mt-field", {
+                            attrs: { label: "口味名稱:" },
+                            model: {
+                              value: _vm.tasteName,
+                              callback: function($$v) {
+                                _vm.tasteName = $$v
+                              },
+                              expression: "tasteName"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        [
+                          _c(
+                            "mt-cell",
+                            { attrs: { title: "項目:" } },
+                            _vm._l(_vm.options, function(option, index) {
+                              return _c(
+                                "a",
+                                {
+                                  staticClass:
+                                    "waves-effect waves-light btn orange",
+                                  on: {
+                                    click: function($event) {
+                                      _vm.editOption(index)
+                                    }
+                                  }
+                                },
+                                [_vm._v(_vm._s(option.name))]
+                              )
+                            })
+                          )
+                        ],
+                        1
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "box-buttons-left" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "waves-effect waves-light btn blue",
+                          on: {
+                            click: function($event) {
+                              _vm.addOption()
+                            }
+                          }
+                        },
+                        [_vm._v("新增項目")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "box-buttons-right" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "waves-effect waves-light btn",
+                          on: {
+                            click: function($event) {
+                              _vm.save()
+                            }
+                          }
+                        },
+                        [_vm._v("儲存")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "waves-effect waves-light btn",
+                          on: {
+                            click: function($event) {
+                              _vm.close()
+                            }
+                          }
+                        },
+                        [_vm._v("取消")]
+                      )
+                    ])
+                  ])
+                ]
+              )
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _vm.showTasteOption
+          ? _c(
+              "div",
+              [
+                _c("taste-option", {
+                  on: { "close-taste-option": _vm.closeOption }
+                })
+              ],
+              1
+            )
+          : _vm._e()
+      ])
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-032767ac", module.exports)
+  }
+}
+
+/***/ }),
+/* 256 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(257)
+}
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(259)
+/* template */
+var __vue_template__ = __webpack_require__(260)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-f7c67752"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/admin/views/menu/taste/TasteOption.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-f7c67752", Component.options)
+  } else {
+    hotAPI.reload("data-v-f7c67752", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 257 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(258);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(4)("113016f8", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-f7c67752\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TasteOption.vue", function() {
+     var newContent = require("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-f7c67752\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TasteOption.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 258 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.shake[data-v-f7c67752] {\n    -webkit-animation: shake .82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    animation: shake .82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n}\n.bg[data-v-f7c67752] {\n    position: fixed;\n    top: 0;\n    height: 100%;\n    width: 100%;\n    background-color: #444;\n    opacity: .2;\n}\n.regulation[data-v-f7c67752] {\n    position: fixed;\n    top: 0;\n    height: 100%;\n    width: 100%;\n    z-index: 99999999;\n}\n.regulation .table[data-v-f7c67752] {\n    -webkit-perspective: 500px;\n    perspective: 500px;\n    -webkit-perspective-origin: center;\n    perspective-origin: center;\n    display: table;\n    width: 100%;\n    height: 100%;\n}\n.regulation .row[data-v-f7c67752] {\n    display: table-row;\n    width: 100%;\n}\n.regulation .cell[data-v-f7c67752] {\n    display: table-cell;\n    vertical-align: middle;\n}\n.regulation .container[data-v-f7c67752] {\n    margin: 0 auto;\n    max-width: 1280px;\n    width: 90%;\n}\n.regulation .box[data-v-f7c67752] {\n    background: white;\n    border-radius: 4px;\n    position: relative;\n    outline: 0;\n    padding: 15px 15px 0;\n    overflow: hidden;\n    margin-left: auto;\n    margin-right: auto;\n    border-top: solid 7px #ff9800;\n}\n.box-title[data-v-f7c67752] {\n    display: block;\n    font-size: 22px;\n    line-height: 20px;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    cursor: default;\n    padding-bottom: 15px;\n}\n.box-content[data-v-f7c67752] {\n    margin-bottom: 15px;\n    height: auto;\n    -webkit-transition: height .4s ease-in;\n    transition: height .4s ease-in;\n    display: inline-block;\n    width: 100%;\n    position: relative;\n    overflow-x: hidden;\n    overflow-y: auto;\n}\n.box-buttons-right[data-v-f7c67752] {\n    float: right;\n    adding-bottom: 11px;\n    padding-bottom: 10px;\n}\n.box-buttons-left[data-v-f7c67752] {\n    float: left;\n    adding-bottom: 11px;\n    padding-bottom: 10px;\n}\n.max-content[data-v-f7c67752] {\n    max-height: 300px;\n    overflow: auto;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 259 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_helper__ = __webpack_require__(146);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "TasteOption",
+    data: function data() {
+        return {
+            containerShake: '',
+            option: {
+                name: '',
+                checks: []
+            },
+            tempCheck: '',
+            mode: 'add'
+        };
+    },
+
+    computed: {
+        editIndex: function editIndex() {
+            return this.$store.state.taste.tasteOptionsIndex;
+        }
+    },
+    mounted: function mounted() {
+        var index = this.editIndex;
+        if (index != null) {
+            this.option = Object(__WEBPACK_IMPORTED_MODULE_0__utils_helper__["a" /* deepClone */])(this.$store.state.taste.options[index]);
+            this.mode = 'edit';
+        }
+    },
+
+    methods: {
+        shake: function shake(event) {
+            if (event.target.className == 'cell') {
+                this.containerShake = 'shake';
+                var that = this;
+                setTimeout(function () {
+                    that.containerShake = '';
+                }, 520);
+            }
+        },
+        close: function close() {
+            this.$store.commit('setTasteOptionsIndex', null);
+            this.$emit('close-taste-option');
+        },
+        save: function save() {
+            this.$store.commit('setTasteOption', this.option);
+            this.close();
+        },
+        addCheck: function addCheck() {
+            if (this.tempCheck == '') {
+                return;
+            }
+            this.option.checks.push({ name: this.tempCheck });
+            this.tempCheck = '';
+            this.$nextTick(function () {
+                Object(__WEBPACK_IMPORTED_MODULE_0__utils_helper__["b" /* gotoBottom */])('max-content');
+            });
+        },
+        cancelCheck: function cancelCheck(index) {
+            this.option.checks.splice(index, 1);
+        }
+    }
+});
+
+/***/ }),
+/* 260 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "regulation" }, [
+    _c("div", { staticClass: "bg" }),
+    _vm._v(" "),
+    _c("div", { staticClass: "table", on: { click: _vm.shake } }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "cell" }, [
+          _c("div", { staticClass: "container", class: _vm.containerShake }, [
+            _c("div", { staticClass: "box" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "box-content max-content",
+                  attrs: { id: "max-content" }
+                },
+                [
+                  _c(
+                    "div",
+                    [
+                      _c("mt-field", {
+                        attrs: { label: "項目名稱:" },
+                        model: {
+                          value: _vm.option.name,
+                          callback: function($$v) {
+                            _vm.$set(_vm.option, "name", $$v)
+                          },
+                          expression: "option.name"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.option.checks, function(check, index) {
+                    return _c(
+                      "div",
+                      [
+                        _c(
+                          "mt-field",
+                          {
+                            attrs: { label: "程度" + (index + 1) },
+                            model: {
+                              value: check.name,
+                              callback: function($$v) {
+                                _vm.$set(check, "name", $$v)
+                              },
+                              expression: "check.name"
+                            }
+                          },
+                          [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "waves-effect waves-light btn red",
+                                on: {
+                                  click: function($event) {
+                                    _vm.cancelCheck(index)
+                                  }
+                                }
+                              },
+                              [_vm._v("取消")]
+                            )
+                          ]
+                        )
+                      ],
+                      1
+                    )
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    [
+                      _c(
+                        "mt-field",
+                        {
+                          attrs: { label: "輸入口味:" },
+                          model: {
+                            value: _vm.tempCheck,
+                            callback: function($$v) {
+                              _vm.tempCheck = $$v
+                            },
+                            expression: "tempCheck"
+                          }
+                        },
+                        [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "waves-effect waves-light btn blue",
+                              on: {
+                                click: function($event) {
+                                  _vm.addCheck()
+                                }
+                              }
+                            },
+                            [_vm._v("增加")]
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "box-buttons-right" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "waves-effect waves-light btn",
+                    on: {
+                      click: function($event) {
+                        _vm.save()
+                      }
+                    }
+                  },
+                  [_vm._v("儲存")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "waves-effect waves-light btn",
+                    on: {
+                      click: function($event) {
+                        _vm.close()
+                      }
+                    }
+                  },
+                  [_vm._v("取消")]
+                )
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-title" }, [
+      _c("span", [_vm._v("新增項目")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-f7c67752", module.exports)
+  }
+}
+
+/***/ }),
+/* 261 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var taste = {
+    state: {
+        name: '',
+        options: [],
+        tasteOptionsIndex: null
+    },
+    mutations: {
+        setTasteOption: function setTasteOption(state, option) {
+            var index = state.tasteOptionsIndex;
+            if (index != null) {
+                state.options[index] = option;
+                return;
+            }
+            state.options.push(option);
+        },
+        setTasteOptionsIndex: function setTasteOptionsIndex(state, index) {
+            state.tasteOptionsIndex = index;
+        },
+        setTasteName: function setTasteName(state, name) {
+            state.name = name;
+        },
+        setTasteOptions: function setTasteOptions(state, options) {
+            state.options = options;
+        }
+    },
+    actions: {}
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (taste);
 
 /***/ })
 /******/ ]);

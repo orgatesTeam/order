@@ -42,6 +42,11 @@ const router = new VueRouter({
                     name: 'menu-edit',
                     component: require('../views/menu/Edit')
                 },
+                {
+                    path: 'taste',
+                    name: 'menu-taste',
+                    component: require('../views/menu/Taste')
+                },
             ]
         },
         //store

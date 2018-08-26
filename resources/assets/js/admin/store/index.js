@@ -6,6 +6,7 @@ import popup from './modules/popup'
 import storeManager from './modules/storeManager'
 import order from './modules/order'
 import getters from './getters'
+import taste from './modules/taste'
 
 Vue.use(Vuex)
 
@@ -15,7 +16,8 @@ const store = new Vuex.Store({
         form,
         popup,
         storeManager,
-        order
+        order,
+        taste
     },
 })
 
