@@ -15,17 +15,6 @@ class StoreTableSeeder extends Seeder
 
         $user = \App\User::first();
 
-        foreach ($this->stores() as $store){
-            \App\Store::create([
-                'user_id'     => $user->id,
-                'name'        => $store['name'],
-                'tel'         => $faker->numerify($text='0#-########'),
-                'address'     => "$faker->city"."$faker->streetAddress",
-            ]);
-        }
-
-
-
         $informations=[];
 
         foreach (range(0,4) as $index){
@@ -34,6 +23,17 @@ class StoreTableSeeder extends Seeder
             $informations[$index] =[$email,$email];
 
         };
+
+        foreach ($this->stores() as $key=>$store){
+            \App\Store::create([
+                'user_id'     => $user->id,
+                'name'        => $store['name'],
+                'tel'         => $faker->numerify($text='0#-########'),
+                'address'     => "$faker->city"."$faker->streetAddress",
+                'information' => json_encode($informations[$key])
+            ]);
+        };
+
 /*
         $information = [
             'email' => 'bafun@gmail.com',
@@ -45,23 +45,6 @@ class StoreTableSeeder extends Seeder
             'fb'    => 'coco@gmail.com',
         ];
 */
-        foreach (range(1,5) as $index){
-
-            \App\Store::create([
-                'user_id'     => $user->id,
-                'name'        => $faker->name,
-                'tel'         => $faker->numerify($text='0#-########'),
-                'address'     => "$faker->city"."$faker->streetAddress",
-                'information' => json_encode($informations[$index-1])
-            ]);
-
-            for($i=0;$i<10;$i++){
-                App\StoreMenu::create([
-                    'store_id'  =>  $index,
-                    'menu_id'   =>  $faker->numberBetween(1,40)
-                ]);
-            }
-        }
         /*
         $store = \App\Store::create([
             'user_id'     => $user->id,
@@ -107,7 +90,11 @@ class StoreTableSeeder extends Seeder
     public function stores()
     {
         return [
-            '麥當勞'
+            ['name'=>'麥當勞'],
+            ['name'=>'coco2嘟可'],
+            ['name'=>'八方雲集'],
+            ['name'=>'牛排教父'],
+            ['name'=>'is pasta']
         ];
     }
 }
