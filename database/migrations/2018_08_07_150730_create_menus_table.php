@@ -19,7 +19,7 @@ class CreateMenusTable extends Migration
             $table->string('name');
             $table->float('price', 8, 2);
             $table->integer('menu_type_id')->default(0)->comment('菜單種類,關聯 menu_types');
-            $table->string('tastes')->nullable()->comment('口味');
+            $table->string('taste_ids')->nullable()->comment('口味');
             $table->timestamps();
         });
 

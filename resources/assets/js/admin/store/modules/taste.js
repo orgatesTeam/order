@@ -1,11 +1,15 @@
 const taste = {
     state: {
+        //編輯或者新增的暫存 start
         name: '',
         options: [],
         tasteOptionsIndex: null,
-        editTasteID: null
+        editTasteID: null,
+        //編輯或者新增的暫存 end
+        tastes: []
     },
     mutations: {
+        //編輯或者新增的暫存 start
         setTasteOption(state, option) {
             let index = state.tasteOptionsIndex
             if (index != null) {
@@ -29,7 +33,13 @@ const taste = {
         },
         setEditTasteID(state, id) {
             state.editTasteID = id
+        },
+        //編輯或者新增的暫存 end
+        //暫存tastes
+        setTastes(state, tastes) {
+            state.tastes = tastes
         }
+
     },
     actions: {}
 }

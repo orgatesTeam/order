@@ -15,8 +15,9 @@
                     <div @click="triggerMenuTypes=true">
                         <mt-field label="種類" v-model="editMenu.type" class="unselectable"></mt-field>
                     </div>
+                    <mt-field label="口味"></mt-field>
                 </div>
-                <mt-button :disabled="!canStoreEdit" type="primary" size="large" @click="editStore()">儲存</mt-button>
+                <mt-button :disabled="!canStoreEdit" type="primary" size="large" @click="storeEditMenu()">儲存</mt-button>
             </mt-tab-container-item>
             <mt-tab-container-item id="create">
                 <div class="section">
@@ -25,8 +26,14 @@
                     <div @click="triggerMenuTypes=true">
                         <mt-field label="種類" v-model="createMenu.type" class="unselectable"></mt-field>
                     </div>
+                    <mt-checklist
+                            title='添加口味'
+                            v-model="checkTasteIDs"
+                            :options=optionTastesFormatter(tastes)>
+                    </mt-checklist>
                 </div>
-                <mt-button :disabled="!canStoreCreate" type="primary" size="large" @click="createStore()">儲存</mt-button>
+                <mt-button :disabled="!canStoreCreate" type="primary" size="large" @click="storeCreateMenu()">儲存
+                </mt-button>
             </mt-tab-container-item>
             <mt-actionsheet
                     :actions="actionMenuTypes"
@@ -39,6 +46,7 @@
 <script>
     import {fetchMenuTypes, updateMenu, createMenu} from '../../api/menu'
     import {Toast} from 'mint-ui';
+    import {fetchList as fetchTastes} from "../../api/taste"
 
     export default {
         name: "Edit",
@@ -52,16 +60,22 @@
                     name: '',
                     price: '',
                     type: '',
+                    menu_type_id: '',
+                    tasteIDs: ''
                 },
                 createMenu: {
                     name: '',
                     price: '',
                     type: '',
-                    menu_type_id: ''
+                    menu_type_id: '',
+                    tasteIDs: ''
                 },
                 mode: '',
                 menuTypes: [],
                 editErrors: [],
+
+                tastes: [],
+                checkTasteIDs: []
             }
         },
         computed: {
@@ -128,6 +142,9 @@
                 if (this.createMode) {
                     this.$store.commit('setFormTitle', '新增菜單')
                 }
+            },
+            checkTasteIDs() {
+                this.createMenu.tasteIDs = this.checkTasteIDs.sort().join()
             }
         },
         mounted() {
@@ -148,8 +165,27 @@
 
             //取得菜單種類
             this.getMenuTypes()
+
+            //取得口味
+            this.getTastes()
         },
         methods: {
+            getTastes() {
+                let tastes = this.$store.state.taste.tastes
+                let that = this
+                if (tastes.length > 0) {
+                    that.tastes = tastes
+                    return
+                }
+
+                fetchTastes({}).then(response => {
+                    if (response.data.code == '202') {
+                        tastes = response.data.items.tastes
+                        that.$store.commit('setTastes', tastes)
+                        that.tastes = tastes
+                    }
+                })
+            },
             selectMenuType(item) {
                 if (this.editMode) {
                     this.editMenu.type = item.name
@@ -168,14 +204,15 @@
                     that.menuTypes = (response.data.items.menuTypes)
                 })
             },
-            editStore() {
+            storeEditMenu() {
                 let that = this
-                let {id, name, price, menu_type_id} = this.editMenu
+                let {id, name, price, menu_type_id, tasteIDs} = this.editMenu
                 let data = {
                     id: id,
                     name: name,
                     price: price,
-                    menu_type_id: menu_type_id
+                    menu_type_id: menu_type_id,
+                    taste_ids: tasteIDs
                 }
                 updateMenu(data).then(response => {
                     if (response.data.code == '202') {
@@ -188,13 +225,14 @@
                     }
                 })
             },
-            createStore() {
+            storeCreateMenu() {
                 let that = this
-                let {name, price, menu_type_id} = this.createMenu
+                let {name, price, menu_type_id, tasteIDs} = this.createMenu
                 let data = {
                     name: name,
                     price: price,
-                    menu_type_id: menu_type_id
+                    menu_type_id: menu_type_id,
+                    taste_ids: tasteIDs
                 }
                 createMenu(data).then(response => {
                     if (response.data.code == '202') {
@@ -209,6 +247,18 @@
             },
             refreshCacheMenus() {
                 this.$store.commit('resetMenus')
+            },
+            optionTastesFormatter(tastes) {
+                console.log(tastes)
+                let formatter = []
+                tastes.forEach((taste) => {
+                    let newTaste = {
+                        label: taste.name,
+                        value: taste.id
+                    }
+                    formatter.push(newTaste)
+                })
+                return formatter
             }
         }
     }
@@ -217,5 +267,9 @@
 <style scoped>
     label {
         color: #ffffff;
+    }
+
+    .mint-cell-wrapper {
+        display: none;
     }
 </style>

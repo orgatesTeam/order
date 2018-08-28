@@ -23431,17 +23431,21 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(262)
+}
 var normalizeComponent = __webpack_require__(2)
 /* script */
 var __vue_script__ = __webpack_require__(79)
 /* template */
-var __vue_template__ = __webpack_require__(83)
+var __vue_template__ = __webpack_require__(264)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = null
+var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = null
+var __vue_scopeId__ = "data-v-7b635d68"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -27168,6 +27172,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__api_menu__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mint_ui__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_mint_ui__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__api_taste__ = __webpack_require__(240);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_jquery__ = __webpack_require__(202);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_jquery__);
 //
 //
 //
@@ -27224,6 +27231,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
+
+
 
 
 
@@ -27241,17 +27257,28 @@ var Paginate = __webpack_require__(35);
                 pageCount: 1,
                 currentPage: 1,
                 range: 5
-            }
+            },
+            tastes: []
         };
     },
     mounted: function mounted() {
         this.$store.commit('setFormTitle', '菜單管理');
-        this.getMenus(this);
+        this.getMenus();
+        this.getTastes();
     },
 
+    computed: {
+        mapTastes: function mapTastes() {
+            var mapTastes = {};
+            this.tastes.forEach(function (taste) {
+                mapTastes[taste.id] = taste;
+            });
+            return mapTastes;
+        }
+    },
     methods: {
-        getMenus: function getMenus(that, callback) {
-
+        getMenus: function getMenus(callback) {
+            var that = this;
             var page = that.$store.state.menu.page;
             if (that.$store.state.menu.cacheMenus[page]) {
                 that.pushMenus(that.$store.state.menu.cacheMenus[page]);
@@ -27284,7 +27311,7 @@ var Paginate = __webpack_require__(35);
         clickPage: function clickPage(pageNum) {
             this.paginate.currentPage = pageNum;
             this.$store.commit('setMenuPage', pageNum);
-            this.getMenus(this, function () {
+            this.getMenus(function () {
                 Object(__WEBPACK_IMPORTED_MODULE_1_mint_ui__["Toast"])({
                     message: '\u5207\u63DB\u5230\u7B2C' + pageNum + '\u9801',
                     position: 'middle',
@@ -27299,6 +27326,66 @@ var Paginate = __webpack_require__(35);
         },
         create: function create() {
             this.$router.push({ name: 'menu-edit', query: { from: 'create' } });
+        },
+        getTastes: function getTastes() {
+            var tastes = this.$store.state.taste.tastes;
+            var that = this;
+            if (tastes.length > 0) {
+                that.tastes = tastes;
+                return;
+            }
+
+            Object(__WEBPACK_IMPORTED_MODULE_2__api_taste__["b" /* fetchList */])({}).then(function (response) {
+                if (response.data.code == '202') {
+                    tastes = response.data.items.tastes;
+                    that.$store.commit('setTastes', tastes);
+                    that.tastes = tastes;
+                }
+            });
+        },
+        getTastesCount: function getTastesCount(tasteIDs) {
+            if (!tasteIDs) {
+                return 0;
+            }
+
+            return tasteIDs.split(',').length;
+        },
+        showTastes: function showTastes(menu) {
+            if (!menu.taste_ids) {
+                return;
+            }
+
+            var tasteIds = this.parseTastes(menu.taste_ids);
+            var showTastes = [];
+
+            tasteIds.forEach(function (taste) {
+                showTastes.push({
+                    text: taste.name
+                });
+            });
+            __WEBPACK_IMPORTED_MODULE_3_jquery___default.a.confirm({
+                closeIcon: true,
+                type: 'orange',
+                title: menu.name + ' \u53E3\u5473\u9078\u64C7\u985E\u578B:',
+                content: ' ',
+                typeAnimated: true,
+                buttons: showTastes
+            });
+        },
+        parseTastes: function parseTastes(tasteIDs) {
+            var _this = this;
+
+            if (!tasteIDs) {
+                return [];
+            }
+
+            var tasteIds = tasteIDs.split(',');
+            var tastes = [];
+
+            tasteIds.forEach(function (id) {
+                tastes.push(_this.mapTastes[id]);
+            });
+            return tastes;
         }
     }
 });
@@ -27340,7 +27427,7 @@ service.interceptors.request.use(function (config) {
     Promise.reject(error);
 });
 
-// respone interceptor
+// response interceptor
 service.interceptors.response.use(function (response) {
     console.log(response);
     if (response.data.code != '202') {
@@ -27593,136 +27680,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 
 /***/ }),
-/* 83 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      { staticClass: "section no-pad-bot", attrs: { id: "index-banner" } },
-      [
-        _c(
-          "div",
-          { staticClass: "container" },
-          [
-            _c("div", { staticClass: "section" }, [
-              _c("table", { staticClass: "highlight responsive-table" }, [
-                _c("thead", [
-                  _c("tr", [
-                    _c("th", [_vm._v("菜單名稱")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("價格")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("種類")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("建立時間")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("更新時間")]),
-                    _vm._v(" "),
-                    _c("th", [
-                      _c("div", { staticClass: "section" }, [
-                        _c(
-                          "div",
-                          {
-                            on: {
-                              click: function($event) {
-                                _vm.create()
-                              }
-                            }
-                          },
-                          [
-                            _c(
-                              "mt-palette-button",
-                              {
-                                attrs: {
-                                  content: "+",
-                                  mainButtonStyle:
-                                    "color:#fff;background-color:#26a2ff;"
-                                }
-                              },
-                              [
-                                _c("div", { staticClass: "my-icon-button" }),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "my-icon-button" }),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "my-icon-button" })
-                              ]
-                            )
-                          ],
-                          1
-                        )
-                      ])
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  _vm._l(_vm.menus, function(menu, index) {
-                    return _c("tr", [
-                      _c("td", [_vm._v(_vm._s(menu.name))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(menu.price))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(menu.type))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(menu.created_at))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(menu.updated_at))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "waves-effect waves-light btn",
-                            on: {
-                              click: function($event) {
-                                _vm.edit(index)
-                              }
-                            }
-                          },
-                          [_vm._v("編輯")]
-                        )
-                      ])
-                    ])
-                  })
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("paginate", {
-              attrs: {
-                "page-count": _vm.paginate.pageCount,
-                "click-handler": _vm.clickPage,
-                "prev-text": "上一頁",
-                "next-text": "下一頁",
-                "container-class": "pagination",
-                value: _vm.paginate.currentPage,
-                "page-range": _vm.paginate.range
-              }
-            })
-          ],
-          1
-        )
-      ]
-    )
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7b635d68", module.exports)
-  }
-}
-
-/***/ }),
+/* 83 */,
 /* 84 */,
 /* 85 */,
 /* 86 */,
@@ -27791,6 +27749,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__api_menu__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mint_ui__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_mint_ui__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__api_taste__ = __webpack_require__(240);
 //
 //
 //
@@ -27829,6 +27788,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -27844,17 +27811,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             editMenu: {
                 name: '',
                 price: '',
-                type: ''
+                type: '',
+                menu_type_id: '',
+                tasteIDs: ''
             },
             createMenu: {
                 name: '',
                 price: '',
                 type: '',
-                menu_type_id: ''
+                menu_type_id: '',
+                tasteIDs: ''
             },
             mode: '',
             menuTypes: [],
-            editErrors: []
+            editErrors: [],
+
+            tastes: [],
+            checkTasteIDs: []
         };
     },
 
@@ -27922,6 +27895,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.createMode) {
                 this.$store.commit('setFormTitle', '新增菜單');
             }
+        },
+        checkTasteIDs: function checkTasteIDs() {
+            this.createMenu.tasteIDs = this.checkTasteIDs.sort().join();
         }
     },
     mounted: function mounted() {
@@ -27942,9 +27918,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         //取得菜單種類
         this.getMenuTypes();
+
+        //取得口味
+        this.getTastes();
     },
 
     methods: {
+        getTastes: function getTastes() {
+            var tastes = this.$store.state.taste.tastes;
+            var that = this;
+            if (tastes.length > 0) {
+                that.tastes = tastes;
+                return;
+            }
+
+            Object(__WEBPACK_IMPORTED_MODULE_2__api_taste__["b" /* fetchList */])({}).then(function (response) {
+                if (response.data.code == '202') {
+                    tastes = response.data.items.tastes;
+                    that.$store.commit('setTastes', tastes);
+                    that.tastes = tastes;
+                }
+            });
+        },
         selectMenuType: function selectMenuType(item) {
             if (this.editMode) {
                 this.editMenu.type = item.name;
@@ -27963,19 +27958,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 that.menuTypes = response.data.items.menuTypes;
             });
         },
-        editStore: function editStore() {
+        storeEditMenu: function storeEditMenu() {
             var that = this;
             var _editMenu = this.editMenu,
                 id = _editMenu.id,
                 name = _editMenu.name,
                 price = _editMenu.price,
-                menu_type_id = _editMenu.menu_type_id;
+                menu_type_id = _editMenu.menu_type_id,
+                tasteIDs = _editMenu.tasteIDs;
 
             var data = {
                 id: id,
                 name: name,
                 price: price,
-                menu_type_id: menu_type_id
+                menu_type_id: menu_type_id,
+                taste_ids: tasteIDs
             };
             Object(__WEBPACK_IMPORTED_MODULE_0__api_menu__["f" /* updateMenu */])(data).then(function (response) {
                 if (response.data.code == '202') {
@@ -27988,17 +27985,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             });
         },
-        createStore: function createStore() {
+        storeCreateMenu: function storeCreateMenu() {
             var that = this;
             var _createMenu = this.createMenu,
                 name = _createMenu.name,
                 price = _createMenu.price,
-                menu_type_id = _createMenu.menu_type_id;
+                menu_type_id = _createMenu.menu_type_id,
+                tasteIDs = _createMenu.tasteIDs;
 
             var data = {
                 name: name,
                 price: price,
-                menu_type_id: menu_type_id
+                menu_type_id: menu_type_id,
+                taste_ids: tasteIDs
             };
             Object(__WEBPACK_IMPORTED_MODULE_0__api_menu__["a" /* createMenu */])(data).then(function (response) {
                 if (response.data.code == '202') {
@@ -28013,6 +28012,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         refreshCacheMenus: function refreshCacheMenus() {
             this.$store.commit('resetMenus');
+        },
+        optionTastesFormatter: function optionTastesFormatter(tastes) {
+            console.log(tastes);
+            var formatter = [];
+            tastes.forEach(function (taste) {
+                var newTaste = {
+                    label: taste.name,
+                    value: taste.id
+                };
+                formatter.push(newTaste);
+            });
+            return formatter;
         }
     }
 });
@@ -28116,7 +28127,9 @@ var render = function() {
                       })
                     ],
                     1
-                  )
+                  ),
+                  _vm._v(" "),
+                  _c("mt-field", { attrs: { label: "口味" } })
                 ],
                 1
               ),
@@ -28131,7 +28144,7 @@ var render = function() {
                   },
                   on: {
                     click: function($event) {
-                      _vm.editStore()
+                      _vm.storeEditMenu()
                     }
                   }
                 },
@@ -28194,7 +28207,21 @@ var render = function() {
                       })
                     ],
                     1
-                  )
+                  ),
+                  _vm._v(" "),
+                  _c("mt-checklist", {
+                    attrs: {
+                      title: "添加口味",
+                      options: _vm.optionTastesFormatter(_vm.tastes)
+                    },
+                    model: {
+                      value: _vm.checkTasteIDs,
+                      callback: function($$v) {
+                        _vm.checkTasteIDs = $$v
+                      },
+                      expression: "checkTasteIDs"
+                    }
+                  })
                 ],
                 1
               ),
@@ -28209,11 +28236,11 @@ var render = function() {
                   },
                   on: {
                     click: function($event) {
-                      _vm.createStore()
+                      _vm.storeCreateMenu()
                     }
                   }
                 },
-                [_vm._v("儲存")]
+                [_vm._v("儲存\n            ")]
               )
             ],
             1
@@ -43837,7 +43864,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\nlabel[data-v-45c85c77] {\n    color: #ffffff;\n}\n", ""]);
+exports.push([module.i, "\nlabel[data-v-45c85c77] {\n    color: #ffffff;\n}\n.mint-cell-wrapper[data-v-45c85c77] {\n    display: none;\n}\n", ""]);
 
 // exports
 
@@ -45097,12 +45124,16 @@ if (false) {
 "use strict";
 var taste = {
     state: {
+        //編輯或者新增的暫存 start
         name: '',
         options: [],
         tasteOptionsIndex: null,
-        editTasteID: null
+        editTasteID: null,
+        //編輯或者新增的暫存 end
+        tastes: []
     },
     mutations: {
+        //編輯或者新增的暫存 start
         setTasteOption: function setTasteOption(state, option) {
             var index = state.tasteOptionsIndex;
             if (index != null) {
@@ -45126,12 +45157,212 @@ var taste = {
         },
         setEditTasteID: function setEditTasteID(state, id) {
             state.editTasteID = id;
+        },
+
+        //編輯或者新增的暫存 end
+        //暫存tastes
+        setTastes: function setTastes(state, tastes) {
+            state.tastes = tastes;
         }
     },
     actions: {}
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (taste);
+
+/***/ }),
+/* 262 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(263);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(4)("8f54ba32", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7b635d68\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Menu.vue", function() {
+     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7b635d68\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Menu.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 263 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.tastes[data-v-7b635d68] {\n    display: inline-block;\n    margin: 0 2px 0 2px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 264 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "section no-pad-bot", attrs: { id: "index-banner" } },
+      [
+        _c(
+          "div",
+          { staticClass: "container" },
+          [
+            _c("div", { staticClass: "section" }, [
+              _c("table", { staticClass: "highlight responsive-table" }, [
+                _c("thead", [
+                  _c("tr", [
+                    _c("th", [_vm._v("菜單名稱")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("價格")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("種類")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("口味")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("建立時間")]),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("更新時間")]),
+                    _vm._v(" "),
+                    _c("th", [
+                      _c("div", { staticClass: "section" }, [
+                        _c(
+                          "div",
+                          {
+                            on: {
+                              click: function($event) {
+                                _vm.create()
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "mt-palette-button",
+                              {
+                                attrs: {
+                                  content: "+",
+                                  mainButtonStyle:
+                                    "color:#fff;background-color:#26a2ff;"
+                                }
+                              },
+                              [
+                                _c("div", { staticClass: "my-icon-button" }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "my-icon-button" }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "my-icon-button" })
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ])
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.menus, function(menu, index) {
+                    return _c("tr", [
+                      _c("td", [_vm._v(_vm._s(menu.name))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(menu.price))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(menu.type))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("div", { staticClass: "tastes" }, [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "waves-effect tabs btn orange",
+                              on: {
+                                click: function($event) {
+                                  _vm.showTastes(menu)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                _vm._s(_vm.getTastesCount(menu.taste_ids)) +
+                                  "種"
+                              )
+                            ]
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(menu.created_at))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(menu.updated_at))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "waves-effect waves-light btn",
+                            on: {
+                              click: function($event) {
+                                _vm.edit(index)
+                              }
+                            }
+                          },
+                          [_vm._v("編輯")]
+                        )
+                      ])
+                    ])
+                  })
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("paginate", {
+              attrs: {
+                "page-count": _vm.paginate.pageCount,
+                "click-handler": _vm.clickPage,
+                "prev-text": "上一頁",
+                "next-text": "下一頁",
+                "container-class": "pagination",
+                value: _vm.paginate.currentPage,
+                "page-range": _vm.paginate.range
+              }
+            })
+          ],
+          1
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7b635d68", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

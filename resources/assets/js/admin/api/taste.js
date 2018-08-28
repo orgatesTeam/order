@@ -4,7 +4,7 @@ export function fetchList(data) {
     return request({
         url: '/admin/taste/list',
         method: 'post',
-        data:data
+        data: data
     })
 }
 
@@ -23,7 +23,6 @@ export function updateTaste(data) {
         data: data
     })
 }
-
 
 export function deleteTaste(data) {
     return request({

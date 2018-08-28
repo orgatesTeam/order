@@ -77,7 +77,7 @@ class MenuController extends Controller
 
     public function updateMenu()
     {
-        $keys = ['name', 'price', 'menu_type_id', 'id'];
+        $keys = ['name', 'price', 'menu_type_id', 'id', 'taste_ids'];
         checkRequestExist($keys);
 
         $menu = Menu::find(request('id'));
@@ -95,6 +95,7 @@ class MenuController extends Controller
         $menu->name = request('name');
         $menu->price = request('price');
         $menu->menu_type_id = request('menu_type_id');
+        $menu->taste_ids = request('taste_ids');
         $menu->save();
 
         return responseSuccess(['menu' => $menu]);
@@ -102,7 +103,7 @@ class MenuController extends Controller
 
     public function createMenu()
     {
-        $keys = ['name', 'price', 'menu_type_id'];
+        $keys = ['name', 'price', 'menu_type_id', 'taste_ids'];
         checkRequestExist($keys);
 
         $menuType = MenuType::where('id', request('menu_type_id'))->where('user_id', auth()->user()->id)->first();
@@ -115,7 +116,8 @@ class MenuController extends Controller
             'user_id'      => auth()->user()->id,
             'name'         => request('name'),
             'price'        => request('price'),
-            'menu_type_id' => request('menu_type_id')
+            'menu_type_id' => request('menu_type_id'),
+            'taste_ids'     => request('taste_ids')
         ]);
 
         return responseSuccess(['menu' => $menu]);

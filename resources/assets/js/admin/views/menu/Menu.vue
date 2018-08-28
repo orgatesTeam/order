@@ -9,6 +9,7 @@
                             <th>菜單名稱</th>
                             <th>價格</th>
                             <th>種類</th>
+                            <th>口味</th>
                             <th>建立時間</th>
                             <th>更新時間</th>
                             <th>
@@ -30,6 +31,11 @@
                             <td>{{menu.name}}</td>
                             <td>{{menu.price}}</td>
                             <td>{{menu.type}}</td>
+                            <td>
+                                <div class="tastes">
+                                    <a class="waves-effect tabs btn orange" @click="showTastes(menu)">{{getTastesCount(menu.taste_ids)}}種</a>
+                                </div>
+                            </td>
                             <td>{{menu.created_at}}</td>
                             <td>{{menu.updated_at}}</td>
                             <td>
@@ -57,6 +63,9 @@
 <script>
     import {fetchList} from '../../api/menu'
     import {Toast} from 'mint-ui';
+    import {fetchList as fetchTastes} from "../../api/taste"
+
+    import $ from 'jquery'
 
     let Paginate = require('vuejs-paginate')
     export default {
@@ -72,15 +81,26 @@
                     currentPage: 1,
                     range: 5,
                 },
+                tastes: []
             }
         },
         mounted() {
             this.$store.commit('setFormTitle', '菜單管理')
-            this.getMenus(this)
+            this.getMenus()
+            this.getTastes()
+        },
+        computed: {
+            mapTastes() {
+                let mapTastes = {}
+                this.tastes.forEach(taste => {
+                    mapTastes[taste.id] = taste
+                })
+                return mapTastes
+            }
         },
         methods: {
-            getMenus: (that, callback) => {
-
+            getMenus(callback) {
+                let that = this
                 let page = that.$store.state.menu.page
                 if (that.$store.state.menu.cacheMenus[page]) {
                     that.pushMenus(that.$store.state.menu.cacheMenus[page])
@@ -112,7 +132,7 @@
             clickPage: function (pageNum) {
                 this.paginate.currentPage = pageNum;
                 this.$store.commit('setMenuPage', pageNum)
-                this.getMenus(this, () => {
+                this.getMenus(() => {
                     Toast({
                         message: `切換到第${pageNum}頁`,
                         position: 'middle',
@@ -127,7 +147,71 @@
             },
             create: function () {
                 this.$router.push({name: 'menu-edit', query: {from: 'create'}})
+            },
+            getTastes() {
+                let tastes = this.$store.state.taste.tastes
+                let that = this
+                if (tastes.length > 0) {
+                    that.tastes = tastes
+                    return
+                }
+
+                fetchTastes({}).then(response => {
+                    if (response.data.code == '202') {
+                        tastes = response.data.items.tastes
+                        that.$store.commit('setTastes', tastes)
+                        that.tastes = tastes
+                    }
+                })
+            },
+            getTastesCount(tasteIDs) {
+                if (!tasteIDs) {
+                    return 0
+                }
+
+                return tasteIDs.split(',').length
+            },
+            showTastes(menu) {
+                if (!menu.taste_ids) {
+                    return
+                }
+
+                let tasteIds = this.parseTastes(menu.taste_ids)
+                let showTastes = []
+
+                tasteIds.forEach(taste => {
+                    showTastes.push({
+                        text: taste.name
+                    })
+                })
+                $.confirm({
+                    closeIcon: true,
+                    type: 'orange',
+                    title: `${menu.name} 口味選擇類型:`,
+                    content: ' ',
+                    typeAnimated: true,
+                    buttons: showTastes
+                })
+            },
+            parseTastes(tasteIDs) {
+                if (!tasteIDs) {
+                    return []
+                }
+
+                let tasteIds = tasteIDs.split(',')
+                let tastes = []
+
+                tasteIds.forEach(id => {
+                    tastes.push(this.mapTastes[id])
+                })
+                return tastes
             }
         }
     }
 </script>
+<style scoped>
+    .tastes {
+        display: inline-block;
+        margin: 0 2px 0 2px;
+    }
+</style>
