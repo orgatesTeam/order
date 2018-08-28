@@ -18,7 +18,6 @@
                 取消
             </div>
         </mt-search>
-
     </div>
 </template>
 
@@ -150,6 +149,10 @@
 
 <style scoped>
     .btn {
-        margin: 10px 5px 0 5px;
+        margin: 10px 5px 20px 5px;
+    }
+
+    .mint-search {
+        height: auto;
     }
 </style>

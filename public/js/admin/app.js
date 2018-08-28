@@ -31832,7 +31832,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n.btn[data-v-c47256b6] {\n    margin: 10px 5px 0 5px;\n}\n", ""]);
+exports.push([module.i, "\n.btn[data-v-c47256b6] {\n    margin: 10px 5px 20px 5px;\n}\n.mint-search[data-v-c47256b6] {\n    height: auto;\n}\n", ""]);
 
 // exports
 
@@ -31849,7 +31849,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_mint_ui__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_mint_ui__);
-//
 //
 //
 //
