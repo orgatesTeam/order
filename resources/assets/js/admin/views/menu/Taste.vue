@@ -29,11 +29,12 @@
                             <td></td>
                             <td>
                                 <div v-for="option in parseOptions(taste.options)" class="options">
-                                    <a class="waves-effect tabs btn orange" @click="seeOptionChecks(option)">{{option.name}}</a>
+                                    <a class="waves-effect tabs btn orange" @click="edit(index)">{{option.name}}</a>
                                 </div>
                             </td>
                             <td>
                                 <a class="waves-effect waves-light btn" @click="edit(index)">編輯</a>
+                                <a class="waves-effect waves-light btn red" @click="remove(index)">刪除</a>
                             </td>
                         </tr>
                         </tbody>
@@ -48,6 +49,9 @@
 <script>
     import {fetchList} from "../../api/taste"
     import TasteOptions from './taste/TasteOptions'
+    import $ from 'jquery'
+    import {deleteTaste} from "../../api/taste"
+    import {Toast} from 'mint-ui'
 
     export default {
         name: "Taste",
@@ -59,7 +63,7 @@
         data() {
             return {
                 tastes: {},
-                show: true
+                show: false
             }
         },
         methods: {
@@ -74,20 +78,51 @@
             parseOptions(options) {
                 return JSON.parse(options);
             },
-            create() {
-
-            },
             edit(index) {
                 let taste = this.tastes[index]
                 this.$store.commit('setTasteName', taste.name)
                 this.$store.commit('setTasteOptions', JSON.parse(taste.options))
                 this.show = true
-            },
-            seeOptionChecks(option) {
-
+                this.$store.commit('setEditTasteID', taste.id)
             },
             close() {
                 this.show = false
+            },
+            remove(index) {
+                let that = this
+
+                $.confirm({
+                    title: '確定刪除口味!',
+                    content: `刪除口味: ${that.tastes[index].name}`,
+                    type: 'red',
+                    typeAnimated: true,
+                    buttons: {
+                        tryAgain: {
+                            text: '確定',
+                            btnClass: 'btn-red',
+                            action: function () {
+                                let id = that.tastes[index].id
+                                deleteTaste({id: id}).then(response => {
+                                    if (response.data.code == '202') {
+                                        Toast({
+                                            message: '刪除成功',
+                                            position: 'middle',
+                                            duration: 800
+                                        });
+                                        if (that.tastes.length == 1) {
+                                            that.tastes = []
+                                        } else {
+                                            that.tastes.splice(index, 1)
+                                        }
+                                    }
+                                })
+                            }
+                        },
+                        close: {
+                            text: '取消',
+                        }
+                    }
+                })
             }
         }
     }

@@ -3,6 +3,7 @@ const taste = {
         name: '',
         options: [],
         tasteOptionsIndex: null,
+        editTasteID: null
     },
     mutations: {
         setTasteOption(state, option) {
@@ -21,6 +22,13 @@ const taste = {
         },
         setTasteOptions(state, options) {
             state.options = options
+        },
+        cancelEditTasteOptions(state) {
+            state.name = ''
+            state.options = []
+        },
+        setEditTasteID(state, id) {
+            state.editTasteID = id
         }
     },
     actions: {}

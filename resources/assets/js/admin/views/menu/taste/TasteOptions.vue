@@ -1,5 +1,5 @@
 <template>
-    <div v-if="show" class="regulation">
+    <div class="regulation">
         <div class="bg"></div>
         <div class="table" @click="shake">
             <div class="row">
@@ -14,17 +14,20 @@
                                     <mt-field label="口味名稱:" v-model="tasteName"></mt-field>
                                 </div>
                                 <div>
-                                    <mt-cell title="項目:">
-                                        <a v-for="option,index in options" class="waves-effect waves-light btn orange"
-                                           @click="editOption(index)">{{option.name}}</a>
-                                    </mt-cell>
+                                    <a class="mint-cell mint-field">
+                                        <div class="mint-cell-wrapper">
+                                            <a class="waves-effect waves-light btn blue" @click="addOption()">新增項目</a>
+                                            <div class="btn-option">
+                                                <a v-for="option,index in options"
+                                                   class="waves-effect waves-light btn orange"
+                                                   @click="editOption(index)">{{option.name}}</a>
+                                            </div>
+                                        </div>
+                                    </a>
                                 </div>
                             </div>
-                            <div class="box-buttons-left">
-                                <a class="waves-effect waves-light btn blue" @click="addOption()">新增項目</a>
-                            </div>
                             <div class="box-buttons-right">
-                                <a class="waves-effect waves-light btn" @click="save()">儲存</a>
+                                <a class="waves-effect waves-light btn" @click="save()" :disabled="!canStore">儲存</a>
                                 <a class="waves-effect waves-light btn" @click="close()">取消</a>
                             </div>
                         </div>
@@ -41,6 +44,10 @@
 <script>
     import TasteOption from './TasteOption'
     import {newTaste} from "../../../api/taste"
+    import {deepObjectClone} from "../../../utils/helper"
+    import {hackReset} from "../../../utils/helper"
+    import {Toast} from 'mint-ui'
+    import {updateTaste} from "../../../api/taste"
 
     export default {
         name: "TasteOptions",
@@ -50,11 +57,18 @@
                 containerShake: '',
                 tasteName: '',
                 showTasteOption: false,
-                title: ''
+                title: '',
+                //編輯模式origin data
+                edit: {
+                    originOptions: [],
+                    originTasteName: '',
+                },
+                mode: 'new'
             }
         },
         mounted() {
-            this.setTitle()
+            //編輯預設定
+            this.checkEditSetting()
         },
         computed: {
             taste() {
@@ -63,16 +77,26 @@
             options() {
                 return this.$store.state.taste.options
             },
-            show() {
+            canStore() {
+                if (this.options.length < 1) {
+                    return false
+                }
+                if (this.tasteName.length < 1) {
+                    return false
+                }
                 return true
-            },
+            }
         },
         methods: {
-            setTitle() {
+            checkEditSetting() {
                 if (this.taste.name == '') {
                     this.title = '新增口味:'
                 } else {
                     this.title = `編輯-${this.taste.name}`
+                    this.tasteName = this.taste.name
+                    this.edit.originTasteName = this.taste.name
+                    this.edit.originOptions = deepObjectClone(this.taste.options)
+                    this.mode = 'edit'
                 }
             },
             shake(event) {
@@ -86,16 +110,53 @@
             },
             close() {
                 this.$emit('close-taste-options')
+                this.$store.commit('cancelEditTasteOptions')
             },
             save() {
-                let data = {
+
+                if (this.mode == 'new') {
+                    this.newTaste()
+                }
+
+                if (this.mode == 'edit') {
+                    this.updateTaste()
+                }
+
+                //強制刷新元件
+                hackReset(this)
+            },
+            newTaste() {
+                let taste = {
                     name: this.tasteName,
                     options: JSON.stringify(this.options)
                 }
-                newTaste(data).then(response => {
-                    console.log(response)
+                let that = this
+                newTaste(taste).then(response => {
+                    let toastMessage = (response.data.code == '202') ? '完成!' : '失敗!'
+                    Toast({
+                        message: toastMessage,
+                        position: 'middle',
+                        duration: 800
+                    });
+                    that.close()
                 })
-                this.close()
+            },
+            updateTaste() {
+                let taste = {
+                    id: this.taste.editTasteID,
+                    name: this.tasteName,
+                    options: JSON.stringify(this.options)
+                }
+                let that = this
+                updateTaste(taste).then(response => {
+                    let toastMessage = (response.data.code == '202') ? '完成!' : '失敗!'
+                    Toast({
+                        message: toastMessage,
+                        position: 'middle',
+                        duration: 800
+                    });
+                    that.close()
+                })
             },
             closeOption() {
                 this.showTasteOption = false
@@ -113,6 +174,10 @@
 </script>
 
 <style scoped>
+
+    .btn-option {
+        padding-left: 13px;
+    }
 
     .shake {
         -webkit-animation: shake .82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;

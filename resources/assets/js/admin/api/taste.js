@@ -16,9 +16,18 @@ export function newTaste(data) {
     })
 }
 
-export function editTaste(data) {
+export function updateTaste(data) {
     return request({
-        url: '/admin/taste/edit',
+        url: '/admin/taste/update',
+        method: 'post',
+        data: data
+    })
+}
+
+
+export function deleteTaste(data) {
+    return request({
+        url: '/admin/taste/delete',
         method: 'post',
         data: data
     })

@@ -15,7 +15,7 @@
                                 </div>
                                 <div v-for="check,index in option.checks">
                                     <mt-field :label="`程度${index+1}`" v-model="check.name">
-                                        <a class="waves-effect waves-light btn red" @click="cancelCheck(index)">取消</a>
+                                        <a class="waves-effect waves-light btn red" @click="cancelCheck(index)">移除</a>
                                     </mt-field>
                                 </div>
                                 <div>
@@ -24,8 +24,11 @@
                                     </mt-field>
                                 </div>
                             </div>
+                            <div class="box-buttons-left">
+                                <a v-if="mode=='edit'" class="waves-effect waves-light btn red" @click="remove()">刪除</a>
+                            </div>
                             <div class="box-buttons-right">
-                                <a class="waves-effect waves-light btn" @click="save()">儲存</a>
+                                <a class="waves-effect waves-light btn" @click="save()" :disabled="!canStore">儲存</a>
                                 <a class="waves-effect waves-light btn" @click="close()">取消</a>
                             </div>
                         </div>
@@ -38,7 +41,7 @@
 
 <script>
     import {gotoBottom} from '../../../utils/helper'
-    import {deepClone} from "../../../utils/helper";
+    import {deepObjectClone} from "../../../utils/helper";
 
     export default {
         name: "TasteOption",
@@ -56,12 +59,18 @@
         computed: {
             editIndex() {
                 return this.$store.state.taste.tasteOptionsIndex
+            },
+            canStore() {
+                if (this.option.name.length > 0 && this.option.checks.length > 0) {
+                    return true
+                }
+                return false
             }
         },
         mounted() {
             let index = this.editIndex
             if (index != null) {
-                this.option = deepClone(this.$store.state.taste.options[index])
+                this.option = deepObjectClone(this.$store.state.taste.options[index])
                 this.mode = 'edit'
             }
         },
@@ -96,6 +105,11 @@
             cancelCheck(index) {
                 this.option.checks.splice(index, 1)
             },
+            remove() {
+                let options = this.editIndex == 0 ? [] : this.$store.state.taste.options.splice(this.editIndex, 1)
+                this.$store.commit('setTasteOptions', options)
+                this.close()
+            }
         }
     }
 </script>

@@ -52,7 +52,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::group(['prefix' => 'taste'], function () {
             Route::post('/list', 'TasteController@list');
             Route::post('/new', 'TasteController@new');
-            Route::post('/edit', 'TasteController@edit');
+            Route::post('/update', 'TasteController@update');
+            Route::post('/delete', 'TasteController@delete');
         });
         /**
          * 店家 store

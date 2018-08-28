@@ -12,6 +12,7 @@ class TasteController extends Controller
 {
     /**
      * 口味列表
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function list()
@@ -43,13 +44,13 @@ class TasteController extends Controller
     }
 
     /**
-     * 編輯口味
+     * 更新口味
      */
-    public function edit()
+    public function update()
     {
-        checkRequestExist(['taste_id', 'name', 'options']);
+        checkRequestExist(['id', 'name', 'options']);
 
-        $tasteID = request('taste_id');
+        $tasteID = request('id');
         $name = request('name');
         $options = request('options');
 
@@ -62,5 +63,18 @@ class TasteController extends Controller
         $taste->options = $options;
         $taste->save();
         return responseSuccess(['taste' => $taste]);
+    }
+
+    public function delete()
+    {
+        checkRequestExist(['id']);
+
+        $taste = Taste::find(request('id'));
+        if (!$taste->user_id == auth()->user()->id) {
+            return responseFail('無此權限刪除');
+        }
+
+        $result = $taste->delete();
+        return responseSuccess(['result' => $result]);
     }
 }
