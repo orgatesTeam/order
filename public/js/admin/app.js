@@ -27795,6 +27795,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -27851,12 +27855,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return types;
         },
         editMode: function editMode() {
-            return this.mode === 'edit';
+            return this.$store.state.menu.editMenu instanceof Object && this.mode == 'edit';
         },
         createMode: function createMode() {
             return this.mode === 'create';
         },
         canStoreEdit: function canStoreEdit() {
+
+            if (!this.editMode) {
+                return false;
+            }
+
             var status = false;
             //判斷跟資料是否差異,儲存按鈕開啟
             for (var key in this.originEditMenu) {
@@ -27864,6 +27873,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     console.log({ ori: this.originEditMenu[key], edit: this.editMenu[key] });
                     status = true;
                 }
+            }
+            if (JSON.stringify(this.checkTasteIDs) != JSON.stringify(this.originEditMenu.taste_ids.split(','))) {
+                status = true;
             }
             return status;
         },
@@ -27891,13 +27903,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             //設定選單 title
             if (this.editMode) {
                 this.$store.commit('setFormTitle', '編輯菜單');
+                return;
             }
             if (this.createMode) {
                 this.$store.commit('setFormTitle', '新增菜單');
+                return;
             }
         },
         checkTasteIDs: function checkTasteIDs() {
-            this.createMenu.tasteIDs = this.checkTasteIDs.sort().join();
+            var sortCheckIDs = Object.assign([], this.checkTasteIDs);
+            this.createMenu.tasteIDs = sortCheckIDs.sort().join();
         }
     },
     mounted: function mounted() {
@@ -27912,6 +27927,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         if (this.$store.state.menu.editMenu) {
             this.editMenu = this.$store.state.menu.editMenu;
             this.originEditMenu = Object.assign({}, this.editMenu);
+            this.checkTasteIDs = this.editMenu.taste_ids.split(',');
         } else {
             this.mode = 'create';
         }
@@ -28129,7 +28145,19 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _c("mt-field", { attrs: { label: "口味" } })
+                  _c("mt-checklist", {
+                    attrs: {
+                      title: "添加口味",
+                      options: _vm.optionTastesFormatter(_vm.tastes)
+                    },
+                    model: {
+                      value: _vm.checkTasteIDs,
+                      callback: function($$v) {
+                        _vm.checkTasteIDs = $$v
+                      },
+                      expression: "checkTasteIDs"
+                    }
+                  })
                 ],
                 1
               ),
@@ -29993,7 +30021,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\nlabel[data-v-b3d42548] {\n    color: #ffffff;\n}\n.input-area[data-v-b3d42548] {\n    padding: 30vh 0 5vh 0;\n}\n.login-area[data-v-b3d42548] {\n    padding: 0 20vw 0 20vw;\n}\n\n", ""]);
+exports.push([module.i, "\n.company-img[data-v-b3d42548] {\n    margin-bottom: 20px;\n}\nlabel[data-v-b3d42548] {\n    color: #ffffff;\n}\n.input-area[data-v-b3d42548] {\n    padding: 30vh 0 5vh 0;\n    text-align: center;\n}\n.login-area[data-v-b3d42548] {\n    padding: 0 20vw 0 20vw;\n}\n\n", ""]);
 
 // exports
 
@@ -30006,6 +30034,15 @@ exports.push([module.i, "\nlabel[data-v-b3d42548] {\n    color: #ffffff;\n}\n.in
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__api_auth__ = __webpack_require__(140);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_auth__ = __webpack_require__(81);
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -30080,6 +30117,8 @@ var render = function() {
       "div",
       { staticClass: "input-area" },
       [
+        _vm._m(0),
+        _vm._v(" "),
         _c("mt-field", {
           attrs: { label: "帳號", placeholder: "請輸入帳號", type: "email" },
           model: {
@@ -30117,7 +30156,23 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "company-img" }, [
+      _c("img", {
+        attrs: {
+          src: "/images/admin/order.jpg",
+          alt: "",
+          width: "150",
+          height: "auto"
+        }
+      })
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

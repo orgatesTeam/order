@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://unpkg.com/mint-ui/lib/style.css">
     {{--刪減版--}}
     <link rel="stylesheet" href="{{asset('css/materialize.css')}}">
-
+    <link rel="icon" href="/images/admin/order.jpg">
     <link rel="stylesheet" href="{{asset('css/admin/main.css')}}">
     {{--jq confirm--}}
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">

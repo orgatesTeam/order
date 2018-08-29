@@ -15,7 +15,11 @@
                     <div @click="triggerMenuTypes=true">
                         <mt-field label="種類" v-model="editMenu.type" class="unselectable"></mt-field>
                     </div>
-                    <mt-field label="口味"></mt-field>
+                    <mt-checklist
+                            title='添加口味'
+                            v-model="checkTasteIDs"
+                            :options=optionTastesFormatter(tastes)>
+                    </mt-checklist>
                 </div>
                 <mt-button :disabled="!canStoreEdit" type="primary" size="large" @click="storeEditMenu()">儲存</mt-button>
             </mt-tab-container-item>
@@ -98,12 +102,17 @@
                 return types
             },
             editMode() {
-                return this.mode === 'edit'
+                return this.$store.state.menu.editMenu instanceof Object && this.mode == 'edit'
             },
             createMode() {
                 return this.mode === 'create'
             },
             canStoreEdit() {
+
+                if (!this.editMode) {
+                    return false
+                }
+
                 let status = false
                 //判斷跟資料是否差異,儲存按鈕開啟
                 for (let key in this.originEditMenu) {
@@ -111,6 +120,9 @@
                         console.log({ori: this.originEditMenu[key], edit: this.editMenu[key]})
                         status = true;
                     }
+                }
+                if (JSON.stringify(this.checkTasteIDs) != JSON.stringify(this.originEditMenu.taste_ids.split(','))) {
+                    status = true;
                 }
                 return status;
             },
@@ -138,13 +150,16 @@
                 //設定選單 title
                 if (this.editMode) {
                     this.$store.commit('setFormTitle', '編輯菜單')
+                    return
                 }
                 if (this.createMode) {
                     this.$store.commit('setFormTitle', '新增菜單')
+                    return
                 }
             },
             checkTasteIDs() {
-                this.createMenu.tasteIDs = this.checkTasteIDs.sort().join()
+                let sortCheckIDs = Object.assign([], this.checkTasteIDs)
+                this.createMenu.tasteIDs = sortCheckIDs.sort().join()
             }
         },
         mounted() {
@@ -159,6 +174,7 @@
             if (this.$store.state.menu.editMenu) {
                 this.editMenu = this.$store.state.menu.editMenu
                 this.originEditMenu = Object.assign({}, this.editMenu)
+                this.checkTasteIDs = this.editMenu.taste_ids.split(',')
             } else {
                 this.mode = 'create'
             }

@@ -1,6 +1,9 @@
 <template>
     <div>
         <div class="input-area">
+            <div class="company-img">
+                <img src="/images/admin/order.jpg" alt="" width="150" height="auto">
+            </div>
             <mt-field label="帳號" placeholder="請輸入帳號" type="email" v-model="email"></mt-field>
             <mt-field label="密碼" placeholder="請輸入密碼" type="password" v-model="password"></mt-field>
         </div>
@@ -10,12 +13,18 @@
     </div>
 </template>
 <style scoped>
+
+    .company-img {
+        margin-bottom: 20px;
+    }
+
     label {
         color: #ffffff;
     }
 
     .input-area {
         padding: 30vh 0 5vh 0;
+        text-align: center;
     }
 
     .login-area {
