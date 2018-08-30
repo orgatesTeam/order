@@ -10,7 +10,7 @@
                 <div class="section">
                     <mt-field label="名稱" v-model="editStore.name"></mt-field>
                     <mt-field label="電話" type="tel" v-model="editStore.tel"></mt-field>
-                    <mt-field label="地址" type="tel" v-model="editStore.address"></mt-field>
+                    <mt-field label="地址" v-model="editStore.address"></mt-field>
                     <mt-field label="總桌數" type="tel" v-model="editStore.table_total"></mt-field>
 
                 </div>
@@ -20,7 +20,7 @@
                 <div class="section">
                     <mt-field label="名稱" v-model="createStore.name"></mt-field>
                     <mt-field label="電話" type="tel" v-model="createStore.tel"></mt-field>
-                    <mt-field label="地址" type="tel" v-model="createStore.address"></mt-field>
+                    <mt-field label="地址" v-model="createStore.address"></mt-field>
                     <mt-field label="總桌數" type="tel" v-model="createStore.tableTotal"></mt-field>
                 </div>
                 <mt-button :disabled="!canCreate" type="primary" size="large" @click="storeCreate">儲存</mt-button>

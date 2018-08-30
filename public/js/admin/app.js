@@ -41130,7 +41130,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("mt-field", {
-                    attrs: { label: "地址", type: "tel" },
+                    attrs: { label: "地址" },
                     model: {
                       value: _vm.editStore.address,
                       callback: function($$v) {
@@ -41201,7 +41201,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("mt-field", {
-                    attrs: { label: "地址", type: "tel" },
+                    attrs: { label: "地址" },
                     model: {
                       value: _vm.createStore.address,
                       callback: function($$v) {
