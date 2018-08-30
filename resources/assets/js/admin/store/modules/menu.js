@@ -13,7 +13,7 @@ const menu = {
         setCacheMenus(state, response) {
             state.cacheMenus[response.page] = response.menus
         },
-        resetMenus(state) {
+        refreshMenus(state) {
             state.cacheMenus = [];
         }
     },
