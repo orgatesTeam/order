@@ -38450,6 +38450,7 @@ var Paginate = __webpack_require__(43);
             this.$router.push({ name: 'menu-edit', query: { from: 'edit' } });
         },
         create: function create() {
+            this.$store.commit('setEditMenu', null);
             this.$router.push({ name: 'menu-edit', query: { from: 'create' } });
         },
         getTastes: function getTastes() {
@@ -44865,7 +44866,8 @@ var index_esm = {
 var menu = {
     state: {
         page: 1,
-        cacheMenus: []
+        cacheMenus: [],
+        editMenu: null
     },
     mutations: {
         setMenuPage: function setMenuPage(state, page) {

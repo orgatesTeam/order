@@ -146,6 +146,7 @@
                 this.$router.push({name: 'menu-edit', query: {from: 'edit'}})
             },
             create: function () {
+                this.$store.commit('setEditMenu',null)
                 this.$router.push({name: 'menu-edit', query: {from: 'create'}})
             },
             getTastes() {
