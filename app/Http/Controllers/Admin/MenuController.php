@@ -8,6 +8,7 @@ use App\MenuType;
 use App\StoreMenu;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Services\Excel\Menuservice;
 
 /**
  * 菜單管理
@@ -19,6 +20,7 @@ class MenuController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+
     public function list()
     {
         $user = auth()->user();
@@ -171,5 +173,18 @@ class MenuController extends Controller
             ->get();
 
         return responseSuccess(['menus' => $menus]);
+    }
+
+    public function importMenu(Menuservice $menuService){
+       $menuDatas = $menuService->import();
+
+       foreach ($menuDatas as $menuData){
+           Menu::create([
+               "user_id"      => $menuData->user_id,
+               "name"         => $menuData->name,
+               "price"        => $menuData->price,
+               "menu_type_id" => $menuData->menu_type_id
+           ]);
+       }
     }
 }
