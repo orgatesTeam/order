@@ -1,84 +1,75 @@
 <template>
     <div>
-        <mt-navbar v-model="mode">
-            <mt-tab-item id="edit">編輯</mt-tab-item>
-            <mt-tab-item id="create">新增</mt-tab-item>
-        </mt-navbar>
-
-        <!-- tab-container -->
-        <mt-tab-container v-model="mode">
-            <mt-tab-container-item id="edit">
-                <div class="section">
-                    <mt-field label="菜單名稱" v-model="editMenu.name"></mt-field>
-                    <mt-field label="價格" type="tel" v-model="editMenu.price"
-                              :state="editPriceError"></mt-field>
-                    <div @click="triggerMenuTypes=true">
-                        <mt-field label="種類" v-model="editMenu.type" class="unselectable"></mt-field>
-                    </div>
+        <div class="container">
+            <div class="section">
+                <mt-field label="菜單名稱" v-model="menu.name"></mt-field>
+                <mt-field label="價格" type="tel" v-model="menu.price"></mt-field>
+                <div @click="triggerMenuTypes=true">
+                    <mt-field label="種類" v-model="menu.type" class="unselectable"></mt-field>
                 </div>
-                <mt-button :disabled="!canStoreEdit" type="primary" size="large" @click="editStore()">儲存</mt-button>
-            </mt-tab-container-item>
-            <mt-tab-container-item id="create">
-                <div class="section">
-                    <mt-field label="菜單名稱" v-model="createMenu.name"></mt-field>
-                    <mt-field label="價格" type="number" v-model="createMenu.price"></mt-field>
-                    <div @click="triggerMenuTypes=true">
-                        <mt-field label="種類" v-model="createMenu.type" class="unselectable"></mt-field>
-                    </div>
-                </div>
-                <mt-button :disabled="!canStoreCreate" type="primary" size="large" @click="createStore()">儲存</mt-button>
-            </mt-tab-container-item>
+                <mt-checklist
+                        title='添加口味'
+                        v-model="checkTasteIDs"
+                        :options=optionTastesFormatter(tastes)>
+                </mt-checklist>
+            </div>
+            <mt-button :disabled="!canStore" type="primary" size="large" @click="store()">儲存</mt-button>
             <mt-actionsheet
                     :actions="actionMenuTypes"
                     v-model="triggerMenuTypes">
             </mt-actionsheet>
-        </mt-tab-container>
+
+        </div>
     </div>
 </template>
-<style scope>
-    label {
-        color: #ffffff;
-    }
-</style>
+
 <script>
-    import {Field} from 'mint-ui';
-    import {Navbar, TabItem} from 'mint-ui';
     import {fetchMenuTypes, updateMenu, createMenu} from '../../api/menu'
-    import {Actionsheet} from 'mint-ui'
-    import {Button} from 'mint-ui';
     import {Toast} from 'mint-ui';
+    import {fetchList as fetchTastes} from "../../api/taste"
 
     export default {
         name: "Edit",
-        comments: [Field.name, Field, Navbar.name, Navbar, TabItem.name, TabItem, Button.name, Button],
         data() {
             return {
                 //菜單種類彈窗
                 triggerMenuTypes: false,
-                //用來比對是否資料變更
-                originEditMenu: {},
-                editMenu: {
+                menu: {
                     name: '',
                     price: '',
                     type: '',
+                    menu_type_id: '',
+                    tasteIds: ''
                 },
-                createMenu: {
-                    name: '',
-                    price: '',
-                    type: '',
-                    menu_type_id: ''
-                },
-                mode: '',
+
                 menuTypes: [],
+
                 editErrors: [],
+                tastes: [],
+                checkTasteIDs: [],
+                originMenu: {}
             }
         },
+        mounted() {
+
+            this.$store.commit('setFormTitle', `新增菜單`)
+
+            //取得菜單種類
+            this.getMenuTypes()
+
+            //取得口味
+            this.getTastes()
+
+            //編輯帶入資料
+            this.editInit()
+        },
         computed: {
-            editPriceError() {
-                if (this.editMenu.price > 3000) {
-                    return 'error';
+            mode() {
+                let edit = this.$store.state.menu.editMenu
+                if (edit) {
+                    return 'edit'
                 }
-                return 'success'
+                return 'create'
             },
             actionMenuTypes() {
                 let types = []
@@ -92,83 +83,68 @@
                 })
                 return types
             },
-            editMode() {
-                return this.mode === 'edit'
-            },
-            createMode() {
-                return this.mode === 'create'
-            },
-            canStoreEdit() {
-                let status = false
+            canEdit() {
+
+                if (!this.mode == 'edit') {
+                    return false
+                }
+
                 //判斷跟資料是否差異,儲存按鈕開啟
-                for (let key in this.originEditMenu) {
-                    if (this.originEditMenu[key] != this.editMenu[key]) {
-                        console.log({ori: this.originEditMenu[key], edit: this.editMenu[key]})
-                        status = true;
+                for (let key in this.originMenu) {
+                    if (this.originMenu[key] != this.menu[key]) {
+                        return true;
                     }
                 }
-                return status;
+                if (JSON.stringify(this.checkTasteIDs.sort()) != JSON.stringify(this.originMenu.taste_ids.split(',').sort())) {
+                    return true;
+                }
+                return false;
             },
-            canStoreCreate() {
-
-                let menu = this.createMenu
-
-                if (menu.menu_type_id < 1) {
-                    return false
-                }
-
-                if (menu.name == '') {
-                    return false
-                }
-
-                if (menu.price < 1) {
-                    return false
-                }
+            canCreate() {
                 return true
+            },
+            canStore() {
+                if (this.mode == 'edit') {
+                    return this.canEdit
+                }
+                return this.canCreate
             }
         },
         watch: {
-            mode() {
-
-                //設定選單 title
-                if (this.editMode) {
-                    this.$store.commit('setFormTitle', '編輯菜單')
-                }
-                if (this.createMode) {
-                    this.$store.commit('setFormTitle', '新增菜單')
-                }
+            checkTasteIDs() {
+                let sortCheckIDs = Object.assign([], this.checkTasteIDs)
+                this.menu.taste_ids = sortCheckIDs.sort().join()
             }
-        },
-        mounted() {
-            this.mode = this.$route.query.from;
-
-            //預設值
-            if (this.mode === '') {
-                this.mode = 'create'
-            }
-
-            //有編輯 menu 帶入
-            if (this.$store.state.menu.editMenu) {
-                this.editMenu = this.$store.state.menu.editMenu
-                this.originEditMenu = Object.assign({}, this.editMenu)
-            } else {
-                this.mode = 'create'
-            }
-
-            //取得菜單種類
-            this.getMenuTypes()
         },
         methods: {
-            selectMenuType(item) {
-                if (this.editMode) {
-                    this.editMenu.type = item.name
-                    this.editMenu.menu_type_id = item.id
+            selectMenuType(type) {
+                this.menu.type = type.name
+                this.menu.menu_type_id = type.id
+            },
+            editInit() {
+                let menu = this.$store.state.menu.editMenu
+                if (menu) {
+                    this.originMenu = Object.assign(menu)
+                    this.menu = {...menu}
+                    this.$store.commit('setFormTitle', `編輯菜單-${menu.name}`)
+                    this.checkTasteIDs = this.menu.taste_ids.split(',')
+                }
+            },
+            getTastes() {
+                let tastes = this.$store.state.taste.tastes
+                let that = this
+                if (tastes.length > 0) {
+                    that.tastes = tastes
+                    return
                 }
 
-                if (this.createMode) {
-                    this.createMenu.type = item.name
-                    this.createMenu.menu_type_id = item.id
-                }
+                fetchTastes({}).then(response => {
+                    if (response.data.code == '202') {
+                        tastes = response.data.items.tastes
+                        that.$store.commit('setTastes', tastes)
+                        that.tastes = tastes
+                    }
+                })
             },
             getMenuTypes() {
                 let that = this
@@ -177,16 +153,17 @@
                     that.menuTypes = (response.data.items.menuTypes)
                 })
             },
-            editStore() {
-                let that = this
-                let {id, name, price, menu_type_id} = this.editMenu
-                let data = {
-                    id: id,
-                    name: name,
-                    price: price,
-                    menu_type_id: menu_type_id
+            store() {
+                if (this.mode == 'edit') {
+                    this.storeEditMenu()
+                } else {
+                    this.storeCreateMenu()
                 }
-                updateMenu(data).then(response => {
+
+            },
+            storeEditMenu() {
+                let that = this
+                updateMenu(this.menu).then(response => {
                     if (response.data.code == '202') {
                         Toast({
                             message: '操作成功',
@@ -197,15 +174,10 @@
                     }
                 })
             },
-            createStore() {
+            storeCreateMenu() {
                 let that = this
-                let {name, price, menu_type_id} = this.createMenu
-                let data = {
-                    name: name,
-                    price: price,
-                    menu_type_id: menu_type_id
-                }
-                createMenu(data).then(response => {
+
+                createMenu(this.menu).then(response => {
                     if (response.data.code == '202') {
                         Toast({
                             message: '操作成功',
@@ -217,12 +189,30 @@
                 })
             },
             refreshCacheMenus() {
-                this.$store.commit('resetMenus')
+                this.$store.commit('refreshMenus')
+            },
+            optionTastesFormatter(tastes) {
+                console.log(tastes)
+                let formatter = []
+                tastes.forEach((taste) => {
+                    let newTaste = {
+                        label: taste.name,
+                        value: taste.id
+                    }
+                    formatter.push(newTaste)
+                })
+                return formatter
             }
         }
     }
 </script>
 
 <style scoped>
+    label {
+        color: #ffffff;
+    }
 
+    .mint-cell-wrapper {
+        display: none;
+    }
 </style>

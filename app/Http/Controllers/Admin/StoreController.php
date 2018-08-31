@@ -55,11 +55,8 @@ class StoreController extends Controller
      */
     public function create()
     {
-        $keys = ['name', 'tel', 'address'];
-        if (!request()->exists($keys)) {
-            logError('請求參數缺失');
-            return responseFail('資料錯誤');
-        }
+        $keys = ['name', 'tel', 'address', 'table_total'];
+        checkRequestExist($keys);
 
         $userID = auth()->user()->id;
         $store = \App\Store::create([
@@ -67,7 +64,7 @@ class StoreController extends Controller
             'name'        => request('name'),
             'tel'         => request('tel'),
             'address'     => request('address'),
-            'information' => request('information'),
+            'table_total' => request('table_total'),
         ]);
 
         return responseSuccess(['store' => $store]);
@@ -79,11 +76,7 @@ class StoreController extends Controller
     public function addMenu()
     {
         $keys = ['store_id', 'menu_ids'];
-
-        if (!request()->exists($keys)) {
-            logError('請求參數缺失');
-            return responseFail('資料錯誤');
-        }
+        checkRequestExist($keys);
 
         if (request('menu_ids') == '') {
             logError('menu_ids空值');
@@ -133,11 +126,8 @@ class StoreController extends Controller
      */
     public function update()
     {
-        $keys = ['id', 'name', 'tel', 'address'];
-        if (!request()->exists($keys)) {
-            logError('請求參數缺失');
-            return responseFail('資料錯誤');
-        }
+        $keys = ['id', 'name', 'tel', 'address','table_total'];
+        checkRequestExist($keys);
 
         $store = Store::find(request('id'));
 
@@ -148,7 +138,7 @@ class StoreController extends Controller
         $store->name = request('name');
         $store->tel = request('tel');
         $store->address = request('address');
-        $store->information = request('information');
+        $store->table_total = request('table_total');
         $store->save();
 
         return responseSuccess(['store' => $store]);
@@ -172,5 +162,27 @@ class StoreController extends Controller
         }
 
         return true;
+    }
+
+    /**
+     * 設定店家總桌數
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function settingTableTotal()
+    {
+        $keys = ['id', 'table_total'];
+        checkRequestExist($keys);
+
+        $store = Store::find(request('id'));
+
+        if (!$this->checkUpdate($store)) {
+            return responseFail('資料錯誤');
+        }
+
+        $store->table_total = request('table_total');
+        $store->save();
+
+        return responseSuccess(['store' => $store]);
     }
 }

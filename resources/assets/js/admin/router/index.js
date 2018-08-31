@@ -42,6 +42,11 @@ const router = new VueRouter({
                     name: 'menu-edit',
                     component: require('../views/menu/Edit')
                 },
+                {
+                    path: 'taste',
+                    name: 'menu-taste',
+                    component: require('../views/menu/Taste')
+                },
             ]
         },
         //store
@@ -73,6 +78,17 @@ const router = new VueRouter({
                     path: '/',
                     name: 'report',
                     component: require('../views/report/Report')
+                }
+            ]
+        },
+        //order
+        {
+            path: '/admin/order', component: require('../views/layout/Layout'),
+            children: [
+                {
+                    path: '/',
+                    name: 'order',
+                    component: require('../views/order/Order')
                 }
             ]
         },

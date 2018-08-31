@@ -31,3 +31,12 @@ export function addMenu(data) {
         data: data
     })
 }
+
+
+export function settingTableTotal(data) {
+    return request({
+        url: '/admin/store/setting-table-total',
+        method: 'post',
+        data: data
+    })
+}
