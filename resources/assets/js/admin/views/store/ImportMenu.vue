@@ -18,14 +18,10 @@
                 取消
             </div>
         </mt-search>
-
     </div>
 </template>
 
 <script>
-    import {Switch} from 'mint-ui';
-    import {Cell} from 'mint-ui';
-    import {Search} from 'mint-ui';
     import {listByStoreMenu} from '../../api/menu'
     import {addMenu} from '../../api/store'
     import $ from 'jquery'
@@ -33,7 +29,6 @@
 
     export default {
         name: "ImportMenu",
-        comments: [Switch.name, Switch, Cell.name, Cell, Search.name, Search],
         data() {
             return {
                 searchKey: '',
@@ -154,6 +149,10 @@
 
 <style scoped>
     .btn {
-        margin: 10px 5px 0 5px;
+        margin: 10px 5px 20px 5px;
+    }
+
+    .mint-search {
+        height: auto;
     }
 </style>

@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Menu extends Model
@@ -11,7 +12,7 @@ class Menu extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'price', 'menu_type_id','user_id'
+        'name', 'price', 'menu_type_id', 'user_id', 'taste_ids'
     ];
 
     /**

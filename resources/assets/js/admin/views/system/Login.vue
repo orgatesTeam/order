@@ -1,6 +1,9 @@
 <template>
     <div>
         <div class="input-area">
+            <div class="company-img">
+                <img src="/images/admin/order.jpg" alt="" width="150" height="auto">
+            </div>
             <mt-field label="帳號" placeholder="請輸入帳號" type="email" v-model="email"></mt-field>
             <mt-field label="密碼" placeholder="請輸入密碼" type="password" v-model="password"></mt-field>
         </div>
@@ -9,13 +12,19 @@
         </div>
     </div>
 </template>
-<style scope>
+<style scoped>
+
+    .company-img {
+        margin-bottom: 20px;
+    }
+
     label {
         color: #ffffff;
     }
 
     .input-area {
         padding: 30vh 0 5vh 0;
+        text-align: center;
     }
 
     .login-area {
@@ -24,8 +33,6 @@
 
 </style>
 <script>
-    import {Field} from 'mint-ui';
-    import {Button} from 'mint-ui';
     import {login} from '../../api/auth'
     import {setToken, setEmail, getEmail} from '../../utils/auth'
 
@@ -37,7 +44,6 @@
             }
         },
         name: "Login",
-        comments: [Field.name, Field, Button.name, Button],
         mounted() {
             this.email = getEmail()
         },

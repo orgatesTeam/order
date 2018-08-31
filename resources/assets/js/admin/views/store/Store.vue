@@ -10,6 +10,7 @@
                             <th>電話</th>
                             <th>地址</th>
                             <th>配置菜單數</th>
+                            <th>總桌數</th>
                             <th>建立時間</th>
                             <th>更新時間</th>
                             <th>
@@ -33,6 +34,7 @@
                             <td>{{store.tel}}</td>
                             <td>{{store.address}}</td>
                             <td>{{store.menuCount}}</td>
+                            <td>{{store.table_total}}</td>
                             <td>{{store.created_at}}</td>
                             <td>{{store.updated_at}}</td>
                             <td>
@@ -52,11 +54,9 @@
 
 <script>
     import {fetchList} from '../../api/store'
-    import {PaletteButton} from 'mint-ui';
 
     export default {
         name: "store",
-        comments: [PaletteButton.name, PaletteButton],
         data() {
             return {
                 stores: []
