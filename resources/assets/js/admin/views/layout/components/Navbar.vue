@@ -13,7 +13,7 @@
         </div>
     </div>
 </template>
-<style>
+<style scoped>
     .abstract-header{
         display: block;
         width: 100%;
@@ -69,7 +69,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>

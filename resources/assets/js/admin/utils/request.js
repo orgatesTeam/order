@@ -25,7 +25,7 @@ service.interceptors.request.use(config => {
     Promise.reject(error)
 })
 
-// respone interceptor
+// response interceptor
 service.interceptors.response.use(
     response => {
         console.log(response)

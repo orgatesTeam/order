@@ -46,3 +46,31 @@ if (!function_exists('logError')) {
         Log::error($message, $records);
     }
 }
+
+/**
+ * 檢查請求參數是否都有
+ */
+if (!function_exists('checkRequestExist')) {
+    function checkRequestExist(array $fields)
+    {
+        if (!request()->exists($fields)) {
+            throw new \App\Exceptions\LackRequestException();
+        }
+    }
+}
+
+/**
+ * 將 collection 取 單一欄位陣列
+ */
+if (!function_exists('collectionMapField')) {
+    function collectionMapField(\Illuminate\Database\Eloquent\Collection $collection, string $filedName)
+    {
+        $fieldCollection = [];
+        foreach ($collection as $row) {
+            if (isset($row->$filedName)) {
+                $fieldCollection[] = $row->$filedName;
+            }
+        }
+        return $fieldCollection;
+    }
+}

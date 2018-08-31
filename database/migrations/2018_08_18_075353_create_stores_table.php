@@ -19,7 +19,11 @@ class CreateStoresTable extends Migration
             $table->text('name')->comment('店名');
             $table->text('tel')->comment('電話');
             $table->text('address')->comment('地址');
+<<<<<<< HEAD
             $table->text('information')->comment('資訊 格式 json')->nullable();
+=======
+            $table->integer('table_total')->comment('總桌數')->default(1);;
+>>>>>>> 641d260c7c954a32ed7a8ca9b6176f777019f1f7
             $table->smallInteger('enable')->comment('開啟')->default('1');
             $table->timestamps();
         });

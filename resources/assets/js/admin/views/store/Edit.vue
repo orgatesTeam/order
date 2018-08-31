@@ -10,7 +10,9 @@
                 <div class="section">
                     <mt-field label="名稱" v-model="editStore.name"></mt-field>
                     <mt-field label="電話" type="tel" v-model="editStore.tel"></mt-field>
-                    <mt-field label="地址" type="tel" v-model="editStore.address"></mt-field>
+                    <mt-field label="地址" v-model="editStore.address"></mt-field>
+                    <mt-field label="總桌數" type="tel" v-model="editStore.table_total"></mt-field>
+
                 </div>
                 <mt-button :disabled="!canEdit" type="primary" size="large" @click="storeEdit">儲存</mt-button>
             </mt-tab-container-item>
@@ -18,7 +20,8 @@
                 <div class="section">
                     <mt-field label="名稱" v-model="createStore.name"></mt-field>
                     <mt-field label="電話" type="tel" v-model="createStore.tel"></mt-field>
-                    <mt-field label="地址" type="tel" v-model="createStore.address"></mt-field>
+                    <mt-field label="地址" v-model="createStore.address"></mt-field>
+                    <mt-field label="總桌數" type="tel" v-model="createStore.tableTotal"></mt-field>
                 </div>
                 <mt-button :disabled="!canCreate" type="primary" size="large" @click="storeCreate">儲存</mt-button>
             </mt-tab-container-item>
@@ -26,7 +29,7 @@
 
     </div>
 </template>
-<style scope>
+<style scoped>
     label {
         color: #ffffff;
     }
@@ -49,7 +52,8 @@
                 createStore: {
                     name: '',
                     tel: '',
-                    address: ''
+                    address: '',
+                    tableTotal: 1
                 }
             }
         },
@@ -118,12 +122,13 @@
         methods: {
             storeEdit() {
                 let that = this
-                let {id, name, tel, address, store_id} = this.editStore
+                let {id, name, tel, address, table_total} = this.editStore
                 let data = {
                     id: id,
                     name: name,
                     tel: tel,
                     address: address,
+                    table_total: table_total
                 }
 
                 updateStore(data).then(response => {
@@ -140,11 +145,12 @@
             storeCreate() {
 
                 let that = this
-                let {name, tel, address} = this.createStore
+                let {name, tel, address, tableTotal} = this.createStore
                 let data = {
                     name: name,
                     tel: tel,
-                    address: address
+                    address: address,
+                    table_total: tableTotal
                 }
 
                 createStore(data).then(response => {

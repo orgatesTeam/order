@@ -15,6 +15,7 @@ class StoreTableSeeder extends Seeder
 
         $user = \App\User::first();
 
+<<<<<<< HEAD
         $informations=[];
 
         foreach (range(0,4) as $index){
@@ -52,12 +53,17 @@ class StoreTableSeeder extends Seeder
             }
         }
         /*
+=======
+>>>>>>> 641d260c7c954a32ed7a8ca9b6176f777019f1f7
         $store = \App\Store::create([
             'user_id'     => $user->id,
             'name'        => '八方雲集',
             'tel'         => '02-22288445',
             'address'     => '台北市信義區336巷',
+<<<<<<< HEAD
             'information' => json_encode($informations[0])
+=======
+>>>>>>> 641d260c7c954a32ed7a8ca9b6176f777019f1f7
         ]);
 
         $store2 = \App\Store::create([
@@ -65,7 +71,10 @@ class StoreTableSeeder extends Seeder
             'name'        => 'coco嘟可',
             'tel'         => '02-22288445',
             'address'     => '新北市蘆洲區長榮路',
+<<<<<<< HEAD
             'information' => json_encode($informations[1])
+=======
+>>>>>>> 641d260c7c954a32ed7a8ca9b6176f777019f1f7
         ]);
 
         $store3 = \App\Store::create([
@@ -73,7 +82,10 @@ class StoreTableSeeder extends Seeder
             'name'        => '麥當勞',
             'tel'         => '02-22288445',
             'address'     => '新北市板橋區長榮路',
+<<<<<<< HEAD
             'information' => json_encode($informations[2])
+=======
+>>>>>>> 641d260c7c954a32ed7a8ca9b6176f777019f1f7
         ]);
 */
         /*

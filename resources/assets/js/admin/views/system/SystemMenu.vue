@@ -3,11 +3,17 @@
         <div @click="routerPush('menu')">
             <mt-cell title="菜單管理"></mt-cell>
         </div>
+        <div @click="routerPush('menu-taste')">
+            <mt-cell title="口味管理"></mt-cell>
+        </div>
         <div @click="routerPush('system-table-manager')">
-            <mt-cell title="桌位 QR Code "></mt-cell>
+            <mt-cell title="桌位管理"></mt-cell>
         </div>
         <div @click="routerPush('store')">
             <mt-cell title="店家管理"></mt-cell>
+        </div>
+        <div @click="routerPush('order')">
+            <mt-cell title="點餐管理"></mt-cell>
         </div>
         <div @click="logout()">
             <mt-cell title="登出"></mt-cell>
@@ -16,7 +22,6 @@
 </template>
 
 <script>
-    import {CellSwipe} from 'mint-ui';
     import {removeToken} from '../../utils/auth'
 
     export default {
@@ -24,7 +29,6 @@
         mounted() {
             this.$store.commit('setFormTitle', '選單')
         },
-        comments: [CellSwipe.name, CellSwipe],
         methods: {
             routerPush(name) {
                 this.$router.push({name: name})

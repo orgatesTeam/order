@@ -17,7 +17,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
+       LackRequestException::class
     ];
 
     /**
@@ -52,6 +52,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof LackRequestException) {
+            logError('請求參數缺失');
+            return responseFail('資料錯誤');
+        }
+
         if ($exception instanceof UnauthorizedHttpException) {
             logError($exception);
             return responseFail('無效的 jwt ', self::REMOVE_TOKEN);
