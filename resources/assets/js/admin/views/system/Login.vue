@@ -23,7 +23,7 @@
     }
 
     .input-area {
-        padding: 30vh 0 5vh 0;
+        padding: 18vh 0 5vh 0;
         text-align: center;
     }
 

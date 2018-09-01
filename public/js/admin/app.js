@@ -43694,7 +43694,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.company-img[data-v-b3d42548] {\n    margin-bottom: 20px;\n}\nlabel[data-v-b3d42548] {\n    color: #ffffff;\n}\n.input-area[data-v-b3d42548] {\n    padding: 30vh 0 5vh 0;\n    text-align: center;\n}\n.login-area[data-v-b3d42548] {\n    padding: 0 20vw 0 20vw;\n}\n\n", ""]);
+exports.push([module.i, "\n.company-img[data-v-b3d42548] {\n    margin-bottom: 20px;\n}\nlabel[data-v-b3d42548] {\n    color: #ffffff;\n}\n.input-area[data-v-b3d42548] {\n    padding: 18vh 0 5vh 0;\n    text-align: center;\n}\n.login-area[data-v-b3d42548] {\n    padding: 0 20vw 0 20vw;\n}\n\n", ""]);
 
 // exports
 
