@@ -4,6 +4,8 @@ use Illuminate\Database\Seeder;
 
 class MenuTableSeeder extends Seeder
 {
+    protected $optionsRepository;
+
     /**
      * Run the database seeds.
      *
@@ -11,6 +13,8 @@ class MenuTableSeeder extends Seeder
      */
     public function run()
     {
+        $this->optionsRepository = app(\App\Repositories\Taste\OptionsRepository::class);
+
         $user = \App\User::first();
         foreach ($this->menus() as $menu) {
             \App\Menu::create([
@@ -42,54 +46,54 @@ class MenuTableSeeder extends Seeder
 
     protected function addTastes()
     {
-        $iceHoneyOptions = [
-            $this->addOption('冰塊', ['去冰',
+        $iceHoneyOptions = $this->optionsRepository->formatterOptions([
+            $this->optionsRepository->addOption('冰塊', ['去冰',
                 '微冰',
                 '少冰',
                 '正常'
             ]),
-            $this->addOption('甜度', ['無糖',
+            $this->optionsRepository->addOption('甜度', ['無糖',
                 '微糖(三分)',
                 '半糖(五分)',
                 '少糖(七分)',
                 '正常'
             ]),
-        ];
+        ]);
 
-        $iceHoneyOptions2 = [
-            $this->addOption('冰/熱', ['去冰',
+        $iceHoneyOptions2 = $this->optionsRepository->formatterOptions([
+            $this->optionsRepository->addOption('冰/熱', ['去冰',
                 '微冰',
                 '少冰',
                 '正常冰',
                 '常溫',
                 '熱'
             ]),
-            $this->addOption('甜度', ['無糖',
+            $this->optionsRepository->addOption('甜度', ['無糖',
                 '微糖(三分)',
                 '半糖(五分)',
                 '少糖(七分)',
                 '正常'
             ]),
-        ];
+        ]);
 
-        $size = [
-            $this->addOption('容量', ['大杯 (700cc)',
+        $size = $this->optionsRepository->formatterOptions([
+            $this->optionsRepository->addOption('容量', ['大杯 (700cc)',
                 '小杯 (500cc)'
             ]),
-        ];
+        ]);
 
-        $hot = [
-            $this->addOption('辣/不辣', ['大辣',
+        $hot = $this->optionsRepository->formatterOptions([
+            $this->optionsRepository->addOption('辣/不辣', ['大辣',
                 '小辣',
                 '不辣'
             ]),
-        ];
+        ]);
 
-        $pepper = [
-            $this->addOption('醬料(黑胡椒、蘑菇)', ['蘑菇',
+        $pepper = $this->optionsRepository->formatterOptions([
+            $this->optionsRepository->addOption('醬料(黑胡椒、蘑菇)', ['蘑菇',
                 '黑胡椒'
             ]),
-        ];
+        ]);
 
         $user = \App\User::first();
         \App\Taste::create([
@@ -122,8 +126,11 @@ class MenuTableSeeder extends Seeder
     protected function addOption($name, $checks)
     {
         $formatterChecks = [];
-        foreach ($checks as $check) {
-            $formatterChecks[] = ['name' => $check];
+        foreach ($checks as $key => $check) {
+            $formatterChecks[] = [
+                'id'   => $key + 1,
+                'name' => $check
+            ];
         }
         return [
             'name'   => $name,

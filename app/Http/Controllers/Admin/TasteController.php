@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\Taste\OptionsRepository;
 use App\Taste;
 
 /**
@@ -10,6 +11,13 @@ use App\Taste;
  */
 class TasteController extends Controller
 {
+    protected $optionsRepository;
+
+    public function __construct(OptionsRepository $optionsRepository)
+    {
+        $this->optionsRepository = $optionsRepository;
+    }
+
     /**
      * 口味列表
      *
@@ -28,11 +36,13 @@ class TasteController extends Controller
      */
     public function new()
     {
-        checkRequestExist(['name', 'options']);
+        checkRequestExist(['name',
+            'options'
+        ]);
 
         $userID = auth()->user()->id;
         $name = request('name');
-        $options = request('options');
+        $options = $this->optionsRepository->formatterOptions(request('options'));
 
         $taste = Taste::create([
             'user_id' => $userID,
@@ -48,7 +58,10 @@ class TasteController extends Controller
      */
     public function update()
     {
-        checkRequestExist(['id', 'name', 'options']);
+        checkRequestExist(['id',
+            'name',
+            'options'
+        ]);
 
         $tasteID = request('id');
         $name = request('name');
@@ -60,7 +73,7 @@ class TasteController extends Controller
         }
 
         $taste->name = $name;
-        $taste->options = $options;
+        $taste->options = $this->optionsRepository->updateOptionIDTasteID($options);
         $taste->save();
         return responseSuccess(['taste' => $taste]);
     }
