@@ -95,9 +95,11 @@
                         return true;
                     }
                 }
-                if (JSON.stringify(this.checkTasteIDs.sort()) != JSON.stringify(this.originMenu.taste_ids.split(',').sort())) {
+
+                if (this.originMenu.taste_ids && JSON.stringify(this.checkTasteIDs.sort()) != JSON.stringify(this.originMenu.taste_ids.split(',').sort())) {
                     return true;
                 }
+
                 return false;
             },
             canCreate() {
@@ -127,7 +129,9 @@
                     this.originMenu = Object.assign(menu)
                     this.menu = {...menu}
                     this.$store.commit('setFormTitle', `編輯菜單-${menu.name}`)
-                    this.checkTasteIDs = this.menu.taste_ids.split(',')
+                    if (this.menu.taste_ids) {
+                        this.checkTasteIDs = this.menu.taste_ids.split(',')
+                    }
                 }
             },
             getTastes() {

@@ -39011,9 +39011,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                     return true;
                 }
             }
-            if (JSON.stringify(this.checkTasteIDs.sort()) != JSON.stringify(this.originMenu.taste_ids.split(',').sort())) {
+
+            if (this.originMenu.taste_ids && JSON.stringify(this.checkTasteIDs.sort()) != JSON.stringify(this.originMenu.taste_ids.split(',').sort())) {
                 return true;
             }
+
             return false;
         },
         canCreate: function canCreate() {
@@ -39043,7 +39045,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 this.originMenu = Object.assign(menu);
                 this.menu = _extends({}, menu);
                 this.$store.commit('setFormTitle', '\u7DE8\u8F2F\u83DC\u55AE-' + menu.name);
-                this.checkTasteIDs = this.menu.taste_ids.split(',');
+                if (this.menu.taste_ids) {
+                    this.checkTasteIDs = this.menu.taste_ids.split(',');
+                }
             }
         },
         getTastes: function getTastes() {
@@ -41866,7 +41870,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.select-store[data-v-4a48c3ec] {\n    padding-left: 20px;\n}\n.inline-dev[data-v-4a48c3ec] {\n    display: inline;\n}\n.order[data-v-4a48c3ec] {\n    overflow: auto;\n}\n.sticky[data-v-4a48c3ec] {\n    position: fixed;\n    width: 100%;\n    top: 49px;\n    z-index: 99;\n}\n.sticky-container[data-v-4a48c3ec] {\n    width: 100%;\n    height: 50px;\n}\n", ""]);
+exports.push([module.i, "\n.show[data-v-4a48c3ec] {\n    display: block;\n}\n.not-show[data-v-4a48c3ec] {\n    display: none;\n}\n.select-store[data-v-4a48c3ec] {\n    padding-left: 20px;\n}\n.inline-dev[data-v-4a48c3ec] {\n    display: inline;\n}\n.order[data-v-4a48c3ec] {\n    overflow: auto;\n}\n.sticky[data-v-4a48c3ec] {\n    position: fixed;\n    width: 100%;\n    top: 49px;\n    z-index: 99;\n}\n.sticky-container[data-v-4a48c3ec] {\n    width: 100%;\n    height: 50px;\n}\n", ""]);
 
 // exports
 
@@ -41942,6 +41946,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -41953,7 +41962,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: { Preview: __WEBPACK_IMPORTED_MODULE_3__Preview___default.a },
     data: function data() {
         return {
-            selectedNavbar: 'order',
+            selected: 'order',
             checkMenus: [],
             storeActionSheet: false,
             storeActions: [],
@@ -42006,6 +42015,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
+        selectedClass: function selectedClass(selected) {
+            return this.selected == selected ? 'show' : 'not-show';
+        },
+        isSelected: function isSelected(selected) {
+            return this.selected == selected ? 'is-selected' : '';
+        },
+        setSelected: function setSelected(selected) {
+            this.selected = selected;
+        },
         getMenus: function getMenus(callback) {
             var that = this;
             var data = { store_id: this.selectStore.id };
@@ -42587,178 +42605,192 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c(
-        "div",
-        { staticClass: "sticky" },
-        [
+  return _c("div", [
+    _c("div", { staticClass: "sticky" }, [
+      _c("div", { staticClass: "mint-navbar" }, [
+        _c(
+          "a",
+          {
+            staticClass: "mint-tab-item",
+            class: _vm.isSelected("order"),
+            on: {
+              click: function($event) {
+                _vm.setSelected("order")
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "mint-tab-item-icon" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "mint-tab-item-label" }, [_vm._v("點餐")])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "mint-tab-item",
+            class: _vm.isSelected("preview"),
+            on: {
+              click: function($event) {
+                _vm.setSelected("preview")
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "mint-tab-item-icon" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "mint-tab-item-label" }, [
+              _vm._v("預覽調整")
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "mint-tab-item",
+            class: _vm.isSelected("total"),
+            on: {
+              click: function($event) {
+                _vm.setSelected("total")
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "mint-tab-item-icon" }),
+            _vm._v(" "),
+            _c("div", { staticClass: "mint-tab-item-label" }, [_vm._v("總結")])
+          ]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "sticky-container" }),
+    _vm._v(" "),
+    _c("div", { class: _vm.selectedClass("order") }, [
+      _c("div", { staticClass: "section select-store" }, [
+        _c("div", [
           _c(
-            "mt-navbar",
+            "div",
             {
-              model: {
-                value: _vm.selectedNavbar,
-                callback: function($$v) {
-                  _vm.selectedNavbar = $$v
-                },
-                expression: "selectedNavbar"
+              staticClass: "inline-dev",
+              on: {
+                click: function($event) {
+                  _vm.storeActionSheet = true
+                }
               }
             },
             [
-              _c("mt-tab-item", { attrs: { id: "order" } }, [_vm._v("點餐")]),
-              _vm._v(" "),
-              _c("mt-tab-item", { attrs: { id: "preview" } }, [
-                _vm._v("預覽調整")
-              ]),
-              _vm._v(" "),
-              _c("mt-tab-item", { attrs: { id: "3" } }, [_vm._v("總結")])
+              _c("mt-button", { attrs: { type: "danger" } }, [
+                _vm._v("選點店家")
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "inline-dev",
+              on: {
+                click: function($event) {
+                  _vm.selectTable()
+                }
+              }
+            },
+            [
+              _c("mt-button", { attrs: { type: "primary" } }, [
+                _vm._v("選點桌號")
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _vm.tableNo > 0
+            ? _c(
+                "div",
+                { staticClass: "inline-dev" },
+                [
+                  _c("mt-button", { attrs: { type: "default" } }, [
+                    _vm._v("桌號:" + _vm._s(_vm.tableNo))
+                  ])
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.checkMenuCount > 0
+            ? _c(
+                "div",
+                { staticClass: "inline-dev" },
+                [
+                  _c("mt-button", { attrs: { type: "default" } }, [
+                    _vm._v("選項:" + _vm._s(_vm.checkMenuCount))
+                  ])
+                ],
+                1
+              )
+            : _vm._e()
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.canOrder,
+              expression: "canOrder"
+            }
+          ],
+          staticClass: "order"
+        },
+        _vm._l(_vm.menus, function(typeMenus, typeID) {
+          return _c(
+            "div",
+            [
+              _c("mt-checklist", {
+                attrs: {
+                  title: _vm.menuTypeName(typeID),
+                  options: _vm.optionFormatter(typeMenus)
+                },
+                model: {
+                  value: _vm.checkMenus,
+                  callback: function($$v) {
+                    _vm.checkMenus = $$v
+                  },
+                  expression: "checkMenus"
+                }
+              })
             ],
             1
           )
-        ],
-        1
+        })
       ),
       _vm._v(" "),
-      _c("div", { staticClass: "sticky-container" }),
-      _vm._v(" "),
       _c(
-        "mt-tab-container",
-        {
-          model: {
-            value: _vm.selectedNavbar,
-            callback: function($$v) {
-              _vm.selectedNavbar = $$v
-            },
-            expression: "selectedNavbar"
-          }
-        },
+        "div",
         [
-          _c("mt-tab-container-item", { attrs: { id: "order" } }, [
-            _c("div", { staticClass: "section select-store" }, [
-              _c("div", [
-                _c(
-                  "div",
-                  {
-                    staticClass: "inline-dev",
-                    on: {
-                      click: function($event) {
-                        _vm.storeActionSheet = true
-                      }
-                    }
-                  },
-                  [
-                    _c("mt-button", { attrs: { type: "danger" } }, [
-                      _vm._v("選點店家")
-                    ])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "inline-dev",
-                    on: {
-                      click: function($event) {
-                        _vm.selectTable()
-                      }
-                    }
-                  },
-                  [
-                    _c("mt-button", { attrs: { type: "primary" } }, [
-                      _vm._v("選點桌號")
-                    ])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _vm.tableNo > 0
-                  ? _c(
-                      "div",
-                      { staticClass: "inline-dev" },
-                      [
-                        _c("mt-button", { attrs: { type: "default" } }, [
-                          _vm._v("桌號:" + _vm._s(_vm.tableNo))
-                        ])
-                      ],
-                      1
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.checkMenuCount > 0
-                  ? _c(
-                      "div",
-                      { staticClass: "inline-dev" },
-                      [
-                        _c("mt-button", { attrs: { type: "default" } }, [
-                          _vm._v("選項:" + _vm._s(_vm.checkMenuCount))
-                        ])
-                      ],
-                      1
-                    )
-                  : _vm._e()
-              ])
-            ]),
-            _vm._v(" "),
-            _vm.canOrder
-              ? _c(
-                  "div",
-                  { staticClass: "order" },
-                  _vm._l(_vm.menus, function(typeMenus, typeID) {
-                    return _c(
-                      "div",
-                      [
-                        _c("mt-checklist", {
-                          attrs: {
-                            title: _vm.menuTypeName(typeID),
-                            options: _vm.optionFormatter(typeMenus)
-                          },
-                          model: {
-                            value: _vm.checkMenus,
-                            callback: function($$v) {
-                              _vm.checkMenus = $$v
-                            },
-                            expression: "checkMenus"
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  })
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _c(
-              "div",
-              [
-                _c("mt-actionsheet", {
-                  attrs: { actions: _vm.storeActions },
-                  model: {
-                    value: _vm.storeActionSheet,
-                    callback: function($$v) {
-                      _vm.storeActionSheet = $$v
-                    },
-                    expression: "storeActionSheet"
-                  }
-                })
-              ],
-              1
-            )
-          ]),
-          _vm._v(" "),
-          _c(
-            "mt-tab-container-item",
-            { attrs: { id: "preview" } },
-            [_c("preview")],
-            1
-          )
+          _c("mt-actionsheet", {
+            attrs: { actions: _vm.storeActions },
+            model: {
+              value: _vm.storeActionSheet,
+              callback: function($$v) {
+                _vm.storeActionSheet = $$v
+              },
+              expression: "storeActionSheet"
+            }
+          })
         ],
         1
       )
-    ],
-    1
-  )
+    ]),
+    _vm._v(" "),
+    _c("div", { class: _vm.selectedClass("preview") }, [_c("preview")], 1)
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

@@ -1,11 +1,20 @@
 <template>
     <div>
         <div class="sticky">
-            <mt-navbar v-model="selectedNavbar">
-                <mt-tab-item id="order">點餐</mt-tab-item>
-                <mt-tab-item id="preview">預覽調整</mt-tab-item>
-                <mt-tab-item id="3">總結</mt-tab-item>
-            </mt-navbar>
+            <div class="mint-navbar">
+                <a class="mint-tab-item" :class="isSelected('order')" @click="setSelected('order')">
+                    <div class="mint-tab-item-icon"></div>
+                    <div class="mint-tab-item-label">點餐</div>
+                </a>
+                <a class="mint-tab-item" :class="isSelected('preview')" @click="setSelected('preview')">
+                    <div class="mint-tab-item-icon"></div>
+                    <div class="mint-tab-item-label">預覽調整</div>
+                </a>
+                <a class="mint-tab-item" :class="isSelected('total')" @click="setSelected('total')">
+                    <div class="mint-tab-item-icon"></div>
+                    <div class="mint-tab-item-label">總結</div>
+                </a>
+            </div>
         </div>
 
         <div class="sticky-container">
@@ -13,47 +22,43 @@
         </div>
 
         <!-- tab-container -->
-        <mt-tab-container v-model="selectedNavbar">
-
-            <mt-tab-container-item id="order">
-                <div class="section select-store">
-                    <div>
-                        <div @click="storeActionSheet = true" class="inline-dev">
-                            <mt-button type="danger">選點店家</mt-button>
-                        </div>
-                        <div @click="selectTable()" class="inline-dev">
-                            <mt-button type="primary">選點桌號</mt-button>
-                        </div>
-                        <div v-if="tableNo > 0" class="inline-dev">
-                            <mt-button type="default">桌號:{{tableNo}}</mt-button>
-                        </div>
-                        <div v-if="checkMenuCount > 0" class="inline-dev">
-                            <mt-button type="default">選項:{{checkMenuCount}}</mt-button>
-                        </div>
-                    </div>
-                </div>
-                <div v-if="canOrder" class="order">
-                    <div v-for="typeMenus,typeID in menus">
-                        <mt-checklist
-                                :title=menuTypeName(typeID)
-                                v-model="checkMenus"
-                                :options=optionFormatter(typeMenus)>
-                        </mt-checklist>
-                    </div>
-                </div>
+        <div :class="selectedClass('order')">
+            <div class="section select-store">
                 <div>
-                    <mt-actionsheet
-                            :actions="storeActions"
-                            v-model="storeActionSheet">
-                    </mt-actionsheet>
+                    <div @click="storeActionSheet = true" class="inline-dev">
+                        <mt-button type="danger">選點店家</mt-button>
+                    </div>
+                    <div @click="selectTable()" class="inline-dev">
+                        <mt-button type="primary">選點桌號</mt-button>
+                    </div>
+                    <div v-if="tableNo > 0" class="inline-dev">
+                        <mt-button type="default">桌號:{{tableNo}}</mt-button>
+                    </div>
+                    <div v-if="checkMenuCount > 0" class="inline-dev">
+                        <mt-button type="default">選項:{{checkMenuCount}}</mt-button>
+                    </div>
                 </div>
-            </mt-tab-container-item>
+            </div>
+            <div v-show="canOrder" class="order">
+                <div v-for="typeMenus,typeID in menus">
+                    <mt-checklist
+                            :title=menuTypeName(typeID)
+                            v-model="checkMenus"
+                            :options=optionFormatter(typeMenus)>
+                    </mt-checklist>
+                </div>
+            </div>
+            <div>
+                <mt-actionsheet
+                        :actions="storeActions"
+                        v-model="storeActionSheet">
+                </mt-actionsheet>
+            </div>
 
-            <mt-tab-container-item id="preview">
-                <preview></preview>
-            </mt-tab-container-item>
-
-        </mt-tab-container>
+        </div>
+        <div :class="selectedClass('preview')">
+            <preview></preview>
+        </div>
     </div>
 </template>
 
@@ -68,7 +73,7 @@
         components: {Preview},
         data() {
             return {
-                selectedNavbar: 'order',
+                selected: 'order',
                 checkMenus: [],
                 storeActionSheet: false,
                 storeActions: [],
@@ -112,7 +117,7 @@
             },
             checkMenuCount() {
                 return this.checkMenus.length
-            }
+            },
         },
         watch: {
             checkMenuCount() {
@@ -120,6 +125,15 @@
             }
         },
         methods: {
+            selectedClass(selected) {
+                return this.selected == selected ? 'show' : 'not-show'
+            },
+            isSelected(selected) {
+                return this.selected == selected ? 'is-selected' : ''
+            },
+            setSelected(selected) {
+                this.selected = selected
+            },
             getMenus(callback) {
                 let that = this
                 let data = {store_id: this.selectStore.id}
@@ -167,7 +181,7 @@
                                 that.$router.push({name: 'store-import-menu'})
                             }
                         },
-                        close:{
+                        close: {
                             text: '取消',
                             action: function () {
                             }
@@ -231,6 +245,14 @@
 </script>
 
 <style scoped>
+    .show {
+        display: block;
+    }
+
+    .not-show {
+        display: none;
+    }
+
     .select-store {
         padding-left: 20px;
     }
