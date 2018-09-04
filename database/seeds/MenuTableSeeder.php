@@ -18,7 +18,7 @@ class MenuTableSeeder extends Seeder
                 'name'         => $menu['name'],
                 'price'        => $menu['price'],
                 'menu_type_id' => $menu['type'],
-                'taste_ids'    => $menu['taste_ids']
+                'taste_ids'    => $menu['taste_ids'] ?? ''
             ]);
         }
 
