@@ -47,7 +47,7 @@ class TasteController extends Controller
         $taste = Taste::create([
             'user_id' => $userID,
             'name'    => $name,
-            'options' => $options
+            'options' => json_encode($options)
         ]);
 
         return responseSuccess(['taste' => $taste]);

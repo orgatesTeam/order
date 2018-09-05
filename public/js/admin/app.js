@@ -39412,31 +39412,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            tastes: {},
             show: false
         };
     },
 
+    computed: {
+        tastes: function tastes() {
+            return this.$store.state.taste.tastes;
+        }
+    },
     methods: {
         getTastes: function getTastes() {
-            var that = this;
-            Object(__WEBPACK_IMPORTED_MODULE_0__api_taste__["b" /* fetchList */])({}).then(function (response) {
-                if (response.data.code == 202) {
-                    that.tastes = response.data.items.tastes;
-                }
-            });
+            if (this.tastes === null) {
+                var that = this;
+                Object(__WEBPACK_IMPORTED_MODULE_0__api_taste__["b" /* fetchList */])({}).then(function (response) {
+                    if (response.data.code == 202) {
+                        that.$store.commit('setTastes', response.data.items.tastes);
+                    }
+                });
+            }
         },
         parseOptions: function parseOptions(options) {
             return JSON.parse(options);
         },
         edit: function edit(index) {
             var taste = this.tastes[index];
-            this.$store.commit('setTasteName', taste.name);
-            this.$store.commit('setTasteOptions', JSON.parse(taste.options));
+            this.$store.commit('setEditTaste', taste);
+            this.$store.commit('setEditTasteOptions', JSON.parse(taste.options));
             this.show = true;
-            this.$store.commit('setEditTasteID', taste.id);
         },
-        close: function close() {
+        closeTasteOptions: function closeTasteOptions() {
             this.show = false;
         },
         remove: function remove(index) {
@@ -39632,21 +39637,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "TasteOptions",
     components: { TasteOption: __WEBPACK_IMPORTED_MODULE_0__TasteOption___default.a },
     data: function data() {
         return {
             containerShake: '',
-            tasteName: '',
             showTasteOption: false,
-            title: '',
             //編輯模式origin data
             edit: {
-                originOptions: [],
-                originTasteName: ''
+                originTaste: null,
+                originOptions: []
             },
-            mode: 'new'
+            mode: 'new',
+            taste: {
+                name: ''
+            },
+            title: ''
         };
     },
     mounted: function mounted() {
@@ -39655,40 +39663,42 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     computed: {
-        taste: function taste() {
+        vuexTaste: function vuexTaste() {
             return this.$store.state.taste;
         },
         options: function options() {
-            return this.$store.state.taste.options;
+            return this.vuexTaste.editTasteOptions;
         },
         canStore: function canStore() {
-            if (this.options.length < 1) {
-                return false;
-            }
-            if (this.tasteName.length < 1) {
-                return false;
-            }
             return true;
         }
     },
     methods: {
+        getTastes: function getTastes() {
+            Object(__WEBPACK_IMPORTED_MODULE_1__api_taste__["b" /* fetchList */])({}).then(function (response) {
+                if (response.data.code == 202) {
+                    that.$store.commit('setTastes', response.data.items.tastes);
+                }
+            });
+        },
         checkEditSetting: function checkEditSetting() {
-            if (this.taste.name == '') {
+            var taste = this.vuexTaste.editTaste;
+            if (taste.name == '') {
                 this.title = '新增口味:';
             } else {
-                this.title = "\u7DE8\u8F2F-" + this.taste.name;
-                this.tasteName = this.taste.name;
-                this.edit.originTasteName = this.taste.name;
-                this.edit.originOptions = Object(__WEBPACK_IMPORTED_MODULE_2__utils_helper__["a" /* deepObjectClone */])(this.taste.options);
+                this.title = "\u7DE8\u8F2F-" + taste.name;
+                this.taste.name = taste.name;
+                this.edit.originTaste = Object(__WEBPACK_IMPORTED_MODULE_2__utils_helper__["a" /* deepObjectClone */])(taste);
+                this.edit.originOptions = Object(__WEBPACK_IMPORTED_MODULE_2__utils_helper__["a" /* deepObjectClone */])(this.vuexTaste.editTasteOptions);
                 this.mode = 'edit';
             }
         },
         shake: function shake(event) {
             if (event.target.className == 'cell') {
                 this.containerShake = 'shake';
-                var that = this;
+                var _that = this;
                 setTimeout(function () {
-                    that.containerShake = '';
+                    _that.containerShake = '';
                 }, 520);
             }
         },
@@ -39711,11 +39721,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         newTaste: function newTaste() {
             var taste = {
-                name: this.tasteName,
+                name: this.taste.name,
                 options: JSON.stringify(this.options)
             };
             var that = this;
             Object(__WEBPACK_IMPORTED_MODULE_1__api_taste__["c" /* newTaste */])(taste).then(function (response) {
+                if (response.data.code == '202') {
+                    that.getTastes();
+                }
                 var toastMessage = response.data.code == '202' ? '完成!' : '失敗!';
                 Object(__WEBPACK_IMPORTED_MODULE_3_mint_ui__["Toast"])({
                     message: toastMessage,
@@ -39727,12 +39740,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         updateTaste: function updateTaste() {
             var taste = {
-                id: this.taste.editTasteID,
-                name: this.tasteName,
-                options: JSON.stringify(this.options)
+                id: this.vuexTaste.editTaste.id,
+                name: this.taste.name,
+                options: JSON.stringify(this.vuexTaste.editTasteOptions)
             };
             var that = this;
             Object(__WEBPACK_IMPORTED_MODULE_1__api_taste__["d" /* updateTaste */])(taste).then(function (response) {
+                if (response.data.code == '202') {
+                    that.getTastes();
+                }
                 var toastMessage = response.data.code == '202' ? '完成!' : '失敗!';
                 Object(__WEBPACK_IMPORTED_MODULE_3_mint_ui__["Toast"])({
                     message: toastMessage,
@@ -39746,11 +39762,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.showTasteOption = false;
         },
         editOption: function editOption(index) {
-            this.$store.commit('setTasteOptionsIndex', index);
+            this.$store.commit('setTasteOptionIndex', index);
             this.showTasteOption = true;
         },
         addOption: function addOption() {
-            this.$store.commit('setTasteOptionsIndex', null);
+            this.$store.commit('setTasteOptionIndex', null);
             this.showTasteOption = true;
         }
     }
@@ -39895,6 +39911,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -39909,13 +39926,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 checks: []
             },
             tempCheck: '',
-            mode: 'add'
+            mode: 'new'
         };
     },
 
     computed: {
+        options: function options() {
+            return this.$store.state.taste.editTasteOptions;
+        },
         editIndex: function editIndex() {
-            return this.$store.state.taste.tasteOptionsIndex;
+            return this.$store.state.taste.tasteOptionIndex;
         },
         canStore: function canStore() {
             if (this.option.name.length > 0 && this.option.checks.length > 0) {
@@ -39927,9 +39947,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var index = this.editIndex;
         if (index != null) {
-            this.option = Object(__WEBPACK_IMPORTED_MODULE_0__utils_helper__["a" /* deepObjectClone */])(this.$store.state.taste.options[index]);
+            this.option = Object(__WEBPACK_IMPORTED_MODULE_0__utils_helper__["a" /* deepObjectClone */])(this.options[index]);
             this.mode = 'edit';
+            return;
         }
+
+        this.mode = 'new';
     },
 
     methods: {
@@ -39943,11 +39966,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         close: function close() {
-            this.$store.commit('setTasteOptionsIndex', null);
+            this.$store.commit('setTasteOptionIndex', null);
             this.$emit('close-taste-option');
         },
         save: function save() {
-            this.$store.commit('setTasteOption', this.option);
+            var options = Object(__WEBPACK_IMPORTED_MODULE_0__utils_helper__["a" /* deepObjectClone */])(this.options);
+            //編輯會有editIndex 新增項目不會用
+            if (this.mode === 'new') {
+                options.push(this.option);
+            }
+            if (this.mode === 'edit') {
+                options[this.editIndex] = this.option;
+            }
+            this.$store.commit('setEditTasteOptions', options);
             this.close();
         },
         addCheck: function addCheck() {
@@ -39964,8 +39995,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.option.checks.splice(index, 1);
         },
         remove: function remove() {
-            var options = this.editIndex == 0 ? [] : this.$store.state.taste.options.splice(this.editIndex, 1);
-            this.$store.commit('setTasteOptions', options);
+            var options = Object(__WEBPACK_IMPORTED_MODULE_0__utils_helper__["a" /* deepObjectClone */])(this.$store.state.taste.editTasteOptions);
+            options = this.editIndex === 0 ? [] : options.splice(this.editIndex, 1);
+            this.$store.commit('setEditTasteOptions', options);
             this.close();
         }
     }
@@ -40087,7 +40119,7 @@ var render = function() {
               ),
               _vm._v(" "),
               _c("div", { staticClass: "box-buttons-left" }, [
-                _vm.mode == "edit"
+                _vm.mode === "edit"
                   ? _c(
                       "a",
                       {
@@ -40184,11 +40216,11 @@ var render = function() {
                     _c("mt-field", {
                       attrs: { label: "口味名稱:" },
                       model: {
-                        value: _vm.tasteName,
+                        value: _vm.taste.name,
                         callback: function($$v) {
-                          _vm.tasteName = $$v
+                          _vm.$set(_vm.taste, "name", $$v)
                         },
-                        expression: "tasteName"
+                        expression: "taste.name"
                       }
                     })
                   ],
@@ -40422,7 +40454,9 @@ var render = function() {
       ),
       _vm._v(" "),
       _vm.show
-        ? _c("taste-options", { on: { "close-taste-options": _vm.close } })
+        ? _c("taste-options", {
+            on: { "close-taste-options": _vm.closeTasteOptions }
+          })
         : _vm._e()
     ],
     1
@@ -45055,44 +45089,32 @@ var order = {
 var taste = {
     state: {
         //編輯或者新增的暫存 start
-        name: '',
-        options: [],
-        tasteOptionsIndex: null,
-        editTasteID: null,
+        editTaste: null,
+        editTasteOptions: [],
+        tasteOptionIndex: null,
         //編輯或者新增的暫存 end
-        tastes: []
+        tastes: null
     },
     mutations: {
-        //編輯或者新增的暫存 start
-        setTasteOption: function setTasteOption(state, option) {
-            var index = state.tasteOptionsIndex;
-            if (index != null) {
-                state.options[index] = option;
-                return;
-            }
-            state.options.push(option);
-        },
-        setTasteOptionsIndex: function setTasteOptionsIndex(state, index) {
-            state.tasteOptionsIndex = index;
-        },
-        setTasteName: function setTasteName(state, name) {
-            state.name = name;
-        },
-        setTasteOptions: function setTasteOptions(state, options) {
-            state.options = options;
-        },
-        cancelEditTasteOptions: function cancelEditTasteOptions(state) {
-            state.name = '';
-            state.options = [];
-        },
-        setEditTasteID: function setEditTasteID(state, id) {
-            state.editTasteID = id;
-        },
-
-        //編輯或者新增的暫存 end
+        //cache tastes
         //暫存tastes
         setTastes: function setTastes(state, tastes) {
             state.tastes = tastes;
+        },
+
+        //編輯或者新增的暫存 start
+        setEditTaste: function setEditTaste(state, taste) {
+            state.editTaste = taste;
+        },
+        setEditTasteOptions: function setEditTasteOptions(state, options) {
+            state.editTasteOptions = options;
+        },
+        setTasteOptionIndex: function setTasteOptionIndex(state, index) {
+            state.tasteOptionIndex = index;
+        },
+        cancelEditTasteOptions: function cancelEditTasteOptions(state) {
+            state.tasteOptionIndex = null;
+            state.options = [];
         }
     },
     actions: {}

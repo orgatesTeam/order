@@ -11,7 +11,7 @@
                             </div>
                             <div class="box-content">
                                 <div>
-                                    <mt-field label="口味名稱:" v-model="tasteName"></mt-field>
+                                    <mt-field label="口味名稱:" v-model="taste.name"></mt-field>
                                 </div>
                                 <div>
                                     <a class="mint-cell mint-field">
@@ -48,6 +48,7 @@
     import {hackReset} from "../../../utils/helper"
     import {Toast} from 'mint-ui'
     import {updateTaste} from "../../../api/taste"
+    import {fetchList} from "../../../api/taste";
 
     export default {
         name: "TasteOptions",
@@ -55,15 +56,17 @@
         data() {
             return {
                 containerShake: '',
-                tasteName: '',
                 showTasteOption: false,
-                title: '',
                 //編輯模式origin data
                 edit: {
-                    originOptions: [],
-                    originTasteName: '',
+                    originTaste: null,
+                    originOptions: []
                 },
-                mode: 'new'
+                mode: 'new',
+                taste: {
+                    name: '',
+                },
+                title: ''
             }
         },
         mounted() {
@@ -71,31 +74,33 @@
             this.checkEditSetting()
         },
         computed: {
-            taste() {
+            vuexTaste() {
                 return this.$store.state.taste
             },
             options() {
-                return this.$store.state.taste.options
+                return this.vuexTaste.editTasteOptions
             },
             canStore() {
-                if (this.options.length < 1) {
-                    return false
-                }
-                if (this.tasteName.length < 1) {
-                    return false
-                }
                 return true
             }
         },
         methods: {
+            getTastes() {
+                fetchList({}).then(response => {
+                    if (response.data.code == 202) {
+                        that.$store.commit('setTastes', response.data.items.tastes)
+                    }
+                })
+            },
             checkEditSetting() {
-                if (this.taste.name == '') {
+                let taste = this.vuexTaste.editTaste
+                if (taste.name == '') {
                     this.title = '新增口味:'
                 } else {
-                    this.title = `編輯-${this.taste.name}`
-                    this.tasteName = this.taste.name
-                    this.edit.originTasteName = this.taste.name
-                    this.edit.originOptions = deepObjectClone(this.taste.options)
+                    this.title = `編輯-${taste.name}`
+                    this.taste.name = taste.name
+                    this.edit.originTaste = deepObjectClone(taste)
+                    this.edit.originOptions = deepObjectClone(this.vuexTaste.editTasteOptions)
                     this.mode = 'edit'
                 }
             },
@@ -127,11 +132,14 @@
             },
             newTaste() {
                 let taste = {
-                    name: this.tasteName,
+                    name: this.taste.name,
                     options: JSON.stringify(this.options)
                 }
                 let that = this
                 newTaste(taste).then(response => {
+                    if (response.data.code == '202') {
+                        that.getTastes()
+                    }
                     let toastMessage = (response.data.code == '202') ? '完成!' : '失敗!'
                     Toast({
                         message: toastMessage,
@@ -143,12 +151,15 @@
             },
             updateTaste() {
                 let taste = {
-                    id: this.taste.editTasteID,
-                    name: this.tasteName,
-                    options: JSON.stringify(this.options)
+                    id: this.vuexTaste.editTaste.id,
+                    name: this.taste.name,
+                    options: JSON.stringify(this.vuexTaste.editTasteOptions)
                 }
                 let that = this
                 updateTaste(taste).then(response => {
+                    if (response.data.code == '202') {
+                        that.getTastes()
+                    }
                     let toastMessage = (response.data.code == '202') ? '完成!' : '失敗!'
                     Toast({
                         message: toastMessage,
@@ -162,11 +173,11 @@
                 this.showTasteOption = false
             },
             editOption(index) {
-                this.$store.commit('setTasteOptionsIndex', index)
+                this.$store.commit('setTasteOptionIndex', index)
                 this.showTasteOption = true
             },
             addOption() {
-                this.$store.commit('setTasteOptionsIndex', null)
+                this.$store.commit('setTasteOptionIndex', null)
                 this.showTasteOption = true
             }
         }

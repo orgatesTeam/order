@@ -17,7 +17,7 @@ class CreateTastesTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->string('name');
-            $table->json('options')->commnet('選項');
+            $table->text('options')->commnet('選項');
             $table->timestamps();
         });
     }

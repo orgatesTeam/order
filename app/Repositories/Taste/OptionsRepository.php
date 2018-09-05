@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Taste;
 
+use phpDocumentor\Reflection\Types\String_;
 use Yish\Generators\Foundation\Repository\Repository;
 
 class OptionsRepository extends Repository
@@ -44,6 +45,10 @@ class OptionsRepository extends Repository
      */
     public function formatterOptions($options)
     {
+        if (is_string($options)) {
+            $options = json_decode($options, true);
+        }
+
         $newOptions = [];
         foreach ($options as $index => $option) {
             $makeOption = [];

@@ -25,7 +25,8 @@
                                 </div>
                             </div>
                             <div class="box-buttons-left">
-                                <a v-if="mode=='edit'" class="waves-effect waves-light btn red" @click="remove()">刪除</a>
+                                <a v-if="mode==='edit'" class="waves-effect waves-light btn red"
+                                   @click="remove()">刪除</a>
                             </div>
                             <div class="box-buttons-right">
                                 <a class="waves-effect waves-light btn" @click="save()" :disabled="!canStore">儲存</a>
@@ -50,15 +51,18 @@
                 containerShake: '',
                 option: {
                     name: '',
-                    checks: [],
+                    checks: []
                 },
                 tempCheck: '',
-                mode: 'add'
+                mode: 'new'
             }
         },
         computed: {
+            options() {
+                return this.$store.state.taste.editTasteOptions
+            },
             editIndex() {
-                return this.$store.state.taste.tasteOptionsIndex
+                return this.$store.state.taste.tasteOptionIndex
             },
             canStore() {
                 if (this.option.name.length > 0 && this.option.checks.length > 0) {
@@ -70,9 +74,12 @@
         mounted() {
             let index = this.editIndex
             if (index != null) {
-                this.option = deepObjectClone(this.$store.state.taste.options[index])
+                this.option = deepObjectClone(this.options[index])
                 this.mode = 'edit'
+                return
             }
+
+            this.mode = 'new'
         },
         methods: {
             shake(event) {
@@ -85,11 +92,19 @@
                 }
             },
             close() {
-                this.$store.commit('setTasteOptionsIndex', null)
+                this.$store.commit('setTasteOptionIndex', null)
                 this.$emit('close-taste-option')
             },
             save() {
-                this.$store.commit('setTasteOption', this.option)
+                let options = deepObjectClone(this.options)
+                //編輯會有editIndex 新增項目不會用
+                if (this.mode === 'new') {
+                    options.push(this.option)
+                }
+                if (this.mode === 'edit') {
+                    options[this.editIndex] = this.option
+                }
+                this.$store.commit('setEditTasteOptions', options)
                 this.close()
             },
             addCheck() {
@@ -106,8 +121,9 @@
                 this.option.checks.splice(index, 1)
             },
             remove() {
-                let options = this.editIndex == 0 ? [] : this.$store.state.taste.options.splice(this.editIndex, 1)
-                this.$store.commit('setTasteOptions', options)
+                let options = deepObjectClone(this.$store.state.taste.editTasteOptions)
+                options = this.editIndex === 0 ? [] : options.splice(this.editIndex, 1)
+                this.$store.commit('setEditTasteOptions', options)
                 this.close()
             }
         }

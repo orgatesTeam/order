@@ -42,7 +42,7 @@
                 </div>
             </div>
         </div>
-        <taste-options @close-taste-options="close" v-if="show"></taste-options>
+        <taste-options @close-taste-options="closeTasteOptions" v-if="show"></taste-options>
     </div>
 </template>
 
@@ -62,30 +62,35 @@
         },
         data() {
             return {
-                tastes: {},
                 show: false
+            }
+        },
+        computed: {
+            tastes() {
+                return this.$store.state.taste.tastes
             }
         },
         methods: {
             getTastes() {
-                let that = this
-                fetchList({}).then(response => {
-                    if (response.data.code == 202) {
-                        that.tastes = response.data.items.tastes
-                    }
-                })
+                if (this.tastes === null) {
+                    let that = this
+                    fetchList({}).then(response => {
+                        if (response.data.code == 202) {
+                            that.$store.commit('setTastes', response.data.items.tastes)
+                        }
+                    })
+                }
             },
             parseOptions(options) {
                 return JSON.parse(options);
             },
             edit(index) {
                 let taste = this.tastes[index]
-                this.$store.commit('setTasteName', taste.name)
-                this.$store.commit('setTasteOptions', JSON.parse(taste.options))
+                this.$store.commit('setEditTaste', taste)
+                this.$store.commit('setEditTasteOptions', JSON.parse(taste.options))
                 this.show = true
-                this.$store.commit('setEditTasteID', taste.id)
             },
-            close() {
+            closeTasteOptions() {
                 this.show = false
             },
             remove(index) {
