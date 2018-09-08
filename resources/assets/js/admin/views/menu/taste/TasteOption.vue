@@ -59,7 +59,7 @@
         },
         computed: {
             options() {
-                return this.$store.state.taste.editTasteOptions
+                return this.$store.state.taste.editTaste.options
             },
             editIndex() {
                 return this.$store.state.taste.tasteOptionIndex
@@ -72,16 +72,20 @@
             }
         },
         mounted() {
-            let index = this.editIndex
-            if (index != null) {
+            //編輯 OR 新增
+            this.initSession()
+        },
+        methods: {
+            initSession() {
+                let index = this.editIndex
+                if (index === null) {
+                    this.mode = 'new'
+                    return
+                }
                 this.option = deepObjectClone(this.options[index])
                 this.mode = 'edit'
                 return
-            }
-
-            this.mode = 'new'
-        },
-        methods: {
+            },
             shake(event) {
                 if (event.target.className == 'cell') {
                     this.containerShake = 'shake'
@@ -104,8 +108,18 @@
                 if (this.mode === 'edit') {
                     options[this.editIndex] = this.option
                 }
-                this.$store.commit('setEditTasteOptions', options)
+                this.updateOptions(options)
                 this.close()
+            },
+            remove() {
+                this.options.splice(this.editIndex, 1)
+                this.updateOptions(deepObjectClone(this.options))
+                this.close()
+            },
+            updateOptions(options) {
+                let taste = this.$store.state.taste.editTaste
+                taste.options = options
+                this.$store.commit('setEditTaste', taste)
             },
             addCheck() {
                 if (this.tempCheck == '') {
@@ -120,12 +134,6 @@
             cancelCheck(index) {
                 this.option.checks.splice(index, 1)
             },
-            remove() {
-                let options = deepObjectClone(this.$store.state.taste.editTasteOptions)
-                options = this.editIndex === 0 ? [] : options.splice(this.editIndex, 1)
-                this.$store.commit('setEditTasteOptions', options)
-                this.close()
-            }
         }
     }
 </script>

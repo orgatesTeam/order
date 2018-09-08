@@ -39348,6 +39348,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_mint_ui__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_mint_ui__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_helper__ = __webpack_require__(9);
 //
 //
 //
@@ -39396,6 +39397,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -39412,7 +39414,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            show: false
+            showEditTaste: false
         };
     },
 
@@ -39423,7 +39425,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         getTastes: function getTastes() {
-            if (this.tastes === null) {
+            var force = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+            if (this.tastes === null || force === true) {
                 var that = this;
                 Object(__WEBPACK_IMPORTED_MODULE_0__api_taste__["b" /* fetchList */])({}).then(function (response) {
                     if (response.data.code == 202) {
@@ -39432,24 +39436,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
             }
         },
-        parseOptions: function parseOptions(options) {
-            return JSON.parse(options);
-        },
-        edit: function edit(index) {
-            var taste = this.tastes[index];
+        add: function add() {
+            var taste = {
+                options: [],
+                name: ''
+            };
             this.$store.commit('setEditTaste', taste);
-            this.$store.commit('setEditTasteOptions', JSON.parse(taste.options));
-            this.show = true;
+            this.showEditTaste = true;
         },
-        closeTasteOptions: function closeTasteOptions() {
-            this.show = false;
+        edit: function edit(taste) {
+            taste = Object(__WEBPACK_IMPORTED_MODULE_4__utils_helper__["a" /* deepObjectClone */])(taste);
+            this.$store.commit('setEditTaste', taste);
+            this.showEditTaste = true;
         },
-        remove: function remove(index) {
+        close: function close() {
+            this.showEditTaste = false;
+        },
+        remove: function remove(taste) {
             var that = this;
 
             __WEBPACK_IMPORTED_MODULE_2_jquery___default.a.confirm({
                 title: '確定刪除口味!',
-                content: '\u522A\u9664\u53E3\u5473: ' + that.tastes[index].name,
+                content: '\u522A\u9664\u53E3\u5473: ' + taste.name,
                 type: 'red',
                 typeAnimated: true,
                 buttons: {
@@ -39457,7 +39465,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         text: '確定',
                         btnClass: 'btn-red',
                         action: function action() {
-                            var id = that.tastes[index].id;
+                            var id = taste.id;
                             Object(__WEBPACK_IMPORTED_MODULE_0__api_taste__["a" /* deleteTaste */])({ id: id }).then(function (response) {
                                 if (response.data.code == '202') {
                                     Object(__WEBPACK_IMPORTED_MODULE_3_mint_ui__["Toast"])({
@@ -39465,11 +39473,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                         position: 'middle',
                                         duration: 800
                                     });
-                                    if (that.tastes.length == 1) {
-                                        that.tastes = [];
-                                    } else {
-                                        that.tastes.splice(index, 1);
-                                    }
+                                    that.getTastes(true);
                                 }
                             });
                         }
@@ -39569,7 +39573,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\n.btn-option[data-v-032767ac] {\n    padding-left: 13px;\n}\n.shake[data-v-032767ac] {\n    -webkit-animation: shake .82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    animation: shake .82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n}\n.bg[data-v-032767ac] {\n    position: fixed;\n    top: 0;\n    height: 100%;\n    width: 100%;\n    background-color: #444;\n    opacity: .2;\n}\n.regulation[data-v-032767ac] {\n    position: fixed;\n    top: 0;\n    height: 100%;\n    width: 100%;\n    z-index: 99999999;\n}\n.regulation .table[data-v-032767ac] {\n    -webkit-perspective: 500px;\n    perspective: 500px;\n    -webkit-perspective-origin: center;\n    perspective-origin: center;\n    display: table;\n    width: 100%;\n    height: 100%;\n}\n.regulation .row[data-v-032767ac] {\n    display: table-row;\n    width: 100%;\n}\n.regulation .cell[data-v-032767ac] {\n    display: table-cell;\n    vertical-align: middle;\n}\n.regulation .container[data-v-032767ac] {\n    margin: 0 auto;\n    max-width: 1280px;\n    width: 90%;\n}\n.regulation .box[data-v-032767ac] {\n    background: white;\n    border-radius: 4px;\n    position: relative;\n    outline: 0;\n    padding: 15px 15px 0;\n    overflow: hidden;\n    margin-left: auto;\n    margin-right: auto;\n    border-top: solid 7px rgb(38, 162, 255);\n}\n.box-title[data-v-032767ac] {\n    display: block;\n    font-size: 22px;\n    line-height: 20px;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    cursor: default;\n    padding-bottom: 15px;\n}\n.box-content[data-v-032767ac] {\n    margin-bottom: 15px;\n    height: auto;\n    -webkit-transition: height .4s ease-in;\n    transition: height .4s ease-in;\n    display: inline-block;\n    width: 100%;\n    position: relative;\n    overflow-x: hidden;\n    overflow-y: auto;\n}\n.box-buttons-right[data-v-032767ac] {\n    float: right;\n    adding-bottom: 11px;\n    padding-bottom: 10px;\n}\n.box-buttons-left[data-v-032767ac] {\n    float: left;\n    adding-bottom: 11px;\n    padding-bottom: 10px;\n}\n.orange[data-v-032767ac] {\n    margin: 0 2px 0 2px;\n}\n", ""]);
+exports.push([module.i, "\n.btn-option[data-v-032767ac] {\n    padding-left: 13px;\n}\n.shake[data-v-032767ac] {\n    -webkit-animation: shake .82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    animation: shake .82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n}\n.bg[data-v-032767ac] {\n    position: fixed;\n    top: 0;\n    height: 100%;\n    width: 100%;\n    background-color: #444;\n    opacity: .2;\n}\n.regulation[data-v-032767ac] {\n    position: fixed;\n    top: 0;\n    height: 100%;\n    width: 100%;\n    z-index: 99999999;\n}\n.regulation .table[data-v-032767ac] {\n    -webkit-perspective: 500px;\n    perspective: 500px;\n    -webkit-perspective-origin: center;\n    perspective-origin: center;\n    display: table;\n    width: 100%;\n    height: 100%;\n}\n.regulation .row[data-v-032767ac] {\n    display: table-row;\n    width: 100%;\n}\n.regulation .cell[data-v-032767ac] {\n    display: table-cell;\n    vertical-align: middle;\n}\n.regulation .container[data-v-032767ac] {\n    margin: 0 auto;\n    max-width: 1280px;\n    width: 90%;\n}\n.regulation .box[data-v-032767ac] {\n    background: white;\n    border-radius: 4px;\n    position: relative;\n    outline: 0;\n    padding: 15px 15px 0;\n    overflow: hidden;\n    margin-left: auto;\n    margin-right: auto;\n    border-top: solid 7px rgb(38, 162, 255);\n}\n.box-title[data-v-032767ac] {\n    display: block;\n    font-size: 22px;\n    line-height: 20px;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    cursor: default;\n    padding-bottom: 15px;\n}\n.box-content[data-v-032767ac] {\n    margin-bottom: 15px;\n    height: auto;\n    -webkit-transition: height .4s ease-in;\n    transition: height .4s ease-in;\n    display: inline-block;\n    width: 100%;\n    position: relative;\n    overflow-x: hidden;\n    overflow-y: auto;\n}\n.box-buttons-right[data-v-032767ac] {\n    float: right;\n    adding-bottom: 11px;\n    padding-bottom: 10px;\n}\n.box-buttons-left[data-v-032767ac] {\n    float: left;\n    adding-bottom: 11px;\n    padding-bottom: 10px;\n}\n.orange[data-v-032767ac] {\n    margin: 8px 2px;\n}\n", ""]);
 
 // exports
 
@@ -39637,7 +39641,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "TasteOptions",
     components: { TasteOption: __WEBPACK_IMPORTED_MODULE_0__TasteOption___default.a },
@@ -39646,88 +39649,79 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             containerShake: '',
             showTasteOption: false,
             //編輯模式origin data
-            edit: {
-                originTaste: null,
-                originOptions: []
-            },
+            editOriginTaste: null,
+            editTasteName: '',
             mode: 'new',
-            taste: {
-                name: ''
-            },
             title: ''
         };
     },
     mounted: function mounted() {
-        //編輯預設定
-        this.checkEditSetting();
+        //編輯 or 新增 預設定
+        this.initSetting();
     },
 
     computed: {
         vuexTaste: function vuexTaste() {
             return this.$store.state.taste;
         },
-        options: function options() {
-            return this.vuexTaste.editTasteOptions;
+        editTaste: function editTaste() {
+            return this.vuexTaste.editTaste;
         },
         canStore: function canStore() {
-            return true;
+            if (this.editTaste.length < 1) {
+                return false;
+            }
+            return this.editTaste.options.length > 0;
         }
     },
     methods: {
-        getTastes: function getTastes() {
-            Object(__WEBPACK_IMPORTED_MODULE_1__api_taste__["b" /* fetchList */])({}).then(function (response) {
-                if (response.data.code == 202) {
-                    that.$store.commit('setTastes', response.data.items.tastes);
-                }
-            });
-        },
-        checkEditSetting: function checkEditSetting() {
+        initSetting: function initSetting() {
             var taste = this.vuexTaste.editTaste;
-            if (taste.name == '') {
+            if (taste.name === '') {
                 this.title = '新增口味:';
+                this.mode = 'new';
             } else {
                 this.title = "\u7DE8\u8F2F-" + taste.name;
-                this.taste.name = taste.name;
-                this.edit.originTaste = Object(__WEBPACK_IMPORTED_MODULE_2__utils_helper__["a" /* deepObjectClone */])(taste);
-                this.edit.originOptions = Object(__WEBPACK_IMPORTED_MODULE_2__utils_helper__["a" /* deepObjectClone */])(this.vuexTaste.editTasteOptions);
+                this.editOriginTaste = Object(__WEBPACK_IMPORTED_MODULE_2__utils_helper__["a" /* deepObjectClone */])(taste);
+                this.editTasteName = this.editOriginTaste.name;
                 this.mode = 'edit';
             }
         },
         shake: function shake(event) {
             if (event.target.className == 'cell') {
                 this.containerShake = 'shake';
-                var _that = this;
+                var that = this;
                 setTimeout(function () {
-                    _that.containerShake = '';
+                    that.containerShake = '';
                 }, 520);
             }
         },
         close: function close() {
-            this.$emit('close-taste-options');
-            this.$store.commit('cancelEditTasteOptions');
+            this.$emit('close');
+            this.$store.commit('setEditTaste', null);
         },
         save: function save() {
-
             if (this.mode == 'new') {
                 this.newTaste();
             }
-
             if (this.mode == 'edit') {
                 this.updateTaste();
             }
-
+        },
+        saveSuccess: function saveSuccess() {
+            this.$store.commit('setTastes', null);
             //強制刷新元件
             Object(__WEBPACK_IMPORTED_MODULE_2__utils_helper__["c" /* hackReset */])(this);
         },
         newTaste: function newTaste() {
             var taste = {
-                name: this.taste.name,
-                options: JSON.stringify(this.options)
+                options: JSON.stringify(this.vuexTaste.editTaste.options),
+                name: this.editTasteName
             };
             var that = this;
             Object(__WEBPACK_IMPORTED_MODULE_1__api_taste__["c" /* newTaste */])(taste).then(function (response) {
                 if (response.data.code == '202') {
-                    that.getTastes();
+                    that.saveSuccess();
                 }
                 var toastMessage = response.data.code == '202' ? '完成!' : '失敗!';
                 Object(__WEBPACK_IMPORTED_MODULE_3_mint_ui__["Toast"])({
@@ -39735,19 +39729,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     position: 'middle',
                     duration: 800
                 });
+                that.saveSuccess();
                 that.close();
             });
         },
         updateTaste: function updateTaste() {
+            var _vuexTaste$editTaste = this.vuexTaste.editTaste,
+                id = _vuexTaste$editTaste.id,
+                options = _vuexTaste$editTaste.options;
+
             var taste = {
-                id: this.vuexTaste.editTaste.id,
-                name: this.taste.name,
-                options: JSON.stringify(this.vuexTaste.editTasteOptions)
+                id: id,
+                options: JSON.stringify(options),
+                name: this.editTasteName
             };
             var that = this;
             Object(__WEBPACK_IMPORTED_MODULE_1__api_taste__["d" /* updateTaste */])(taste).then(function (response) {
                 if (response.data.code == '202') {
-                    that.getTastes();
+                    that.saveSuccess();
                 }
                 var toastMessage = response.data.code == '202' ? '完成!' : '失敗!';
                 Object(__WEBPACK_IMPORTED_MODULE_3_mint_ui__["Toast"])({
@@ -39932,7 +39931,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     computed: {
         options: function options() {
-            return this.$store.state.taste.editTasteOptions;
+            return this.$store.state.taste.editTaste.options;
         },
         editIndex: function editIndex() {
             return this.$store.state.taste.tasteOptionIndex;
@@ -39945,17 +39944,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     mounted: function mounted() {
-        var index = this.editIndex;
-        if (index != null) {
-            this.option = Object(__WEBPACK_IMPORTED_MODULE_0__utils_helper__["a" /* deepObjectClone */])(this.options[index]);
-            this.mode = 'edit';
-            return;
-        }
-
-        this.mode = 'new';
+        //編輯 OR 新增
+        this.initSession();
     },
 
     methods: {
+        initSession: function initSession() {
+            var index = this.editIndex;
+            if (index === null) {
+                this.mode = 'new';
+                return;
+            }
+            this.option = Object(__WEBPACK_IMPORTED_MODULE_0__utils_helper__["a" /* deepObjectClone */])(this.options[index]);
+            this.mode = 'edit';
+            return;
+        },
         shake: function shake(event) {
             if (event.target.className == 'cell') {
                 this.containerShake = 'shake';
@@ -39978,8 +39981,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.mode === 'edit') {
                 options[this.editIndex] = this.option;
             }
-            this.$store.commit('setEditTasteOptions', options);
+            this.updateOptions(options);
             this.close();
+        },
+        remove: function remove() {
+            this.options.splice(this.editIndex, 1);
+            this.updateOptions(Object(__WEBPACK_IMPORTED_MODULE_0__utils_helper__["a" /* deepObjectClone */])(this.options));
+            this.close();
+        },
+        updateOptions: function updateOptions(options) {
+            var taste = this.$store.state.taste.editTaste;
+            taste.options = options;
+            this.$store.commit('setEditTaste', taste);
         },
         addCheck: function addCheck() {
             if (this.tempCheck == '') {
@@ -39993,12 +40006,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         cancelCheck: function cancelCheck(index) {
             this.option.checks.splice(index, 1);
-        },
-        remove: function remove() {
-            var options = Object(__WEBPACK_IMPORTED_MODULE_0__utils_helper__["a" /* deepObjectClone */])(this.$store.state.taste.editTasteOptions);
-            options = this.editIndex === 0 ? [] : options.splice(this.editIndex, 1);
-            this.$store.commit('setEditTasteOptions', options);
-            this.close();
         }
     }
 });
@@ -40216,11 +40223,11 @@ var render = function() {
                     _c("mt-field", {
                       attrs: { label: "口味名稱:" },
                       model: {
-                        value: _vm.taste.name,
+                        value: _vm.editTasteName,
                         callback: function($$v) {
-                          _vm.$set(_vm.taste, "name", $$v)
+                          _vm.editTasteName = $$v
                         },
-                        expression: "taste.name"
+                        expression: "editTasteName"
                       }
                     })
                   ],
@@ -40246,7 +40253,7 @@ var render = function() {
                       _c(
                         "div",
                         { staticClass: "btn-option" },
-                        _vm._l(_vm.options, function(option, index) {
+                        _vm._l(_vm.editTaste.options, function(option, index) {
                           return _c(
                             "a",
                             {
@@ -40357,7 +40364,7 @@ var render = function() {
                           {
                             on: {
                               click: function($event) {
-                                _vm.show = true
+                                _vm.add()
                               }
                             }
                           },
@@ -40366,7 +40373,7 @@ var render = function() {
                               "mt-palette-button",
                               {
                                 attrs: {
-                                  content: "+",
+                                  content: "＋",
                                   mainButtonStyle:
                                     "color:#fff;background-color:#26a2ff;"
                                 }
@@ -40397,9 +40404,7 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "td",
-                        _vm._l(_vm.parseOptions(taste.options), function(
-                          option
-                        ) {
+                        _vm._l(taste.options, function(option) {
                           return _c("div", { staticClass: "options" }, [
                             _c(
                               "a",
@@ -40407,7 +40412,7 @@ var render = function() {
                                 staticClass: "waves-effect tabs btn orange",
                                 on: {
                                   click: function($event) {
-                                    _vm.edit(index)
+                                    _vm.edit(taste)
                                   }
                                 }
                               },
@@ -40424,7 +40429,7 @@ var render = function() {
                             staticClass: "waves-effect waves-light btn",
                             on: {
                               click: function($event) {
-                                _vm.edit(index)
+                                _vm.edit(taste)
                               }
                             }
                           },
@@ -40437,7 +40442,7 @@ var render = function() {
                             staticClass: "waves-effect waves-light btn red",
                             on: {
                               click: function($event) {
-                                _vm.remove(index)
+                                _vm.remove(taste)
                               }
                             }
                           },
@@ -40453,10 +40458,8 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      _vm.show
-        ? _c("taste-options", {
-            on: { "close-taste-options": _vm.closeTasteOptions }
-          })
+      _vm.showEditTaste
+        ? _c("taste-options", { on: { close: _vm.close } })
         : _vm._e()
     ],
     1
@@ -45088,11 +45091,8 @@ var order = {
 "use strict";
 var taste = {
     state: {
-        //編輯或者新增的暫存 start
         editTaste: null,
-        editTasteOptions: [],
         tasteOptionIndex: null,
-        //編輯或者新增的暫存 end
         tastes: null
     },
     mutations: {
@@ -45101,20 +45101,11 @@ var taste = {
         setTastes: function setTastes(state, tastes) {
             state.tastes = tastes;
         },
-
-        //編輯或者新增的暫存 start
         setEditTaste: function setEditTaste(state, taste) {
             state.editTaste = taste;
         },
-        setEditTasteOptions: function setEditTasteOptions(state, options) {
-            state.editTasteOptions = options;
-        },
-        setTasteOptionIndex: function setTasteOptionIndex(state, index) {
-            state.tasteOptionIndex = index;
-        },
-        cancelEditTasteOptions: function cancelEditTasteOptions(state) {
-            state.tasteOptionIndex = null;
-            state.options = [];
+        setTasteOptionIndex: function setTasteOptionIndex(state, tasteOptionIndex) {
+            state.tasteOptionIndex = tasteOptionIndex;
         }
     },
     actions: {}

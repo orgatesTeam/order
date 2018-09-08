@@ -31,6 +31,6 @@
         </div>
     </template>
 </div>
-<script src="{{asset('/js/admin/app.js')}}"></script>
+<script src="{{mix('/js/admin/app.js')}}"></script>
 </body>
 </html>

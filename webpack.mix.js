@@ -12,4 +12,5 @@ let mix = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/super/app.js', 'public/js/super')
-    .js('resources/assets/js/admin/app.js', 'public/js/admin');
+    .js('resources/assets/js/admin/app.js', 'public/js/admin')
+    .version();;

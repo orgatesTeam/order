@@ -11,14 +11,14 @@
                             </div>
                             <div class="box-content">
                                 <div>
-                                    <mt-field label="口味名稱:" v-model="taste.name"></mt-field>
+                                    <mt-field label="口味名稱:" v-model="editTasteName"></mt-field>
                                 </div>
                                 <div>
                                     <a class="mint-cell mint-field">
                                         <div class="mint-cell-wrapper">
                                             <a class="waves-effect waves-light btn blue" @click="addOption()">新增項目</a>
                                             <div class="btn-option">
-                                                <a v-for="option,index in options"
+                                                <a v-for="option,index in editTaste.options"
                                                    class="waves-effect waves-light btn orange"
                                                    @click="editOption(index)">{{option.name}}</a>
                                             </div>
@@ -48,7 +48,6 @@
     import {hackReset} from "../../../utils/helper"
     import {Toast} from 'mint-ui'
     import {updateTaste} from "../../../api/taste"
-    import {fetchList} from "../../../api/taste";
 
     export default {
         name: "TasteOptions",
@@ -58,49 +57,40 @@
                 containerShake: '',
                 showTasteOption: false,
                 //編輯模式origin data
-                edit: {
-                    originTaste: null,
-                    originOptions: []
-                },
+                editOriginTaste: null,
+                editTasteName: '',
                 mode: 'new',
-                taste: {
-                    name: '',
-                },
                 title: ''
             }
         },
         mounted() {
-            //編輯預設定
-            this.checkEditSetting()
+            //編輯 or 新增 預設定
+            this.initSetting()
         },
         computed: {
             vuexTaste() {
                 return this.$store.state.taste
             },
-            options() {
-                return this.vuexTaste.editTasteOptions
+            editTaste() {
+                return this.vuexTaste.editTaste
             },
             canStore() {
-                return true
+                if (this.editTaste.length < 1) {
+                    return false
+                }
+                return this.editTaste.options.length > 0
             }
         },
         methods: {
-            getTastes() {
-                fetchList({}).then(response => {
-                    if (response.data.code == 202) {
-                        that.$store.commit('setTastes', response.data.items.tastes)
-                    }
-                })
-            },
-            checkEditSetting() {
+            initSetting() {
                 let taste = this.vuexTaste.editTaste
-                if (taste.name == '') {
+                if (taste.name === '') {
                     this.title = '新增口味:'
+                    this.mode = 'new'
                 } else {
                     this.title = `編輯-${taste.name}`
-                    this.taste.name = taste.name
-                    this.edit.originTaste = deepObjectClone(taste)
-                    this.edit.originOptions = deepObjectClone(this.vuexTaste.editTasteOptions)
+                    this.editOriginTaste = deepObjectClone(taste)
+                    this.editTasteName = this.editOriginTaste.name
                     this.mode = 'edit'
                 }
             },
@@ -114,31 +104,31 @@
                 }
             },
             close() {
-                this.$emit('close-taste-options')
-                this.$store.commit('cancelEditTasteOptions')
+                this.$emit('close')
+                this.$store.commit('setEditTaste', null)
             },
             save() {
-
                 if (this.mode == 'new') {
                     this.newTaste()
                 }
-
                 if (this.mode == 'edit') {
                     this.updateTaste()
                 }
-
+            },
+            saveSuccess() {
+                this.$store.commit('setTastes', null)
                 //強制刷新元件
                 hackReset(this)
             },
             newTaste() {
                 let taste = {
-                    name: this.taste.name,
-                    options: JSON.stringify(this.options)
+                    options: JSON.stringify(this.vuexTaste.editTaste.options),
+                    name: this.editTasteName
                 }
                 let that = this
                 newTaste(taste).then(response => {
                     if (response.data.code == '202') {
-                        that.getTastes()
+                        that.saveSuccess()
                     }
                     let toastMessage = (response.data.code == '202') ? '完成!' : '失敗!'
                     Toast({
@@ -146,19 +136,21 @@
                         position: 'middle',
                         duration: 800
                     });
+                    that.saveSuccess()
                     that.close()
                 })
             },
             updateTaste() {
+                let {id, options} = this.vuexTaste.editTaste
                 let taste = {
-                    id: this.vuexTaste.editTaste.id,
-                    name: this.taste.name,
-                    options: JSON.stringify(this.vuexTaste.editTasteOptions)
+                    id,
+                    options: JSON.stringify(options),
+                    name: this.editTasteName
                 }
                 let that = this
                 updateTaste(taste).then(response => {
                     if (response.data.code == '202') {
-                        that.getTastes()
+                        that.saveSuccess()
                     }
                     let toastMessage = (response.data.code == '202') ? '完成!' : '失敗!'
                     Toast({
@@ -290,6 +282,6 @@
     }
 
     .orange {
-        margin: 0 2px 0 2px;
+        margin: 8px 2px;
     }
 </style>

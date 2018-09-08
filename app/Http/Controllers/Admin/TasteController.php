@@ -27,8 +27,17 @@ class TasteController extends Controller
     {
         $userID = auth()->user()->id;
         $tastes = Taste::where('user_id', $userID)
+            ->orderby('id','desc')
             ->get();
+        foreach ($tastes as $taste) {
+            $taste->options = $this->formatTasteOptions($taste->options);
+        }
         return responseSuccess(['tastes' => $tastes]);
+    }
+
+    protected function formatTasteOptions($options)
+    {
+        return json_decode($options, true);
     }
 
     /**

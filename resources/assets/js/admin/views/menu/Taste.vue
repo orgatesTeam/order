@@ -11,8 +11,8 @@
                             <th>項目</th>
                             <th>
                                 <div class="section">
-                                    <div @click="show = true">
-                                        <mt-palette-button content="+"
+                                    <div @click="add()">
+                                        <mt-palette-button content="＋"
                                                            mainButtonStyle="color:#fff;background-color:#26a2ff;">
                                             <div class="my-icon-button"></div>
                                             <div class="my-icon-button"></div>
@@ -28,13 +28,13 @@
                             <td>{{taste.name}}</td>
                             <td></td>
                             <td>
-                                <div v-for="option in parseOptions(taste.options)" class="options">
-                                    <a class="waves-effect tabs btn orange" @click="edit(index)">{{option.name}}</a>
+                                <div v-for="option in taste.options" class="options">
+                                    <a class="waves-effect tabs btn orange" @click="edit(taste)">{{option.name}}</a>
                                 </div>
                             </td>
                             <td>
-                                <a class="waves-effect waves-light btn" @click="edit(index)">編輯</a>
-                                <a class="waves-effect waves-light btn red" @click="remove(index)">刪除</a>
+                                <a class="waves-effect waves-light btn" @click="edit(taste)">編輯</a>
+                                <a class="waves-effect waves-light btn red" @click="remove(taste)">刪除</a>
                             </td>
                         </tr>
                         </tbody>
@@ -42,7 +42,7 @@
                 </div>
             </div>
         </div>
-        <taste-options @close-taste-options="closeTasteOptions" v-if="show"></taste-options>
+        <taste-options @close="close" v-if="showEditTaste"></taste-options>
     </div>
 </template>
 
@@ -52,6 +52,7 @@
     import $ from 'jquery'
     import {deleteTaste} from "../../api/taste"
     import {Toast} from 'mint-ui'
+    import {deepObjectClone} from "../../utils/helper";
 
     export default {
         name: "Taste",
@@ -62,7 +63,7 @@
         },
         data() {
             return {
-                show: false
+                showEditTaste: false
             }
         },
         computed: {
@@ -71,8 +72,8 @@
             }
         },
         methods: {
-            getTastes() {
-                if (this.tastes === null) {
+            getTastes(force = false) {
+                if (this.tastes === null || force === true) {
                     let that = this
                     fetchList({}).then(response => {
                         if (response.data.code == 202) {
@@ -81,24 +82,28 @@
                     })
                 }
             },
-            parseOptions(options) {
-                return JSON.parse(options);
-            },
-            edit(index) {
-                let taste = this.tastes[index]
+            add() {
+                let taste = {
+                    options: [],
+                    name: '',
+                }
                 this.$store.commit('setEditTaste', taste)
-                this.$store.commit('setEditTasteOptions', JSON.parse(taste.options))
-                this.show = true
+                this.showEditTaste = true
             },
-            closeTasteOptions() {
-                this.show = false
+            edit(taste) {
+                taste = deepObjectClone(taste)
+                this.$store.commit('setEditTaste', taste)
+                this.showEditTaste = true
             },
-            remove(index) {
+            close() {
+                this.showEditTaste = false
+            },
+            remove(taste) {
                 let that = this
 
                 $.confirm({
                     title: '確定刪除口味!',
-                    content: `刪除口味: ${that.tastes[index].name}`,
+                    content: `刪除口味: ${taste.name}`,
                     type: 'red',
                     typeAnimated: true,
                     buttons: {
@@ -106,7 +111,7 @@
                             text: '確定',
                             btnClass: 'btn-red',
                             action: function () {
-                                let id = that.tastes[index].id
+                                let id = taste.id
                                 deleteTaste({id: id}).then(response => {
                                     if (response.data.code == '202') {
                                         Toast({
@@ -114,11 +119,7 @@
                                             position: 'middle',
                                             duration: 800
                                         });
-                                        if (that.tastes.length == 1) {
-                                            that.tastes = []
-                                        } else {
-                                            that.tastes.splice(index, 1)
-                                        }
+                                        that.getTastes(true)
                                     }
                                 })
                             }
