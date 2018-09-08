@@ -38382,8 +38382,7 @@ var Paginate = __webpack_require__(43);
                 pageCount: 1,
                 currentPage: 1,
                 range: 5
-            },
-            tastes: []
+            }
         };
     },
     mounted: function mounted() {
@@ -38399,6 +38398,9 @@ var Paginate = __webpack_require__(43);
                 mapTastes[taste.id] = taste;
             });
             return mapTastes;
+        },
+        tastes: function tastes() {
+            return this.$store.state.taste.tastes;
         }
     },
     methods: {
@@ -38454,20 +38456,15 @@ var Paginate = __webpack_require__(43);
             this.$router.push({ name: 'menu-edit', query: { from: 'create' } });
         },
         getTastes: function getTastes() {
-            var tastes = this.$store.state.taste.tastes;
             var that = this;
-            if (tastes.length > 0) {
-                that.tastes = tastes;
-                return;
+            if (this.tastes === null) {
+                Object(__WEBPACK_IMPORTED_MODULE_2__api_taste__["b" /* fetchList */])({}).then(function (response) {
+                    if (response.data.code == '202') {
+                        var tastes = response.data.items.tastes;
+                        that.$store.commit('setTastes', tastes);
+                    }
+                });
             }
-
-            Object(__WEBPACK_IMPORTED_MODULE_2__api_taste__["b" /* fetchList */])({}).then(function (response) {
-                if (response.data.code == '202') {
-                    tastes = response.data.items.tastes;
-                    that.$store.commit('setTastes', tastes);
-                    that.tastes = tastes;
-                }
-            });
         },
         getTastesCount: function getTastesCount(tasteIDs) {
             if (!tasteIDs) {

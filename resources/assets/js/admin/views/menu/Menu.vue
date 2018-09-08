@@ -81,7 +81,6 @@
                     currentPage: 1,
                     range: 5,
                 },
-                tastes: []
             }
         },
         mounted() {
@@ -96,6 +95,9 @@
                     mapTastes[taste.id] = taste
                 })
                 return mapTastes
+            },
+            tastes() {
+                return this.$store.state.taste.tastes
             }
         },
         methods: {
@@ -146,24 +148,19 @@
                 this.$router.push({name: 'menu-edit', query: {from: 'edit'}})
             },
             create: function () {
-                this.$store.commit('setEditMenu',null)
+                this.$store.commit('setEditMenu', null)
                 this.$router.push({name: 'menu-edit', query: {from: 'create'}})
             },
             getTastes() {
-                let tastes = this.$store.state.taste.tastes
                 let that = this
-                if (tastes.length > 0) {
-                    that.tastes = tastes
-                    return
+                if (this.tastes === null) {
+                    fetchTastes({}).then(response => {
+                        if (response.data.code == '202') {
+                            let tastes = response.data.items.tastes
+                            that.$store.commit('setTastes', tastes)
+                        }
+                    })
                 }
-
-                fetchTastes({}).then(response => {
-                    if (response.data.code == '202') {
-                        tastes = response.data.items.tastes
-                        that.$store.commit('setTastes', tastes)
-                        that.tastes = tastes
-                    }
-                })
             },
             getTastesCount(tasteIDs) {
                 if (!tasteIDs) {
