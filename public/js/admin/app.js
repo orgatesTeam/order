@@ -39866,6 +39866,8 @@ exports.push([module.i, "\n.shake[data-v-f7c67752] {\n    -webkit-animation: sha
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_helper__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_jquery__);
 //
 //
 //
@@ -39908,6 +39910,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -39922,7 +39933,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 checks: []
             },
             tempCheck: '',
-            mode: 'new'
+            mode: 'new',
+            tasteAction: false,
+            editCheckIndex: null
         };
     },
 
@@ -39938,6 +39951,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return true;
             }
             return false;
+        },
+        actionCheckTypes: function actionCheckTypes() {
+            var that = this;
+            var check = this.option.checks[this.editCheckIndex];
+            var types = [{
+                name: '\u589E\u52A0\u91D1\u984D(\u76EE\u524D\u91D1\u984D: $ ' + (check ? check.price ? check.price : '0' : '0') + ')',
+                method: function method() {
+                    that.addPrice();
+                }
+            }, {
+                name: '移除',
+                method: function method() {
+                    that.cancelCheck();
+                }
+            }];
+            return types;
         }
     },
     mounted: function mounted() {
@@ -39946,6 +39975,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        editCheck: function editCheck(index) {
+            this.editCheckIndex = index;
+            this.tasteAction = true;
+        },
         initSession: function initSession() {
             var index = this.editIndex;
             if (index === null) {
@@ -40001,8 +40034,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 Object(__WEBPACK_IMPORTED_MODULE_0__utils_helper__["b" /* gotoBottom */])('max-content');
             });
         },
-        cancelCheck: function cancelCheck(index) {
+        cancelCheck: function cancelCheck() {
+            var index = this.editCheckIndex;
             this.option.checks.splice(index, 1);
+        },
+        addPrice: function addPrice() {
+            var index = this.editCheckIndex;
+            var check = this.option.checks[index];
+            __WEBPACK_IMPORTED_MODULE_1_jquery___default.a.confirm({
+                title: check.name + '\u6240\u9700\u589E\u52A0\u91D1\u984D',
+                content: '' + '<form action="" class="formName">' + '<div class="form-group">' + '<input type="text" placeholder="輸入金額" style="font-size: 18px" class="price form-control" required />' + '</div>' + '</form>',
+                buttons: {
+                    formSubmit: {
+                        text: '確定',
+                        btnClass: 'btn-blue',
+                        action: function action() {
+                            var price = this.$content.find('.price').val();
+                            check.price = price;
+                        }
+                    },
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'btn-default',
+                        action: function action() {}
+                    }
+                },
+                onContentReady: function onContentReady() {
+                    // bind to events
+                    var jc = this;
+                    this.$content.find('form').on('submit', function (e) {
+                        // if the user submits the form by pressing enter in the field.
+                        e.preventDefault();
+                        jc.$$formSubmit.trigger('click'); // reference the button and click it
+                    });
+                }
+            });
         }
     }
 });
@@ -40015,164 +40081,184 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "regulation" }, [
-    _c("div", { staticClass: "bg" }),
-    _vm._v(" "),
-    _c("div", { staticClass: "table", on: { click: _vm.shake } }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "cell" }, [
-          _c("div", { staticClass: "container", class: _vm.containerShake }, [
-            _c("div", { staticClass: "box" }, [
-              _vm._m(0),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "box-content max-content",
-                  attrs: { id: "max-content" }
-                },
-                [
-                  _c(
-                    "div",
-                    [
-                      _c("mt-field", {
-                        attrs: { label: "項目名稱:" },
-                        model: {
-                          value: _vm.option.name,
-                          callback: function($$v) {
-                            _vm.$set(_vm.option, "name", $$v)
-                          },
-                          expression: "option.name"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _vm._l(_vm.option.checks, function(check, index) {
-                    return _c(
+  return _c(
+    "div",
+    { staticClass: "regulation" },
+    [
+      _c("div", { staticClass: "bg" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "table", on: { click: _vm.shake } }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "cell" }, [
+            _c("div", { staticClass: "container", class: _vm.containerShake }, [
+              _c("div", { staticClass: "box" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "box-content max-content",
+                    attrs: { id: "max-content" }
+                  },
+                  [
+                    _c(
+                      "div",
+                      [
+                        _c("mt-field", {
+                          attrs: { label: "項目名稱:" },
+                          model: {
+                            value: _vm.option.name,
+                            callback: function($$v) {
+                              _vm.$set(_vm.option, "name", $$v)
+                            },
+                            expression: "option.name"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _vm._l(_vm.option.checks, function(check, index) {
+                      return _c(
+                        "div",
+                        [
+                          _c(
+                            "mt-field",
+                            {
+                              attrs: { label: "程度" + (index + 1) },
+                              model: {
+                                value: check.name,
+                                callback: function($$v) {
+                                  _vm.$set(check, "name", $$v)
+                                },
+                                expression: "check.name"
+                              }
+                            },
+                            [
+                              _c("div", [
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass:
+                                      "waves-effect waves-light btn red",
+                                    on: {
+                                      click: function($event) {
+                                        _vm.editCheck(index)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("操作")]
+                                )
+                              ])
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    }),
+                    _vm._v(" "),
+                    _c(
                       "div",
                       [
                         _c(
                           "mt-field",
                           {
-                            attrs: { label: "程度" + (index + 1) },
+                            attrs: { label: "輸入口味:" },
                             model: {
-                              value: check.name,
+                              value: _vm.tempCheck,
                               callback: function($$v) {
-                                _vm.$set(check, "name", $$v)
+                                _vm.tempCheck = $$v
                               },
-                              expression: "check.name"
+                              expression: "tempCheck"
                             }
                           },
                           [
                             _c(
                               "a",
                               {
-                                staticClass: "waves-effect waves-light btn red",
+                                staticClass:
+                                  "waves-effect waves-light btn blue",
                                 on: {
                                   click: function($event) {
-                                    _vm.cancelCheck(index)
+                                    _vm.addCheck()
                                   }
                                 }
                               },
-                              [_vm._v("移除")]
+                              [_vm._v("增加")]
                             )
                           ]
                         )
                       ],
                       1
                     )
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    [
-                      _c(
-                        "mt-field",
-                        {
-                          attrs: { label: "輸入口味:" },
-                          model: {
-                            value: _vm.tempCheck,
-                            callback: function($$v) {
-                              _vm.tempCheck = $$v
-                            },
-                            expression: "tempCheck"
-                          }
-                        },
-                        [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "waves-effect waves-light btn blue",
-                              on: {
-                                click: function($event) {
-                                  _vm.addCheck()
-                                }
-                              }
-                            },
-                            [_vm._v("增加")]
-                          )
-                        ]
-                      )
-                    ],
-                    1
-                  )
-                ],
-                2
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "box-buttons-left" }, [
-                _vm.mode === "edit"
-                  ? _c(
-                      "a",
-                      {
-                        staticClass: "waves-effect waves-light btn red",
-                        on: {
-                          click: function($event) {
-                            _vm.remove()
-                          }
-                        }
-                      },
-                      [_vm._v("刪除")]
-                    )
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "box-buttons-right" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "waves-effect waves-light btn",
-                    attrs: { disabled: !_vm.canStore },
-                    on: {
-                      click: function($event) {
-                        _vm.save()
-                      }
-                    }
-                  },
-                  [_vm._v("儲存")]
+                  ],
+                  2
                 ),
                 _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    staticClass: "waves-effect waves-light btn",
-                    on: {
-                      click: function($event) {
-                        _vm.close()
+                _c("div", { staticClass: "box-buttons-left" }, [
+                  _vm.mode === "edit"
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "waves-effect waves-light btn red",
+                          on: {
+                            click: function($event) {
+                              _vm.remove()
+                            }
+                          }
+                        },
+                        [_vm._v("刪除")]
+                      )
+                    : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "box-buttons-right" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "waves-effect waves-light btn",
+                      attrs: { disabled: !_vm.canStore },
+                      on: {
+                        click: function($event) {
+                          _vm.save()
+                        }
                       }
-                    }
-                  },
-                  [_vm._v("取消")]
-                )
+                    },
+                    [_vm._v("儲存")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "waves-effect waves-light btn",
+                      on: {
+                        click: function($event) {
+                          _vm.close()
+                        }
+                      }
+                    },
+                    [_vm._v("取消")]
+                  )
+                ])
               ])
             ])
           ])
         ])
-      ])
-    ])
-  ])
+      ]),
+      _vm._v(" "),
+      _c("mt-actionsheet", {
+        attrs: { actions: _vm.actionCheckTypes },
+        model: {
+          value: _vm.tasteAction,
+          callback: function($$v) {
+            _vm.tasteAction = $$v
+          },
+          expression: "tasteAction"
+        }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {

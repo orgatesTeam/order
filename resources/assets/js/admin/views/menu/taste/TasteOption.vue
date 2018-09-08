@@ -15,7 +15,10 @@
                                 </div>
                                 <div v-for="check,index in option.checks">
                                     <mt-field :label="`程度${index+1}`" v-model="check.name">
-                                        <a class="waves-effect waves-light btn red" @click="cancelCheck(index)">移除</a>
+                                        <div>
+                                            <a class="waves-effect waves-light btn red"
+                                               @click="editCheck(index)">操作</a>
+                                        </div>
                                     </mt-field>
                                 </div>
                                 <div>
@@ -37,12 +40,18 @@
                 </div>
             </div>
         </div>
+        <mt-actionsheet
+                :actions="actionCheckTypes"
+                v-model="tasteAction">
+        </mt-actionsheet>
+
     </div>
 </template>
 
 <script>
     import {gotoBottom} from '../../../utils/helper'
     import {deepObjectClone} from "../../../utils/helper";
+    import $ from 'jquery'
 
     export default {
         name: "TasteOption",
@@ -54,7 +63,9 @@
                     checks: []
                 },
                 tempCheck: '',
-                mode: 'new'
+                mode: 'new',
+                tasteAction: false,
+                editCheckIndex: null
             }
         },
         computed: {
@@ -69,13 +80,36 @@
                     return true
                 }
                 return false
-            }
+            },
+            actionCheckTypes() {
+                let that = this
+                let check = this.option.checks[this.editCheckIndex]
+                let types = [
+                    {
+                        name: `增加金額(目前金額: $ ${check ? (check.price ? check.price : '0') : '0'})`,
+                        method: () => {
+                            that.addPrice()
+                        }
+                    },
+                    {
+                        name: '移除',
+                        method: () => {
+                            that.cancelCheck()
+                        }
+                    }
+                ]
+                return types
+            },
         },
         mounted() {
             //編輯 OR 新增
             this.initSession()
         },
         methods: {
+            editCheck(index) {
+                this.editCheckIndex = index
+                this.tasteAction = true
+            },
             initSession() {
                 let index = this.editIndex
                 if (index === null) {
@@ -131,9 +165,48 @@
                     gotoBottom('max-content')
                 })
             },
-            cancelCheck(index) {
+            cancelCheck() {
+                let index = this.editCheckIndex
                 this.option.checks.splice(index, 1)
             },
+            addPrice() {
+                let index = this.editCheckIndex
+                let check = this.option.checks[index]
+                $.confirm({
+                    title: `${check.name}所需增加金額`,
+                    content: '' +
+                        '<form action="" class="formName">' +
+                        '<div class="form-group">' +
+                        '<input type="text" placeholder="輸入金額" style="font-size: 18px" class="price form-control" required />' +
+                        '</div>' +
+                        '</form>',
+                    buttons: {
+                        formSubmit: {
+                            text: '確定',
+                            btnClass: 'btn-blue',
+                            action: function () {
+                                var price = this.$content.find('.price').val();
+                                check.price = price
+                            }
+                        },
+                        cancel: {
+                            text: '取消',
+                            btnClass: 'btn-default',
+                            action: function () {
+                            }
+                        },
+                    },
+                    onContentReady: function () {
+                        // bind to events
+                        var jc = this;
+                        this.$content.find('form').on('submit', function (e) {
+                            // if the user submits the form by pressing enter in the field.
+                            e.preventDefault();
+                            jc.$$formSubmit.trigger('click'); // reference the button and click it
+                        });
+                    }
+                });
+            }
         }
     }
 </script>
