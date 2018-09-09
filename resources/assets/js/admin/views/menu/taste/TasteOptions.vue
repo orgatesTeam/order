@@ -116,7 +116,7 @@
                 }
             },
             saveSuccess() {
-                this.$store.commit('setTastes', null)
+                this.$store.commit('setCacheTastes', null)
                 //強制刷新元件
                 hackReset(this)
             },

@@ -2915,7 +2915,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         saveSuccess: function saveSuccess() {
-            this.$store.commit('setTastes', null);
+            this.$store.commit('setCacheTastes', null);
             //強制刷新元件
             Object(__WEBPACK_IMPORTED_MODULE_2__utils_helper__["c" /* hackReset */])(this);
         },
@@ -28742,7 +28742,7 @@ var render = function() {
                                       }
                                     }
                                   },
-                                  [_vm._v("操作")]
+                                  [_vm._v("金額 / 移除")]
                                 )
                               ])
                             ]

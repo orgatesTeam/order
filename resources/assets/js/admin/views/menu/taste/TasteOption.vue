@@ -17,7 +17,7 @@
                                     <mt-field :label="`程度${index+1}`" v-model="check.name">
                                         <div>
                                             <a class="waves-effect waves-light btn red"
-                                               @click="editCheck(index)">操作</a>
+                                               @click="editCheck(index)">金額 / 移除</a>
                                         </div>
                                     </mt-field>
                                 </div>

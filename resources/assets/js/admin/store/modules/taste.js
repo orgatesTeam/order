@@ -13,7 +13,7 @@ const taste = {
         },
         setTasteOptionIndex(state, tasteOptionIndex) {
             state.tasteOptionIndex = tasteOptionIndex
-        }
+        },
     },
     actions: {}
 }
