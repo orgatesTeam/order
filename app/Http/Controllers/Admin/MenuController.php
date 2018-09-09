@@ -23,7 +23,7 @@ class MenuController extends Controller
     public function list()
     {
         $user = auth()->user();
-        $menus = Menu::where('user_id', $user->id)->orderBy('id', 'desc')->paginate(15);
+        $menus = Menu::where('user_id', $user->id)->orderBy('id', 'desc')->paginate(10);
 
         $menuTypes = $this->makeMappingMenuTypes($menus);
 

@@ -59,7 +59,8 @@
                 login(data).then(response => {
                     if (response.data.code == 202) {
                         setToken(response.data.items.token)
-                        that.$router.push({name: 'menu'})
+                        //刷新 vuex
+                        location.href = '/admin'
                     }
                 })
             }

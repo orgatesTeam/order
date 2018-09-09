@@ -212,4 +212,11 @@
         display: inline-block;
         margin: 0 2px 0 2px;
     }
+
+    @media only screen and (max-width: 600px) {
+        .pagination{
+            padding-top: 50px;
+        }
+    }
+
 </style>
