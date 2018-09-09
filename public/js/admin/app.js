@@ -2984,8 +2984,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__api_store__ = __webpack_require__("./resources/assets/js/admin/api/store.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_menu__ = __webpack_require__("./resources/assets/js/admin/api/menu.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__cache_storeManager__ = __webpack_require__("./resources/assets/js/admin/cache/storeManager.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__cache_menu__ = __webpack_require__("./resources/assets/js/admin/cache/menu.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__("./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Preview__ = __webpack_require__("./resources/assets/js/admin/views/order/Preview.vue");
@@ -3060,6 +3060,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Order",
     components: { Preview: __WEBPACK_IMPORTED_MODULE_3__Preview___default.a },
@@ -3081,26 +3082,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         console.log(__WEBPACK_IMPORTED_MODULE_3__Preview___default.a);
-        this.$store.commit('setFormTitle', '\u9EDE\u9910\u7BA1\u7406');
+        this.$store.commit('setFormTitle', "\u9EDE\u9910\u7BA1\u7406");
         var that = this;
-        Object(__WEBPACK_IMPORTED_MODULE_0__api_store__["c" /* fetchList */])({}).then(function (response) {
-            if (response.data.code == 202) {
-                console.log(response);
-                var stores = response.data.items.stores;
-                stores.forEach(function (store) {
-                    that.storeActions.push({
-                        name: store.name,
-                        method: function method() {
-                            that.beforeSelectedStore();
-                            that.selectStore.id = store.id;
-                            that.selectStore.name = store.name;
-                            that.selectStore.tableTotal = store.table_total;
-                            that.$store.commit('setFormTitle', store.name + '-\u9EDE\u9910\u7BA1\u7406');
-                            that.afterSelectedStore();
-                        }
-                    });
+        Object(__WEBPACK_IMPORTED_MODULE_0__cache_storeManager__["a" /* getStores */])(function (stores) {
+            stores.forEach(function (store) {
+                that.storeActions.push({
+                    name: store.name,
+                    method: function method() {
+                        that.beforeSelectedStore();
+                        that.selectStore.id = store.id;
+                        that.selectStore.name = store.name;
+                        that.selectStore.tableTotal = store.table_total;
+                        that.$store.commit('setFormTitle', store.name + "-\u9EDE\u9910\u7BA1\u7406");
+                        that.afterSelectedStore();
+                    }
                 });
-            }
+            });
         });
     },
 
@@ -3129,20 +3126,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         getMenus: function getMenus(callback) {
             var that = this;
-            var data = { store_id: this.selectStore.id };
-            Object(__WEBPACK_IMPORTED_MODULE_1__api_menu__["d" /* listByStore */])(data).then(function (response) {
-                if (response.data.code == 202) {
-                    console.log(response);
-                    that.menuTypes = response.data.items.menuTypes;
-                    that.menus = response.data.items.menus;
-                    callback();
-                }
+            Object(__WEBPACK_IMPORTED_MODULE_1__cache_menu__["a" /* getMenuTypes */])(function (menuTypes) {
+                that.menuTypes = menuTypes;
             });
+            Object(__WEBPACK_IMPORTED_MODULE_1__cache_menu__["c" /* getStoreMenus */])(function (menus) {
+                that.menus = menus;
+                callback();
+            }, this.selectStore.id);
         },
 
         //選擇店家 hook
         afterSelectedStore: function afterSelectedStore() {
             var that = this;
+            that.checkMenus = [];
             this.getMenus(function () {
 
                 //未匯入菜單
@@ -3163,7 +3159,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var that = this;
             __WEBPACK_IMPORTED_MODULE_2_jquery___default.a.confirm({
                 title: '提醒! 店家未匯入菜單',
-                content: '\u524D\u5F80\u300E' + store.name + '\u300F\u5E97\u5BB6\u7BA1\u7406\u532F\u5165\u83DC\u55AE',
+                content: "\u524D\u5F80\u300E" + store.name + "\u300F\u5E97\u5BB6\u7BA1\u7406\u532F\u5165\u83DC\u55AE",
                 type: 'red',
                 typeAnimated: true,
                 buttons: {
@@ -3186,7 +3182,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var storeName = this.selectStore.name;
             var that = this;
             var confirm = {
-                title: '\u5E97\u5BB6: ' + storeName,
+                title: "\u5E97\u5BB6: " + storeName,
                 content: '請選擇桌號:',
                 buttons: {
                     '取消': {
@@ -3221,7 +3217,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var formatter = [];
             menus.forEach(function (menu) {
                 var newMenu = {
-                    label: menu.menu_name + '    $' + menu.menu_price,
+                    label: menu.menu_name + "    $" + menu.menu_price,
                     value: {
                         id: menu.menu_id,
                         name: menu.menu_name,
@@ -44575,6 +44571,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["b"] = getMenus;
 /* harmony export (immutable) */ __webpack_exports__["a"] = getMenuTypes;
+/* harmony export (immutable) */ __webpack_exports__["c"] = getStoreMenus;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__api_menu__ = __webpack_require__("./resources/assets/js/admin/api/menu.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store__ = __webpack_require__("./resources/assets/js/admin/store/index.js");
 
@@ -44608,6 +44605,22 @@ function getMenuTypes(callback) {
         });
     } else {
         callback(__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.menu.cacheMenuTypes);
+    }
+}
+
+function getStoreMenus(callback, storeID) {
+    var force = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+    if (__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.menu.cacheStoreMenus[storeID] === undefined || force === true) {
+        __WEBPACK_IMPORTED_MODULE_0__api_menu__["d" /* listByStore */]({ store_id: storeID }).then(function (response) {
+            if (response.data.code == 202) {
+                var menus = response.data.items.menus;
+                __WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].commit('setCacheStoreMenus', { menus: menus, storeID: storeID });
+                callback(menus);
+            }
+        });
+    } else {
+        callback(__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.menu.cacheStoreMenus[storeID]);
     }
 }
 
@@ -44894,7 +44907,8 @@ var menu = {
         page: 1,
         cacheMenus: [],
         cacheMenuTypes: null,
-        editMenu: null
+        editMenu: null,
+        cacheStoreMenus: []
     },
     mutations: {
         setMenuPage: function setMenuPage(state, page) {
@@ -44908,6 +44922,11 @@ var menu = {
         },
         setCacheMenuTypes: function setCacheMenuTypes(state, menuTypes) {
             state.cacheMenuTypes = menuTypes;
+        },
+        setCacheStoreMenus: function setCacheStoreMenus(state, storeMenus) {
+            var menus = storeMenus.menus;
+            var storeID = storeMenus.storeID;
+            state.cacheStoreMenus[storeID] = menus;
         },
         refreshMenus: function refreshMenus(state) {
             state.cacheMenus = [];

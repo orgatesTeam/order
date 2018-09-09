@@ -77,7 +77,12 @@ class MenuController extends Controller
 
     public function updateMenu()
     {
-        $keys = ['name', 'price', 'menu_type_id', 'id', 'taste_ids'];
+        $keys = ['name',
+            'price',
+            'menu_type_id',
+            'id',
+            'taste_ids'
+        ];
         checkRequestExist($keys);
 
         $menu = Menu::find(request('id'));
@@ -103,7 +108,11 @@ class MenuController extends Controller
 
     public function createMenu()
     {
-        $keys = ['name', 'price', 'menu_type_id', 'taste_ids'];
+        $keys = ['name',
+            'price',
+            'menu_type_id',
+            'taste_ids'
+        ];
         checkRequestExist($keys);
 
         $menuType = MenuType::where('id', request('menu_type_id'))->where('user_id', auth()->user()->id)->first();
@@ -117,7 +126,7 @@ class MenuController extends Controller
             'name'         => request('name'),
             'price'        => request('price'),
             'menu_type_id' => request('menu_type_id'),
-            'taste_ids'     => request('taste_ids')
+            'taste_ids'    => request('taste_ids')
         ]);
 
         return responseSuccess(['menu' => $menu]);
@@ -178,7 +187,7 @@ class MenuController extends Controller
             ->get();
 
         if ($storeMenus->isEmpty()) {
-            return responseSuccess(['menus' => [], 'menuTypes' => []]);
+            return responseSuccess(['menus' => []]);
         }
 
         $menuIDs = collectionMapField($storeMenus, 'menu_id');
@@ -204,11 +213,7 @@ class MenuController extends Controller
             $menuFormatter[$menu->menu_type_id][] = $menu;
         }
 
-        $menuTypes = MenuType::select('id', 'name')
-            ->whereRaw('id in (' . implode(',', array_keys($menuTypeIDs)) . ')')
-            ->get();
-
-        return responseSuccess(['menus' => $menuFormatter, 'menuTypes' => $menuTypes]);
+        return responseSuccess(['menus' => $menuFormatter]);
     }
 
 }

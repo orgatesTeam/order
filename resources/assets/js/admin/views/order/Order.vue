@@ -63,8 +63,9 @@
 </template>
 
 <script>
-    import {fetchList} from '../../api/store'
-    import {listByStore} from '../../api/menu'
+    import {getStores} from "../../cache/storeManager";
+    import {getStoreMenus} from "../../cache/menu";
+    import {getMenuTypes} from "../../cache/menu";
     import $ from 'jquery'
     import Preview from './Preview'
 
@@ -91,24 +92,20 @@
             console.log(Preview)
             this.$store.commit('setFormTitle', `點餐管理`)
             let that = this
-            fetchList({}).then(response => {
-                if (response.data.code == 202) {
-                    console.log(response)
-                    let stores = response.data.items.stores
-                    stores.forEach((store) => {
-                        that.storeActions.push({
-                            name: store.name,
-                            method: () => {
-                                that.beforeSelectedStore()
-                                that.selectStore.id = store.id
-                                that.selectStore.name = store.name
-                                that.selectStore.tableTotal = store.table_total
-                                that.$store.commit('setFormTitle', `${store.name}-點餐管理`)
-                                that.afterSelectedStore()
-                            }
-                        })
+            getStores(stores => {
+                stores.forEach((store) => {
+                    that.storeActions.push({
+                        name: store.name,
+                        method: () => {
+                            that.beforeSelectedStore()
+                            that.selectStore.id = store.id
+                            that.selectStore.name = store.name
+                            that.selectStore.tableTotal = store.table_total
+                            that.$store.commit('setFormTitle', `${store.name}-點餐管理`)
+                            that.afterSelectedStore()
+                        }
                     })
-                }
+                })
             })
         },
         computed: {
@@ -136,19 +133,18 @@
             },
             getMenus(callback) {
                 let that = this
-                let data = {store_id: this.selectStore.id}
-                listByStore(data).then(response => {
-                    if (response.data.code == 202) {
-                        console.log(response)
-                        that.menuTypes = response.data.items.menuTypes
-                        that.menus = response.data.items.menus
-                        callback()
-                    }
+                getMenuTypes(menuTypes => {
+                    that.menuTypes = menuTypes
                 })
+                getStoreMenus(menus => {
+                    that.menus = menus
+                    callback()
+                }, this.selectStore.id)
             },
             //選擇店家 hook
             afterSelectedStore() {
                 let that = this
+                that.checkMenus = []
                 this.getMenus(() => {
 
                     //未匯入菜單

@@ -27,3 +27,17 @@ export function getMenuTypes(callback, force = false) {
         callback(store.state.menu.cacheMenuTypes)
     }
 }
+
+export function getStoreMenus(callback, storeID, force = false) {
+    if (store.state.menu.cacheStoreMenus[storeID] === undefined || force === true) {
+        menu.listByStore({store_id: storeID}).then(response => {
+            if (response.data.code == 202) {
+                let menus = response.data.items.menus
+                store.commit('setCacheStoreMenus', {menus, storeID})
+                callback(menus)
+            }
+        })
+    } else {
+        callback(store.state.menu.cacheStoreMenus[storeID])
+    }
+}

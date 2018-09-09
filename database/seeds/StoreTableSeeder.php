@@ -19,14 +19,21 @@ class StoreTableSeeder extends Seeder
                 'name'    => $store['name'],
                 'tel'     => '02-22288445',
                 'address' => '台北市信義區336巷',
+                'table_total' => '5'
             ]);
         }
 
-        foreach ($stores as $store) {
-            foreach (range(1, 30) as $index) {
+        foreach ($stores as $index => $store) {
+            $range = $index == 0 ?
+                [1,
+                    30
+                ] : [31,
+                    60
+                ];
+            foreach (range($range[0], $range[1]) as $menuID) {
                 App\StoreMenu::create([
-                    'store_id' => $store->id,
-                    'menu_id'  => $index
+                    'store_id'    => $store->id,
+                    'menu_id'     => $menuID,
                 ]);
             }
         }

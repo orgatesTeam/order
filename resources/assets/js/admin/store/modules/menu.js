@@ -3,7 +3,8 @@ const menu = {
         page: 1,
         cacheMenus: [],
         cacheMenuTypes: null,
-        editMenu: null
+        editMenu: null,
+        cacheStoreMenus: []
     },
     mutations: {
         setMenuPage(state, page) {
@@ -17,6 +18,11 @@ const menu = {
         },
         setCacheMenuTypes(state, menuTypes) {
             state.cacheMenuTypes = menuTypes
+        },
+        setCacheStoreMenus(state, storeMenus) {
+            let menus = storeMenus.menus
+            let storeID = storeMenus.storeID
+            state.cacheStoreMenus[storeID] = menus
         },
         refreshMenus(state) {
             state.cacheMenus = [];
