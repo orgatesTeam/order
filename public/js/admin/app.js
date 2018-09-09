@@ -1991,9 +1991,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__api_menu__ = __webpack_require__("./resources/assets/js/admin/api/menu.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__cache_menu__ = __webpack_require__("./resources/assets/js/admin/cache/menu.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_mint_ui__ = __webpack_require__("./node_modules/mint-ui/lib/mint-ui.common.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_mint_ui__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__api_taste__ = __webpack_require__("./resources/assets/js/admin/api/taste.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__cache_taste__ = __webpack_require__("./resources/assets/js/admin/cache/taste.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_mint_ui__ = __webpack_require__("./node_modules/mint-ui/lib/mint-ui.common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_mint_ui__);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 //
@@ -2051,7 +2051,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     },
     mounted: function mounted() {
 
-        this.$store.commit('setFormTitle', '\u65B0\u589E\u83DC\u55AE');
+        this.$store.commit('setFormTitle', "\u65B0\u589E\u83DC\u55AE");
 
         //取得菜單種類
         this.getMenuTypes();
@@ -2128,26 +2128,16 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             if (menu) {
                 this.originMenu = Object.assign(menu);
                 this.menu = _extends({}, menu);
-                this.$store.commit('setFormTitle', '\u7DE8\u8F2F\u83DC\u55AE-' + menu.name);
+                this.$store.commit('setFormTitle', "\u7DE8\u8F2F\u83DC\u55AE-" + menu.name);
                 if (this.menu.taste_ids) {
                     this.checkTasteIDs = this.menu.taste_ids.split(',');
                 }
             }
         },
         getTastes: function getTastes() {
-            var tastes = this.$store.state.taste.tastes;
             var that = this;
-            if (tastes.length > 0) {
+            Object(__WEBPACK_IMPORTED_MODULE_2__cache_taste__["a" /* getTastes */])(function (tastes) {
                 that.tastes = tastes;
-                return;
-            }
-
-            Object(__WEBPACK_IMPORTED_MODULE_3__api_taste__["b" /* fetchList */])({}).then(function (response) {
-                if (response.data.code == '202') {
-                    tastes = response.data.items.tastes;
-                    that.$store.commit('setTastes', tastes);
-                    that.tastes = tastes;
-                }
             });
         },
         getMenuTypes: function getMenuTypes() {
@@ -2167,7 +2157,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             var that = this;
             Object(__WEBPACK_IMPORTED_MODULE_0__api_menu__["f" /* updateMenu */])(this.menu).then(function (response) {
                 if (response.data.code == '202') {
-                    Object(__WEBPACK_IMPORTED_MODULE_2_mint_ui__["Toast"])({
+                    Object(__WEBPACK_IMPORTED_MODULE_3_mint_ui__["Toast"])({
                         message: '操作成功',
                         iconClass: 'icon icon-success'
                     });
@@ -2181,7 +2171,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
             Object(__WEBPACK_IMPORTED_MODULE_0__api_menu__["a" /* createMenu */])(this.menu).then(function (response) {
                 if (response.data.code == '202') {
-                    Object(__WEBPACK_IMPORTED_MODULE_2_mint_ui__["Toast"])({
+                    Object(__WEBPACK_IMPORTED_MODULE_3_mint_ui__["Toast"])({
                         message: '操作成功',
                         iconClass: 'icon icon-success'
                     });
@@ -3493,8 +3483,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         };
     },
-
-    comments: [__WEBPACK_IMPORTED_MODULE_0_mint_ui__["Field"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Field"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Navbar"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Navbar"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["TabItem"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["TabItem"], __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Button"].name, __WEBPACK_IMPORTED_MODULE_0_mint_ui__["Button"]],
     mounted: function mounted() {
         this.mode = this.$route.query.from;
 
@@ -3959,10 +3947,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
     methods: {
         login: function login() {
-            var _this = this;
-
             Object(__WEBPACK_IMPORTED_MODULE_2__utils_auth__["d" /* setEmail */])(this.email);
-
             var that = this;
             var data = {
                 email: this.email,
@@ -3971,8 +3956,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             Object(__WEBPACK_IMPORTED_MODULE_1__api_auth__["a" /* login */])(data).then(function (response) {
                 if (response.data.code == 202) {
                     Object(__WEBPACK_IMPORTED_MODULE_2__utils_auth__["e" /* setToken */])(response.data.items.token);
-                    _this.initCache();
-                    that.$router.push({ name: 'menu' });
+                    that.initCache();
                 }
             });
         },
@@ -3997,6 +3981,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                 return Object(__WEBPACK_IMPORTED_MODULE_5__cache_storeManager__["a" /* getStores */])(callback);
 
                             case 7:
+                                _context.next = 9;
+                                return this.$router.push({ name: 'menu' });
+
+                            case 9:
                             case 'end':
                                 return _context.stop();
                         }
@@ -4103,8 +4091,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_qrcode__ = __webpack_require__("./resources/assets/js/admin/utils/qrcode.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_helper__ = __webpack_require__("./resources/assets/js/admin/utils/helper.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__api_store__ = __webpack_require__("./resources/assets/js/admin/api/store.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_mint_ui__ = __webpack_require__("./node_modules/mint-ui/lib/mint-ui.common.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_mint_ui__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__cache_storeManager__ = __webpack_require__("./resources/assets/js/admin/cache/storeManager.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_mint_ui__ = __webpack_require__("./node_modules/mint-ui/lib/mint-ui.common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_mint_ui__);
 //
 //
 //
@@ -4213,25 +4202,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         getStore: function getStore() {
+            var force = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
             var that = this;
-            that.actions = [];
-            Object(__WEBPACK_IMPORTED_MODULE_2__api_store__["c" /* fetchList */])({}).then(function (response) {
-                if (response.data.code == 202) {
-                    console.log(response);
-                    var stores = response.data.items.stores;
-                    stores.forEach(function (store) {
-                        that.actions.push({
-                            name: store.name,
-                            method: function method() {
-                                that.selectStore.id = store.id;
-                                that.selectStore.name = store.name;
-                                that.rangeValue = store.table_total;
-                                that.$store.commit('setFormTitle', store.name + '-\u684C\u4F4D\u7BA1\u7406');
-                            }
-                        });
+            Object(__WEBPACK_IMPORTED_MODULE_3__cache_storeManager__["a" /* getStores */])(function (stores) {
+                stores.forEach(function (store) {
+                    that.actions.push({
+                        name: store.name,
+                        method: function method() {
+                            that.selectStore.id = store.id;
+                            that.selectStore.name = store.name;
+                            that.rangeValue = store.table_total;
+                            that.$store.commit('setFormTitle', store.name + '-\u684C\u4F4D\u7BA1\u7406');
+                        }
                     });
-                }
-            });
+                });
+            }, force);
         },
         paddingLeft: function paddingLeft(index) {
             return Object(__WEBPACK_IMPORTED_MODULE_1__utils_helper__["d" /* paddingLeft */])(index, 2);
@@ -4240,7 +4226,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var that = this;
             var storeID = this.selectStore.id;
             if (storeID < 1) {
-                return Object(__WEBPACK_IMPORTED_MODULE_3_mint_ui__["Toast"])({
+                return Object(__WEBPACK_IMPORTED_MODULE_4_mint_ui__["Toast"])({
                     message: '請選擇店家',
                     position: 'middle',
                     duration: 3000
@@ -4254,13 +4240,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             Object(__WEBPACK_IMPORTED_MODULE_2__api_store__["d" /* settingTableTotal */])(data).then(function (response) {
                 if (response.data.code == 202) {
-                    Object(__WEBPACK_IMPORTED_MODULE_3_mint_ui__["Toast"])({
+                    Object(__WEBPACK_IMPORTED_MODULE_4_mint_ui__["Toast"])({
                         message: '儲存成功',
                         position: 'middle',
                         duration: 2000
                     });
                     //重刷配置
-                    that.getStore();
+                    that.getStore(true);
                 }
             });
         }
@@ -4540,7 +4526,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -44595,30 +44581,33 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 
 function getMenus(callback) {
+    var force = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
     var page = __WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.menu.page;
-    if (__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.menu.cacheMenus[page]) {
-        callback(__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.menu.cacheMenus[page]);
-    } else {
-        var data = { page: page };
-        __WEBPACK_IMPORTED_MODULE_0__api_menu__["b" /* fetchList */](data).then(function (response) {
+    if (__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.menu.cacheMenus[page] === undefined || force === true) {
+        __WEBPACK_IMPORTED_MODULE_0__api_menu__["b" /* fetchList */]({ page: page }).then(function (response) {
             if (response.data.code == 202) {
                 var menus = response.data.items.menus;
                 __WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].commit('setCacheMenus', { page: page, menus: menus });
                 callback(menus);
             }
         });
+    } else {
+        callback(__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.menu.cacheMenus[page]);
     }
 }
 
 function getMenuTypes(callback) {
-    if (__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.menu.cacheMenuTypes !== null) {
-        callback(__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.menu.cacheMenuTypes);
-    } else {
+    var force = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+    if (__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.menu.cacheMenuTypes === null || force === true) {
         __WEBPACK_IMPORTED_MODULE_0__api_menu__["c" /* fetchMenuTypes */]({}).then(function (response) {
             var menuTypes = response.data.items.menuTypes;
             __WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].commit('setCacheMenuTypes', menuTypes);
             callback(menuTypes);
         });
+    } else {
+        callback(__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.menu.cacheMenuTypes);
     }
 }
 
@@ -44635,9 +44624,9 @@ function getMenuTypes(callback) {
 
 
 function getStores(callback) {
-    if (__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.storeManager.cacheStores !== null) {
-        callback(__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.storeManager.cacheStores);
-    } else {
+    var force = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+    if (__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.storeManager.cacheStores === null || force === true) {
         __WEBPACK_IMPORTED_MODULE_0__api_store__["c" /* fetchList */]({}).then(function (response) {
             if (response.data.code == '202') {
                 var stores = response.data.items.stores;
@@ -44645,6 +44634,8 @@ function getStores(callback) {
                 callback(stores);
             }
         });
+    } else {
+        callback(__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.storeManager.cacheStores);
     }
 }
 
@@ -44663,9 +44654,7 @@ function getStores(callback) {
 function getTastes(callback) {
     var force = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-    if (__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.taste.cacheTastes !== null || force === true) {
-        callback(__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.taste.cacheTastes);
-    } else {
+    if (__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.taste.cacheTastes === null || force === true) {
         __WEBPACK_IMPORTED_MODULE_0__api_taste__["b" /* fetchList */]({}).then(function (response) {
             if (response.data.code == '202') {
                 var tastes = response.data.items.tastes;
@@ -44673,6 +44662,8 @@ function getTastes(callback) {
                 callback(tastes);
             }
         });
+    } else {
+        callback(__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.taste.cacheTastes);
     }
 }
 

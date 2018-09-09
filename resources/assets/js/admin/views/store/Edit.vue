@@ -57,7 +57,6 @@
                 }
             }
         },
-        comments: [Field.name, Field, Navbar.name, Navbar, TabItem.name, TabItem, Button.name, Button],
         mounted() {
             this.mode = this.$route.query.from;
 

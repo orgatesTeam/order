@@ -26,8 +26,8 @@
 <script>
     import {updateMenu, createMenu} from '../../api/menu'
     import {getMenuTypes} from "../../cache/menu";
+    import {getTastes} from "../../cache/taste";
     import {Toast} from 'mint-ui';
-    import {fetchList as fetchTastes} from "../../api/taste"
 
     export default {
         name: "Edit",
@@ -136,19 +136,9 @@
                 }
             },
             getTastes() {
-                let tastes = this.$store.state.taste.tastes
                 let that = this
-                if (tastes.length > 0) {
+                getTastes(tastes => {
                     that.tastes = tastes
-                    return
-                }
-
-                fetchTastes({}).then(response => {
-                    if (response.data.code == '202') {
-                        tastes = response.data.items.tastes
-                        that.$store.commit('setTastes', tastes)
-                        that.tastes = tastes
-                    }
                 })
             },
             getMenuTypes() {

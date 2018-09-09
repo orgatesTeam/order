@@ -1,10 +1,8 @@
 import * as storeManager from '../api/store'
 import store from '../store'
 
-export function getStores(callback) {
-    if (store.state.storeManager.cacheStores !== null) {
-        callback(store.state.storeManager.cacheStores)
-    } else {
+export function getStores(callback, force = false) {
+    if (store.state.storeManager.cacheStores === null || force === true) {
         storeManager.fetchList({}).then(response => {
             if (response.data.code == '202') {
                 let stores = response.data.items.stores
@@ -12,5 +10,7 @@ export function getStores(callback) {
                 callback(stores)
             }
         })
+    } else {
+        callback(store.state.storeManager.cacheStores)
     }
 }

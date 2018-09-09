@@ -53,7 +53,6 @@
         methods: {
             login() {
                 setEmail(this.email)
-
                 let that = this
                 let data = {
                     email: this.email,
@@ -62,17 +61,17 @@
                 login(data).then(response => {
                     if (response.data.code == 202) {
                         setToken(response.data.items.token)
-                        this.initCache()
-                        that.$router.push({name: 'menu'})
+                        that.initCache()
                     }
                 })
             },
             async initCache() {
                 let callback = () => {
                 }
-                await  getTastes(callback)
+                await getTastes(callback)
                 await getMenus(callback)
                 await getStores(callback)
+                await this.$router.push({name: 'menu'})
             }
         }
     }

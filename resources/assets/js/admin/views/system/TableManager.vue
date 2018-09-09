@@ -72,7 +72,7 @@
     import {getQRCode} from '../../utils/qrcode'
     import {paddingLeft} from '../../utils/helper'
     import {settingTableTotal} from '../../api/store'
-    import {fetchList} from '../../api/store'
+    import {getStores} from "../../cache/storeManager";
     import {Toast} from 'mint-ui';
 
     export default {
@@ -104,26 +104,21 @@
             }
         },
         methods: {
-            getStore() {
+            getStore(force = false) {
                 let that = this
-                that.actions = []
-                fetchList({}).then(response => {
-                    if (response.data.code == 202) {
-                        console.log(response)
-                        let stores = response.data.items.stores
-                        stores.forEach((store) => {
-                            that.actions.push({
-                                name: store.name,
-                                method: () => {
-                                    that.selectStore.id = store.id
-                                    that.selectStore.name = store.name
-                                    that.rangeValue = store.table_total
-                                    that.$store.commit('setFormTitle', `${store.name}-桌位管理`)
-                                }
-                            })
+                getStores(stores => {
+                    stores.forEach((store) => {
+                        that.actions.push({
+                            name: store.name,
+                            method: () => {
+                                that.selectStore.id = store.id
+                                that.selectStore.name = store.name
+                                that.rangeValue = store.table_total
+                                that.$store.commit('setFormTitle', `${store.name}-桌位管理`)
+                            }
                         })
-                    }
-                })
+                    })
+                }, force)
             },
             paddingLeft(index) {
                 return paddingLeft(index, 2)
@@ -152,7 +147,7 @@
                             duration: 2000
                         });
                         //重刷配置
-                        that.getStore()
+                        that.getStore(true)
                     }
                 })
             }
