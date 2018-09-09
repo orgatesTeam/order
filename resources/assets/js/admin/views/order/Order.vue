@@ -212,6 +212,9 @@
                 $.confirm(confirm);
             },
             menuTypeName(id) {
+                if (!this.menuTypes) {
+                    return
+                }
                 let name = ''
                 this.menuTypes.forEach((menuType) => {
                     if (id == menuType.id) {

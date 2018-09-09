@@ -3226,6 +3226,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             __WEBPACK_IMPORTED_MODULE_2_jquery___default.a.confirm(confirm);
         },
         menuTypeName: function menuTypeName(id) {
+            if (!this.menuTypes) {
+                return;
+            }
             var name = '';
             this.menuTypes.forEach(function (menuType) {
                 if (id == menuType.id) {
