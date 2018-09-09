@@ -9,14 +9,14 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
     /**
      * 調用 vue resource
      */
-    Route::get('{id}/', function ($id) {
+    Route::get('{id}/', function () {
         return view('admin.index');
     });
 
     /**
      * 調用 vue resource
      */
-    Route::get('{id}/{id2}', function ($id) {
+    Route::get('{id}/{id2}', function () {
         return view('admin.index');
     });
 

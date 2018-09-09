@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Taste;
 
-use phpDocumentor\Reflection\Types\String_;
 use Yish\Generators\Foundation\Repository\Repository;
 
 class OptionsRepository extends Repository

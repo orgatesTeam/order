@@ -24,7 +24,8 @@
 </template>
 
 <script>
-    import {fetchMenuTypes, updateMenu, createMenu} from '../../api/menu'
+    import {updateMenu, createMenu} from '../../api/menu'
+    import {getMenuTypes} from "../../cache/menu";
     import {Toast} from 'mint-ui';
     import {fetchList as fetchTastes} from "../../api/taste"
 
@@ -152,9 +153,8 @@
             },
             getMenuTypes() {
                 let that = this
-                fetchMenuTypes({}).then(response => {
-                    console.log(response)
-                    that.menuTypes = (response.data.items.menuTypes)
+                getMenuTypes(menuTypes => {
+                    that.menuTypes = menuTypes
                 })
             },
             store() {

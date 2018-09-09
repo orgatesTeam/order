@@ -2,13 +2,11 @@ const taste = {
     state: {
         editTaste: null,
         tasteOptionIndex: null,
-        tastes: null
+        cacheTastes: null
     },
     mutations: {
-        //cache tastes
-        //暫存tastes
-        setTastes(state, tastes) {
-            state.tastes = tastes
+        setCacheTastes(state, tastes) {
+            state.cacheTastes = tastes
         },
         setEditTaste(state, taste) {
             state.editTaste = taste

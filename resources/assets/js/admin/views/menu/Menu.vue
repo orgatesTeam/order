@@ -61,9 +61,9 @@
 </template>
 
 <script>
-    import {fetchList} from '../../api/menu'
     import {Toast} from 'mint-ui';
-    import {fetchList as fetchTastes} from "../../api/taste"
+    import {getMenus} from "../../cache/menu";
+    import {getTastes} from "../../cache/taste";
 
     import $ from 'jquery'
 
@@ -74,7 +74,8 @@
         data() {
             return {
                 errors: '',
-                menus: {},
+                menus: [],
+                tastes: [],
                 total: 0,
                 paginate: {
                     pageCount: 1,
@@ -96,32 +97,14 @@
                 })
                 return mapTastes
             },
-            tastes() {
-                return this.$store.state.taste.tastes
-            }
         },
         methods: {
             getMenus(callback) {
                 let that = this
-                let page = that.$store.state.menu.page
-                if (that.$store.state.menu.cacheMenus[page]) {
-                    that.pushMenus(that.$store.state.menu.cacheMenus[page])
+                getMenus(menus => {
+                    that.pushMenus(menus)
                     if (callback) {
                         callback()
-                    }
-                    return
-                }
-
-                let data = {page: page}
-                fetchList(data).then(response => {
-                    if (response.data.code == 202) {
-                        console.log(response)
-                        let menus = response.data.items.menus
-                        that.pushMenus(menus)
-                        that.$store.commit('setCacheMenus', {page: page, menus: menus})
-                        if (callback) {
-                            callback()
-                        }
                     }
                 })
             },
@@ -153,14 +136,9 @@
             },
             getTastes() {
                 let that = this
-                if (this.tastes === null) {
-                    fetchTastes({}).then(response => {
-                        if (response.data.code == '202') {
-                            let tastes = response.data.items.tastes
-                            that.$store.commit('setTastes', tastes)
-                        }
-                    })
-                }
+                getTastes(tastes => {
+                    that.tastes = tastes
+                })
             },
             getTastesCount(tasteIDs) {
                 if (!tasteIDs) {
@@ -214,7 +192,7 @@
     }
 
     @media only screen and (max-width: 600px) {
-        .pagination{
+        .pagination {
             padding-top: 50px;
         }
     }

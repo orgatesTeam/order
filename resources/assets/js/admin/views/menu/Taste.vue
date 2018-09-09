@@ -47,7 +47,7 @@
 </template>
 
 <script>
-    import {fetchList} from "../../api/taste"
+    import {getTastes} from "../../cache/taste";
     import TasteOptions from './taste/TasteOptions'
     import $ from 'jquery'
     import {deleteTaste} from "../../api/taste"
@@ -63,23 +63,17 @@
         },
         data() {
             return {
-                showEditTaste: false
-            }
-        },
-        computed: {
-            tastes() {
-                return this.$store.state.taste.tastes
+                showEditTaste: false,
+                tastes: null
             }
         },
         methods: {
             getTastes(force = false) {
                 if (this.tastes === null || force === true) {
                     let that = this
-                    fetchList({}).then(response => {
-                        if (response.data.code == 202) {
-                            that.$store.commit('setTastes', response.data.items.tastes)
-                        }
-                    })
+                    getTastes(tastes => {
+                        that.tastes = tastes
+                    }, force)
                 }
             },
             add() {

@@ -53,7 +53,8 @@
 </template>
 
 <script>
-    import {fetchList} from '../../api/store'
+
+    import {getStores} from "../../cache/storeManager";
 
     export default {
         name: "store",
@@ -68,20 +69,9 @@
         },
         methods: {
             getStore() {
-
-                if (this.$store.state.storeManager.cacheStores) {
-                    this.stores = this.$store.state.storeManager.cacheStores
-                    return
-                }
-
                 let that = this
-                fetchList({}).then(response => {
-                    if (response.data.code == 202) {
-                        console.log(response)
-                        let stores = response.data.items.stores
-                        that.stores = stores
-                        this.$store.commit('setCacheStores', stores)
-                    }
+                getStores(stores => {
+                    that.stores = stores
                 })
             },
             edit(index) {

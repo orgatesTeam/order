@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Menu;
 use App\Repositories\Taste\OptionsRepository;
 use App\Taste;
 
@@ -27,7 +28,7 @@ class TasteController extends Controller
     {
         $userID = auth()->user()->id;
         $tastes = Taste::where('user_id', $userID)
-            ->orderby('id','desc')
+            ->orderby('id', 'desc')
             ->get();
         foreach ($tastes as $taste) {
             $taste->options = $this->formatTasteOptions($taste->options);
@@ -96,7 +97,25 @@ class TasteController extends Controller
             return responseFail('無此權限刪除');
         }
 
+        $this->updateMenuTasteIDs($taste->id);
         $result = $taste->delete();
         return responseSuccess(['result' => $result]);
+    }
+
+    protected function updateMenuTasteIDs($tasteID)
+    {
+        $menus = Menu::where('user_id', auth()->user()->id)
+            ->where('taste_ids', 'like', "%{$tasteID}%")
+            ->select('id', 'taste_ids')
+            ->get();
+
+        foreach ($menus as $menu) {
+            $tastes = explode(',', $menu->taste_ids);
+            if (($key = array_search($tasteID, $tastes)) !== false) {
+                unset($tastes[$key]);
+                $menu->taste_ids = implode(',', $tastes);
+                $menu->save();
+            }
+        }
     }
 }

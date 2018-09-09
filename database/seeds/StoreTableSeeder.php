@@ -23,7 +23,7 @@ class StoreTableSeeder extends Seeder
         }
 
         foreach ($stores as $store) {
-            foreach (range(1, 20) as $index) {
+            foreach (range(1, 30) as $index) {
                 App\StoreMenu::create([
                     'store_id' => $store->id,
                     'menu_id'  => $index
@@ -35,8 +35,8 @@ class StoreTableSeeder extends Seeder
     protected function stores()
     {
         return [
-            ['name' => '麥當勞'],
             ['name' => 'coco2嘟可'],
+            ['name' => '麥當勞'],
             ['name' => '八方雲集'],
             ['name' => '牛排教父'],
             ['name' => 'is pasta']

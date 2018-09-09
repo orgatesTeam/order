@@ -210,4 +210,5 @@ class MenuController extends Controller
 
         return responseSuccess(['menus' => $menuFormatter, 'menuTypes' => $menuTypes]);
     }
+
 }

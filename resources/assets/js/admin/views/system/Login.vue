@@ -35,6 +35,9 @@
 <script>
     import {login} from '../../api/auth'
     import {setToken, setEmail, getEmail} from '../../utils/auth'
+    import {getMenus} from "../../cache/menu";
+    import {getTastes} from "../../cache/taste";
+    import {getStores} from "../../cache/storeManager";
 
     export default {
         data() {
@@ -59,10 +62,17 @@
                 login(data).then(response => {
                     if (response.data.code == 202) {
                         setToken(response.data.items.token)
-                        //刷新 vuex
-                        location.href = '/admin'
+                        this.initCache()
+                        that.$router.push({name: 'menu'})
                     }
                 })
+            },
+            async initCache() {
+                let callback = () => {
+                }
+                await  getTastes(callback)
+                await getMenus(callback)
+                await getStores(callback)
             }
         }
     }

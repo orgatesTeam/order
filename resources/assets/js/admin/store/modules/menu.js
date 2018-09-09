@@ -2,6 +2,7 @@ const menu = {
     state: {
         page: 1,
         cacheMenus: [],
+        cacheMenuTypes: null,
         editMenu: null
     },
     mutations: {
@@ -13,6 +14,9 @@ const menu = {
         },
         setCacheMenus(state, response) {
             state.cacheMenus[response.page] = response.menus
+        },
+        setCacheMenuTypes(state, menuTypes) {
+            state.cacheMenuTypes = menuTypes
         },
         refreshMenus(state) {
             state.cacheMenus = [];
