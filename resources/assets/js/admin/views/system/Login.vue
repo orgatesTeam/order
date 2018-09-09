@@ -38,6 +38,7 @@
     import {getMenus} from "../../cache/menu";
     import {getTastes} from "../../cache/taste";
     import {getStores} from "../../cache/storeManager";
+    import {getMenuTypes} from "../../cache/menu";
 
     export default {
         data() {
@@ -71,6 +72,7 @@
                 await getTastes(callback)
                 await getMenus(callback)
                 await getStores(callback)
+                await getMenuTypes(callback)
                 await this.$router.push({name: 'menu'})
             }
         }

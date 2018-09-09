@@ -3928,6 +3928,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
@@ -3978,9 +3979,13 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
                             case 7:
                                 _context.next = 9;
-                                return this.$router.push({ name: 'menu' });
+                                return Object(__WEBPACK_IMPORTED_MODULE_3__cache_menu__["a" /* getMenuTypes */])(callback);
 
                             case 9:
+                                _context.next = 11;
+                                return this.$router.push({ name: 'menu' });
+
+                            case 11:
                             case 'end':
                                 return _context.stop();
                         }
