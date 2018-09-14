@@ -78,10 +78,10 @@ class MenuController extends Controller
     public function updateMenu()
     {
         $keys = ['name',
-            'price',
-            'menu_type_id',
-            'id',
-            'taste_ids'
+                 'price',
+                 'menu_type_id',
+                 'id',
+                 'taste_ids'
         ];
         checkRequestExist($keys);
 
@@ -109,9 +109,9 @@ class MenuController extends Controller
     public function createMenu()
     {
         $keys = ['name',
-            'price',
-            'menu_type_id',
-            'taste_ids'
+                 'price',
+                 'menu_type_id',
+                 'taste_ids'
         ];
         checkRequestExist($keys);
 
@@ -122,11 +122,11 @@ class MenuController extends Controller
         }
 
         $menu = Menu::create([
-            'user_id' => auth()->user()->id,
-            'name' => request('name'),
-            'price' => request('price'),
+            'user_id'      => auth()->user()->id,
+            'name'         => request('name'),
+            'price'        => request('price'),
             'menu_type_id' => request('menu_type_id'),
-            'taste_ids' => request('taste_ids')
+            'taste_ids'    => request('taste_ids')
         ]);
 
         return responseSuccess(['menu' => $menu]);
