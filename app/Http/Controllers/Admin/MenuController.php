@@ -122,11 +122,11 @@ class MenuController extends Controller
         }
 
         $menu = Menu::create([
-            'user_id'      => auth()->user()->id,
-            'name'         => request('name'),
-            'price'        => request('price'),
+            'user_id' => auth()->user()->id,
+            'name' => request('name'),
+            'price' => request('price'),
             'menu_type_id' => request('menu_type_id'),
-            'taste_ids'    => request('taste_ids')
+            'taste_ids' => request('taste_ids')
         ]);
 
         return responseSuccess(['menu' => $menu]);
@@ -161,7 +161,7 @@ class MenuController extends Controller
             ->leftJoin(DB::raw('(select * from store_menus where store_id = ' . request('store_id') . ') as store_menus '), function ($join) {
                 $join->on('menus.id', '=', 'store_menus.menu_id');
             })
-            ->having('menus.user_id', '=', $userID)
+            ->where('menus.user_id', '=', $userID)
             ->get();
 
         return responseSuccess(['menus' => $menus]);
@@ -181,9 +181,9 @@ class MenuController extends Controller
         checkRequestExist(['store_id']);
         $storeID = request('store_id');
 
-        $storeMenus = Store::select('id', 'store_id', 'menu_id')
+        $storeMenus = Store::select('store_id', 'menu_id')
             ->join('store_menus', 'stores.id', '=', 'store_menus.store_id')
-            ->having('stores.id', '=', $storeID)
+            ->where('store_id', '=', $storeID)
             ->get();
 
         if ($storeMenus->isEmpty()) {
@@ -202,8 +202,8 @@ class MenuController extends Controller
 
         $menus = Menu::selectRaw(implode(',', $selectRaw))
             ->join('menu_types', 'menu_types.id', '=', 'menus.menu_type_id')
-            ->having('user_id', '=', $userID)
-            ->havingRaw('menu_id in (' . implode(',', $menuIDs) . ')')
+            ->where('menus.user_id', '=', $userID)
+            ->whereIn('menus.id', $menuIDs)
             ->get();
 
         $menuFormatter = [];
