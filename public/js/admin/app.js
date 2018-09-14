@@ -3076,6 +3076,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3252,6 +3259,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 formatter.push(newMenu);
             });
             return formatter;
+        },
+        menuClass: function menuClass(id) {
+            return "menu-" + id;
+        },
+        scrollTo: function scrollTo(id) {
+            var $container = __WEBPACK_IMPORTED_MODULE_2_jquery___default()('.app-main');
+            var $scrollTo = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(".menu-" + id);
+            $container.animate({
+                scrollTop: $scrollTo.offset().top - $container.offset().top + $container.scrollTop() - 50,
+                scrollLeft: 0
+            }, 300);
+
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()('.mint-checklist').css("color", "black");
+            $scrollTo.find('.mint-checklist').css("color", "#ff9900");
         }
     }
 });
@@ -4399,7 +4420,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.show[data-v-4a48c3ec] {\n    display: block;\n}\n.not-show[data-v-4a48c3ec] {\n    display: none;\n}\n.select-store[data-v-4a48c3ec] {\n    padding-left: 20px;\n}\n.inline-dev[data-v-4a48c3ec] {\n    display: inline;\n}\n.order[data-v-4a48c3ec] {\n    overflow: auto;\n}\n.sticky[data-v-4a48c3ec] {\n    position: fixed;\n    width: 100%;\n    top: 49px;\n    z-index: 99;\n}\n.sticky-container[data-v-4a48c3ec] {\n    width: 100%;\n    height: 50px;\n}\n", ""]);
+exports.push([module.i, "\n.show[data-v-4a48c3ec] {\n    display: block;\n}\n.not-show[data-v-4a48c3ec] {\n    display: none;\n}\n.select-store[data-v-4a48c3ec] {\n    padding-left: 20px;\n}\n.inline-dev[data-v-4a48c3ec] {\n    display: inline;\n}\n.sticky[data-v-4a48c3ec] {\n    position: fixed;\n    width: 100%;\n    top: 49px;\n    z-index: 99;\n}\n.sticky-container[data-v-4a48c3ec] {\n    width: 100%;\n    height: 50px;\n}\n.menu-options[data-v-4a48c3ec] {\n    z-index: 9999999;\n    position: fixed;\n    top: 30vh;\n    right: 10vw;\n}\n.menu-options div[data-v-4a48c3ec] {\n    margin-bottom: 20px;\n}\n\n", ""]);
 
 // exports
 
@@ -27062,6 +27083,31 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
+        { staticClass: "menu-options" },
+        _vm._l(_vm.menus, function(typeMenus, typeID) {
+          return _c("div", [
+            _c(
+              "div",
+              {
+                on: {
+                  click: function($event) {
+                    _vm.scrollTo(typeID)
+                  }
+                }
+              },
+              [
+                _c("mt-button", { attrs: { type: "primary" } }, [
+                  _vm._v(_vm._s(_vm.menuTypeName(typeID)))
+                ])
+              ],
+              1
+            )
+          ])
+        })
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
         {
           directives: [
             {
@@ -27071,11 +27117,13 @@ var render = function() {
               expression: "canOrder"
             }
           ],
-          staticClass: "order"
+          staticClass: "order",
+          attrs: { id: "order" }
         },
         _vm._l(_vm.menus, function(typeMenus, typeID) {
           return _c(
             "div",
+            { class: _vm.menuClass(typeID) },
             [
               _c("mt-checklist", {
                 attrs: {

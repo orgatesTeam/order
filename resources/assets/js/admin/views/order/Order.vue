@@ -39,8 +39,15 @@
                     </div>
                 </div>
             </div>
-            <div v-show="canOrder" class="order">
+            <div class="menu-options">
                 <div v-for="typeMenus,typeID in menus">
+                    <div @click="scrollTo(typeID)">
+                        <mt-button type="primary">{{menuTypeName(typeID)}}</mt-button>
+                    </div>
+                </div>
+            </div>
+            <div v-show="canOrder" class="order" id="order">
+                <div v-for="typeMenus,typeID in menus" :class="menuClass(typeID)">
                     <mt-checklist
                             :title=menuTypeName(typeID)
                             v-model="checkMenus"
@@ -238,6 +245,20 @@
                     formatter.push(newMenu)
                 })
                 return formatter
+            },
+            menuClass(id) {
+                return `menu-${id}`
+            },
+            scrollTo(id) {
+                var $container = $('.app-main');
+                var $scrollTo = $(`.menu-${id}`);
+                $container.animate({
+                    scrollTop: $scrollTo.offset().top - $container.offset().top + $container.scrollTop() - 50,
+                    scrollLeft: 0
+                }, 300);
+
+                $('.mint-checklist').css("color", "black");
+                $scrollTo.find('.mint-checklist').css("color", "#ff9900");
             }
         }
     }
@@ -260,10 +281,6 @@
         display: inline;
     }
 
-    .order {
-        overflow: auto;
-    }
-
     .sticky {
         position: fixed;
         width: 100%;
@@ -275,4 +292,16 @@
         width: 100%;
         height: 50px;
     }
+
+    .menu-options {
+        z-index: 9999999;
+        position: fixed;
+        top: 30vh;
+        right: 10vw;
+    }
+
+    .menu-options div {
+        margin-bottom: 20px;
+    }
+
 </style>
