@@ -14,6 +14,7 @@
     import {deepObjectClone} from "../../utils/helper";
     import $ from 'jquery'
     import {updateMenuType} from "../../api/menu";
+    import {getMenus} from "../../cache/menu";
     import {Toast} from 'mint-ui';
 
     export default {
@@ -63,6 +64,7 @@
                                                 duration: 800
                                             });
                                             that.getMenuTypes(true)
+                                            that.$store.commit('refreshMenus')
                                         }
                                     })
                                 }
