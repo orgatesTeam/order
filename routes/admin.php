@@ -41,6 +41,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
             Route::post('/list-by-store', 'MenuController@listByStore');
 
             Route::post('/menu-types', 'MenuController@menuTypes');
+            Route::post('/update-menu-type','MenuController@updateMenuType');
+
             Route::post('/update-menu', 'MenuController@updateMenu');
             Route::post('/create-menu', 'MenuController@createMenu');
 

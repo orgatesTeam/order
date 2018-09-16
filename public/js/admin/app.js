@@ -2579,6 +2579,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__cache_menu__ = __webpack_require__("./resources/assets/js/admin/cache/menu.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_helper__ = __webpack_require__("./resources/assets/js/admin/utils/helper.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__("./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__api_menu__ = __webpack_require__("./resources/assets/js/admin/api/menu.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_mint_ui__ = __webpack_require__("./node_modules/mint-ui/lib/mint-ui.common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_mint_ui__);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2586,8 +2598,78 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
+
+
+
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: "Type"
+    name: "Type",
+    data: function data() {
+        return {
+            menuTypes: []
+        };
+    },
+    mounted: function mounted() {
+        this.$store.commit('setFormTitle', '菜單種類管理');
+        this.getMenuTypes();
+    },
+
+    methods: {
+        getMenuTypes: function getMenuTypes() {
+            var force = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+            var that = this;
+            Object(__WEBPACK_IMPORTED_MODULE_0__cache_menu__["a" /* getMenuTypes */])(function (menuTypes) {
+                that.menuTypes = Object(__WEBPACK_IMPORTED_MODULE_1__utils_helper__["a" /* deepObjectClone */])(menuTypes);
+            }, force);
+        },
+        edit: function edit(menuType) {
+            var that = this;
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default.a.confirm({
+                title: '編輯菜單種類!',
+                content: "\u540D\u7A31\uFF1A" + menuType.name + '<form action="" class="formName" style="margin-top: 10px">' + '<div class="form-group" style="line-height: 2.5rem;font-size: 1.5rem">' + '<input type="text" placeholder="請輸入菜單種類名稱" class="menu-type-name form-control" required />' + '</div>' + '</form>',
+                buttons: {
+                    formSubmit: {
+                        text: '確定',
+                        btnClass: 'btn-blue',
+                        action: function action() {
+                            var name = this.$content.find('.menu-type-name').val();
+                            if (name) {
+                                var data = {
+                                    menu_type_id: menuType.id,
+                                    menu_type_name: name
+                                };
+                                Object(__WEBPACK_IMPORTED_MODULE_3__api_menu__["g" /* updateMenuType */])(data).then(function (response) {
+                                    if (response.data.code == '202') {
+                                        Object(__WEBPACK_IMPORTED_MODULE_4_mint_ui__["Toast"])({
+                                            message: '更新成功',
+                                            position: 'middle',
+                                            duration: 800
+                                        });
+                                        that.getMenuTypes(true);
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    cancel: {
+                        text: '取消'
+                    }
+                },
+                onContentReady: function onContentReady() {
+                    // bind to events
+                    var jc = this;
+                    this.$content.find('form').on('submit', function (e) {
+                        // if the user submits the form by pressing enter in the field.
+                        e.preventDefault();
+                        jc.$$formSubmit.trigger('click'); // reference the button and click it
+                    });
+                }
+            });
+        }
+    }
 });
 
 /***/ }),
@@ -2816,8 +2898,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__TasteOption___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__TasteOption__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_taste__ = __webpack_require__("./resources/assets/js/admin/api/taste.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_helper__ = __webpack_require__("./resources/assets/js/admin/utils/helper.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_mint_ui__ = __webpack_require__("./node_modules/mint-ui/lib/mint-ui.common.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_mint_ui__);
 //
 //
 //
@@ -2861,7 +2941,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
 
 
 
@@ -2952,7 +3031,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     that.saveSuccess();
                 }
                 var toastMessage = response.data.code == '202' ? '完成!' : '失敗!';
-                Object(__WEBPACK_IMPORTED_MODULE_3_mint_ui__["Toast"])({
+                Toast({
                     message: toastMessage,
                     position: 'middle',
                     duration: 800
@@ -2977,7 +3056,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     that.saveSuccess();
                 }
                 var toastMessage = response.data.code == '202' ? '完成!' : '失敗!';
-                Object(__WEBPACK_IMPORTED_MODULE_3_mint_ui__["Toast"])({
+                Toast({
                     message: toastMessage,
                     position: 'middle',
                     duration: 800
@@ -4450,7 +4529,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -27339,7 +27418,25 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c(
+    "div",
+    _vm._l(_vm.menuTypes, function(menuType) {
+      return _c("div", [
+        _c(
+          "div",
+          {
+            on: {
+              click: function($event) {
+                _vm.edit(menuType)
+              }
+            }
+          },
+          [_c("mt-cell", { attrs: { title: menuType.name } })],
+          1
+        )
+      ])
+    })
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -43570,6 +43667,7 @@ function login(data) {
 /* unused harmony export searchMenuByName */
 /* harmony export (immutable) */ __webpack_exports__["e"] = listByStoreMenu;
 /* harmony export (immutable) */ __webpack_exports__["d"] = listByStore;
+/* harmony export (immutable) */ __webpack_exports__["g"] = updateMenuType;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_request__ = __webpack_require__("./resources/assets/js/admin/utils/request.js");
 
 
@@ -43624,6 +43722,14 @@ function listByStoreMenu(data) {
 function listByStore(data) {
     return Object(__WEBPACK_IMPORTED_MODULE_0__utils_request__["a" /* default */])({
         url: '/admin/menu/list-by-store',
+        method: 'post',
+        data: data
+    });
+}
+
+function updateMenuType(data) {
+    return Object(__WEBPACK_IMPORTED_MODULE_0__utils_request__["a" /* default */])({
+        url: '/admin/menu/update-menu-type',
         method: 'post',
         data: data
     });

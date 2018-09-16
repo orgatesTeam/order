@@ -78,10 +78,10 @@ class MenuController extends Controller
     public function updateMenu()
     {
         $keys = ['name',
-                 'price',
-                 'menu_type_id',
-                 'id',
-                 'taste_ids'
+            'price',
+            'menu_type_id',
+            'id',
+            'taste_ids'
         ];
         checkRequestExist($keys);
 
@@ -109,9 +109,9 @@ class MenuController extends Controller
     public function createMenu()
     {
         $keys = ['name',
-                 'price',
-                 'menu_type_id',
-                 'taste_ids'
+            'price',
+            'menu_type_id',
+            'taste_ids'
         ];
         checkRequestExist($keys);
 
@@ -214,6 +214,32 @@ class MenuController extends Controller
         }
 
         return responseSuccess(['menus' => $menuFormatter]);
+    }
+
+    /**
+     * 更新 菜單種類
+     */
+    public function updateMenuType()
+    {
+        $userID = auth()->user()->id;
+        checkRequestExist(['menu_type_id',
+            'menu_type_name'
+        ]);
+
+        $menuType = MenuType::find(request('menu_type_id'));
+
+        if ($menuType->user_id != $userID) {
+            logError('無權限改變');
+            return responseFail('錯誤請求');
+        }
+
+        if ($menuType) {
+            $menuType->name = request('menu_type_name');
+            $menuType = $menuType->save();
+            return responseSuccess(['menuType' => $menuType]);
+        }
+
+        return responseFail('錯誤請求');
     }
 
 }

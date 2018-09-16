@@ -3,7 +3,7 @@ return [
     'validateJwtToken' => [
         'name' => '安全驗證(JWT)',
         'type' => 'boolean',
-        'value' => 'true',
+        'value' => 'false',
     ],
     'webStatus' => [
         'name' => '網站狀態',
@@ -13,6 +13,6 @@ return [
             '維護' => '2',
             '部分維護' => '3',
         ],
-        'value' => '1',
+        'value' => '2',
     ],
 ];

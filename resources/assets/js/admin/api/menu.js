@@ -55,3 +55,11 @@ export function listByStore(data) {
         data: data
     })
 }
+
+export function updateMenuType(data) {
+    return request({
+        url: '/admin/menu/update-menu-type',
+        method: 'post',
+        data: data
+    })
+}

@@ -46,7 +46,6 @@
     import {newTaste} from "../../../api/taste"
     import {deepObjectClone} from "../../../utils/helper"
     import {hackReset} from "../../../utils/helper"
-    import {Toast} from 'mint-ui'
     import {updateTaste} from "../../../api/taste"
 
     export default {

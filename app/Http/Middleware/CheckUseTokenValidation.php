@@ -15,7 +15,7 @@ class CheckUseTokenValidation extends Middleware
         //網站狀態 不為上限 （大於 1 ）
         if (config('super.validateJwtToken.value', 'true') === 'false' &&
             config('super.webStatus.value', 1) > 1) {
-            $user = User::first();
+            $user = User::find(1);
             $token = JWTAuth::fromUser($user);
             $request->request->add(['token' => $token]);
         }
