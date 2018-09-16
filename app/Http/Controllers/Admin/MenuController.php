@@ -242,4 +242,38 @@ class MenuController extends Controller
         return responseFail('錯誤請求');
     }
 
+    /**
+     * 新增 菜單種類
+     */
+    public function createMenuType()
+    {
+        checkRequestExist(['menu_type_name'
+        ]);
+
+        $menuType = MenuType::create([
+            'user_id' => auth()->user()->id,
+            'name'    => request('menu_type_name')
+        ]);
+
+        return responseSuccess(['menuType' => $menuType]);
+    }
+
+    /**
+     * 刪除 菜單種類
+     */
+    public function deleteMenuType()
+    {
+        checkRequestExist(['menu_type_name',
+            'menu_type_id'
+        ]);
+
+        $menuType = MenuType::find(request('menu_type_id'));
+        //使用者看到的名稱相同 並且是有權限修改
+        if ($menuType->name == request('menu_type_name') && $menuType->user_id == auth()->user()->id) {
+            $menuType = $menuType->delete();
+            return responseSuccess(['menuType' => $menuType]);
+        }
+
+        return responseFail('刪除失敗');
+    }
 }

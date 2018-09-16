@@ -56,6 +56,14 @@ export function listByStore(data) {
     })
 }
 
+export function createMenuType(data) {
+    return request({
+        url: '/admin/menu/create-menu-type',
+        method: 'post',
+        data: data
+    })
+}
+
 export function updateMenuType(data) {
     return request({
         url: '/admin/menu/update-menu-type',
@@ -63,3 +71,13 @@ export function updateMenuType(data) {
         data: data
     })
 }
+
+export function deleteMenuType(data) {
+    return request({
+        url: '/admin/menu/delete-menu-type',
+        method: 'post',
+        data: data
+    })
+}
+
+

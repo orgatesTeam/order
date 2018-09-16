@@ -2177,7 +2177,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         },
         storeEditMenu: function storeEditMenu() {
             var that = this;
-            Object(__WEBPACK_IMPORTED_MODULE_0__api_menu__["f" /* updateMenu */])(this.menu).then(function (response) {
+            Object(__WEBPACK_IMPORTED_MODULE_0__api_menu__["h" /* updateMenu */])(this.menu).then(function (response) {
                 if (response.data.code == '202') {
                     Object(__WEBPACK_IMPORTED_MODULE_3_mint_ui__["Toast"])({
                         message: '操作成功',
@@ -2580,12 +2580,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__cache_menu__ = __webpack_require__("./resources/assets/js/admin/cache/menu.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_helper__ = __webpack_require__("./resources/assets/js/admin/utils/helper.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__("./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__api_menu__ = __webpack_require__("./resources/assets/js/admin/api/menu.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_mint_ui__ = __webpack_require__("./node_modules/mint-ui/lib/mint-ui.common.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_mint_ui__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery__ = __webpack_require__("./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__api_menu__ = __webpack_require__("./resources/assets/js/admin/api/menu.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_mint_ui__ = __webpack_require__("./node_modules/mint-ui/lib/mint-ui.common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_mint_ui__);
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2608,9 +2615,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Type",
     data: function data() {
-        return {
-            menuTypes: []
-        };
+        return {};
+    },
+
+    computed: {
+        menuTypes: function menuTypes() {
+            return this.$store.state.menu.cacheMenuTypes;
+        }
     },
     mounted: function mounted() {
         this.$store.commit('setFormTitle', '菜單種類管理');
@@ -2618,17 +2629,59 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        create: function create() {
+            var that = this;
+            __WEBPACK_IMPORTED_MODULE_1_jquery___default.a.confirm({
+                title: '新增菜單種類!',
+                content: '<form action="" class="formName" style="margin-top: 10px">' + '<div class="form-group" style="line-height: 2.5rem;font-size: 1.5rem">' + '<input type="text" placeholder="請輸入菜單種類名稱" class="menu-type-name form-control" required />' + '</div>' + '</form>',
+                buttons: {
+                    formSubmit: {
+                        text: '確定',
+                        btnClass: 'btn-blue',
+                        action: function action() {
+                            var name = this.$content.find('.menu-type-name').val();
+                            if (name) {
+                                var data = {
+                                    menu_type_name: name
+                                };
+                                Object(__WEBPACK_IMPORTED_MODULE_2__api_menu__["b" /* createMenuType */])(data).then(function (response) {
+                                    if (response.data.code == '202') {
+                                        Object(__WEBPACK_IMPORTED_MODULE_3_mint_ui__["Toast"])({
+                                            message: '更新成功',
+                                            position: 'middle',
+                                            duration: 800
+                                        });
+                                        that.getMenuTypes(true);
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    cancel: {
+                        text: '取消'
+                    }
+                },
+                onContentReady: function onContentReady() {
+                    // bind to events
+                    var jc = this;
+                    this.$content.find('form').on('submit', function (e) {
+                        // if the user submits the form by pressing enter in the field.
+                        e.preventDefault();
+                        jc.$$formSubmit.trigger('click'); // reference the button and click it
+                    });
+                }
+            });
+        },
         getMenuTypes: function getMenuTypes() {
             var force = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
             var that = this;
-            Object(__WEBPACK_IMPORTED_MODULE_0__cache_menu__["a" /* getMenuTypes */])(function (menuTypes) {
-                that.menuTypes = Object(__WEBPACK_IMPORTED_MODULE_1__utils_helper__["a" /* deepObjectClone */])(menuTypes);
-            }, force);
+            //觸發store
+            Object(__WEBPACK_IMPORTED_MODULE_0__cache_menu__["a" /* getMenuTypes */])(function (menuTypes) {}, force);
         },
         edit: function edit(menuType) {
             var that = this;
-            __WEBPACK_IMPORTED_MODULE_2_jquery___default.a.confirm({
+            __WEBPACK_IMPORTED_MODULE_1_jquery___default.a.confirm({
                 title: '編輯菜單種類!',
                 content: "\u540D\u7A31\uFF1A" + menuType.name + '<form action="" class="formName" style="margin-top: 10px">' + '<div class="form-group" style="line-height: 2.5rem;font-size: 1.5rem">' + '<input type="text" placeholder="請輸入菜單種類名稱" class="menu-type-name form-control" required />' + '</div>' + '</form>',
                 buttons: {
@@ -2642,9 +2695,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                     menu_type_id: menuType.id,
                                     menu_type_name: name
                                 };
-                                Object(__WEBPACK_IMPORTED_MODULE_3__api_menu__["g" /* updateMenuType */])(data).then(function (response) {
+                                Object(__WEBPACK_IMPORTED_MODULE_2__api_menu__["i" /* updateMenuType */])(data).then(function (response) {
                                     if (response.data.code == '202') {
-                                        Object(__WEBPACK_IMPORTED_MODULE_4_mint_ui__["Toast"])({
+                                        Object(__WEBPACK_IMPORTED_MODULE_3_mint_ui__["Toast"])({
                                             message: '更新成功',
                                             position: 'middle',
                                             duration: 800
@@ -2656,6 +2709,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             }
                         }
                     },
+                    delete: {
+                        text: "刪除",
+                        btnClass: 'btn-red',
+                        action: function action() {
+                            __WEBPACK_IMPORTED_MODULE_1_jquery___default.a.confirm({
+                                title: '確定刪除!',
+                                content: "\u540D\u7A31\uFF1A" + menuType.name,
+                                type: 'red',
+                                typeAnimated: true,
+                                buttons: {
+                                    ok: {
+                                        text: '確定',
+                                        btnClass: 'btn-red',
+                                        action: function action() {
+                                            var data = {
+                                                menu_type_id: menuType.id,
+                                                menu_type_name: menuType.name
+                                            };
+                                            Object(__WEBPACK_IMPORTED_MODULE_2__api_menu__["c" /* deleteMenuType */])(data).then(function (response) {
+                                                if (response.data.code == '202') {
+                                                    Object(__WEBPACK_IMPORTED_MODULE_3_mint_ui__["Toast"])({
+                                                        message: '刪除成功',
+                                                        position: 'middle',
+                                                        duration: 800
+                                                    });
+                                                    that.getMenuTypes(true);
+                                                    that.$store.commit('refreshMenus');
+                                                }
+                                            });
+                                        }
+                                    },
+                                    close: {
+                                        text: '取消'
+                                    }
+                                }
+                            });
+                        }
+                    },
+
                     cancel: {
                         text: '取消'
                     }
@@ -3822,7 +3914,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             var data = { store_id: this.store.id };
-            Object(__WEBPACK_IMPORTED_MODULE_0__api_menu__["e" /* listByStoreMenu */])(data).then(function (response) {
+            Object(__WEBPACK_IMPORTED_MODULE_0__api_menu__["g" /* listByStoreMenu */])(data).then(function (response) {
                 if (response.data.code == 202) {
 
                     var that = _this;
@@ -4531,7 +4623,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -27422,22 +27514,61 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    _vm._l(_vm.menuTypes, function(menuType) {
-      return _c("div", [
-        _c(
-          "div",
-          {
-            on: {
-              click: function($event) {
-                _vm.edit(menuType)
-              }
-            }
+    [
+      _c(
+        "div",
+        {
+          staticStyle: {
+            position: "fixed",
+            right: "10vw",
+            top: "10vh",
+            "z-index": "9999999"
           },
-          [_c("mt-cell", { attrs: { title: menuType.name } })],
-          1
-        )
-      ])
-    })
+          on: {
+            click: function($event) {
+              _vm.create()
+            }
+          }
+        },
+        [
+          _c(
+            "mt-palette-button",
+            {
+              attrs: {
+                content: "+",
+                mainButtonStyle: "color:#fff;background-color:#26a2ff;"
+              }
+            },
+            [
+              _c("div", { staticClass: "my-icon-button" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "my-icon-button" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "my-icon-button" })
+            ]
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _vm._l(_vm.menuTypes, function(menuType) {
+        return _c("div", [
+          _c(
+            "div",
+            {
+              on: {
+                click: function($event) {
+                  _vm.edit(menuType)
+                }
+              }
+            },
+            [_c("mt-cell", { attrs: { title: menuType.name } })],
+            1
+          )
+        ])
+      })
+    ],
+    2
   )
 }
 var staticRenderFns = []
@@ -43662,14 +43793,16 @@ function login(data) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["b"] = fetchList;
-/* harmony export (immutable) */ __webpack_exports__["c"] = fetchMenuTypes;
-/* harmony export (immutable) */ __webpack_exports__["f"] = updateMenu;
+/* harmony export (immutable) */ __webpack_exports__["d"] = fetchList;
+/* harmony export (immutable) */ __webpack_exports__["e"] = fetchMenuTypes;
+/* harmony export (immutable) */ __webpack_exports__["h"] = updateMenu;
 /* harmony export (immutable) */ __webpack_exports__["a"] = createMenu;
 /* unused harmony export searchMenuByName */
-/* harmony export (immutable) */ __webpack_exports__["e"] = listByStoreMenu;
-/* harmony export (immutable) */ __webpack_exports__["d"] = listByStore;
-/* harmony export (immutable) */ __webpack_exports__["g"] = updateMenuType;
+/* harmony export (immutable) */ __webpack_exports__["g"] = listByStoreMenu;
+/* harmony export (immutable) */ __webpack_exports__["f"] = listByStore;
+/* harmony export (immutable) */ __webpack_exports__["b"] = createMenuType;
+/* harmony export (immutable) */ __webpack_exports__["i"] = updateMenuType;
+/* harmony export (immutable) */ __webpack_exports__["c"] = deleteMenuType;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_request__ = __webpack_require__("./resources/assets/js/admin/utils/request.js");
 
 
@@ -43729,9 +43862,25 @@ function listByStore(data) {
     });
 }
 
+function createMenuType(data) {
+    return Object(__WEBPACK_IMPORTED_MODULE_0__utils_request__["a" /* default */])({
+        url: '/admin/menu/create-menu-type',
+        method: 'post',
+        data: data
+    });
+}
+
 function updateMenuType(data) {
     return Object(__WEBPACK_IMPORTED_MODULE_0__utils_request__["a" /* default */])({
         url: '/admin/menu/update-menu-type',
+        method: 'post',
+        data: data
+    });
+}
+
+function deleteMenuType(data) {
+    return Object(__WEBPACK_IMPORTED_MODULE_0__utils_request__["a" /* default */])({
+        url: '/admin/menu/delete-menu-type',
         method: 'post',
         data: data
     });
@@ -43924,7 +44073,7 @@ function getMenus(callback) {
 
     var page = __WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.menu.page;
     if (__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.menu.cacheMenus[page] === undefined || force === true) {
-        __WEBPACK_IMPORTED_MODULE_0__api_menu__["b" /* fetchList */]({ page: page }).then(function (response) {
+        __WEBPACK_IMPORTED_MODULE_0__api_menu__["d" /* fetchList */]({ page: page }).then(function (response) {
             if (response.data.code == 202) {
                 var menus = response.data.items.menus;
                 __WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].commit('setCacheMenus', { page: page, menus: menus });
@@ -43940,7 +44089,7 @@ function getMenuTypes(callback) {
     var force = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
     if (__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.menu.cacheMenuTypes === null || force === true) {
-        __WEBPACK_IMPORTED_MODULE_0__api_menu__["c" /* fetchMenuTypes */]({}).then(function (response) {
+        __WEBPACK_IMPORTED_MODULE_0__api_menu__["e" /* fetchMenuTypes */]({}).then(function (response) {
             var menuTypes = response.data.items.menuTypes;
             __WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].commit('setCacheMenuTypes', menuTypes);
             callback(menuTypes);
@@ -43954,7 +44103,7 @@ function getStoreMenus(callback, storeID) {
     var force = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
     if (__WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].state.menu.cacheStoreMenus[storeID] === undefined || force === true) {
-        __WEBPACK_IMPORTED_MODULE_0__api_menu__["d" /* listByStore */]({ store_id: storeID }).then(function (response) {
+        __WEBPACK_IMPORTED_MODULE_0__api_menu__["f" /* listByStore */]({ store_id: storeID }).then(function (response) {
             if (response.data.code == 202) {
                 var menus = response.data.items.menus;
                 __WEBPACK_IMPORTED_MODULE_1__store__["a" /* default */].commit('setCacheStoreMenus', { menus: menus, storeID: storeID });
