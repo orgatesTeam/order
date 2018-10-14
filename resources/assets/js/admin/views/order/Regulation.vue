@@ -32,6 +32,7 @@
 </template>
 
 <script>
+
     export default {
         name: "Regulation",
         data() {
@@ -39,7 +40,7 @@
                 containerShake: '',
                 amountValue: 1,
                 amount: 1,
-                regulateData: {}
+                regulateData: {},
             }
         },
         watch: {

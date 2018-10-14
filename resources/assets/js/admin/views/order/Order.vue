@@ -240,6 +240,7 @@
                             id: menu.menu_id,
                             name: menu.menu_name,
                             price: menu.menu_price,
+                            menu_type_id: menu.menu_type_id
                         }
                     }
                     formatter.push(newMenu)

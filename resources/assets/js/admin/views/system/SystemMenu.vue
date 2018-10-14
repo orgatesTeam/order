@@ -1,25 +1,10 @@
 <template>
     <div>
-        <div @click="routerPush('menu')">
-            <mt-cell title="菜單管理"></mt-cell>
+        <div v-for="(menu,key,index) in menus" @click="routerPush(key)" class="box">
+            {{menu}}
         </div>
-        <div @click="routerPush('menu-type')">
-            <mt-cell title="菜單種類管理"></mt-cell>
-        </div>
-        <div @click="routerPush('menu-taste')">
-            <mt-cell title="口味管理"></mt-cell>
-        </div>
-        <div @click="routerPush('system-table-manager')">
-            <mt-cell title="桌位管理"></mt-cell>
-        </div>
-        <div @click="routerPush('store')">
-            <mt-cell title="店家管理"></mt-cell>
-        </div>
-        <div @click="routerPush('order')">
-            <mt-cell title="點餐管理"></mt-cell>
-        </div>
-        <div @click="logout()">
-            <mt-cell title="登出"></mt-cell>
+        <div @click="logout()" class="box">
+            登出
         </div>
     </div>
 </template>
@@ -29,6 +14,18 @@
 
     export default {
         name: "SystemMenu",
+        data() {
+            return {
+                menus: {
+                    'menu': '菜單管理',
+                    'menu-type': '菜單種類管理',
+                    'menu-taste': '口味管理',
+                    'system-table-manager': '桌位管理',
+                    'order': '點餐管理',
+                    'store': '店家管理',
+                }
+            }
+        },
         mounted() {
             this.$store.commit('setFormTitle', '選單')
         },
@@ -45,5 +42,9 @@
 </script>
 
 <style scoped>
-
+    .box {
+        border-bottom: 0.5px black solid;
+        padding: 10px 10px;
+        font-size: 16px;
+    }
 </style>

@@ -13,10 +13,22 @@
 
 <script>
     import Regulation from './Regulation'
+    import {getTastes} from "../../cache/taste";
 
     export default {
         name: "Preview",
         components: {Regulation},
+        data() {
+            return {
+                tastes: null
+            }
+        },
+        mounted() {
+            let that = this
+            getTastes(tastes => {
+                that.tastes = tastes
+            })
+        },
         computed: {
             menus() {
                 return this.$store.state.order.menus

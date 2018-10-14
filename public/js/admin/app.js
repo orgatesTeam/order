@@ -3426,7 +3426,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     value: {
                         id: menu.menu_id,
                         name: menu.menu_name,
-                        price: menu.menu_price
+                        price: menu.menu_price,
+                        menu_type_id: menu.menu_type_id
                     }
                 };
                 formatter.push(newMenu);
@@ -3459,6 +3460,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Regulation__ = __webpack_require__("./resources/assets/js/admin/views/order/Regulation.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Regulation___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Regulation__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__cache_taste__ = __webpack_require__("./resources/assets/js/admin/cache/taste.js");
 //
 //
 //
@@ -3472,12 +3474,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Preview",
     components: { Regulation: __WEBPACK_IMPORTED_MODULE_0__Regulation___default.a },
+    data: function data() {
+        return {
+            tastes: null
+        };
+    },
+    mounted: function mounted() {
+        var that = this;
+        Object(__WEBPACK_IMPORTED_MODULE_1__cache_taste__["a" /* getTastes */])(function (tastes) {
+            that.tastes = tastes;
+        });
+    },
+
     computed: {
         menus: function menus() {
             return this.$store.state.order.menus;
@@ -3540,6 +3555,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Regulation",
@@ -4211,26 +4227,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "SystemMenu",
+    data: function data() {
+        return {
+            menus: {
+                'menu': '菜單管理',
+                'menu-type': '菜單種類管理',
+                'menu-taste': '口味管理',
+                'system-table-manager': '桌位管理',
+                'order': '點餐管理',
+                'store': '店家管理'
+            }
+        };
+    },
     mounted: function mounted() {
         this.$store.commit('setFormTitle', '選單');
     },
@@ -4518,7 +4531,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.box[data-v-339bc0cb] {\n    border-bottom: 0.5px black solid;\n    padding: 10px 10px;\n    font-size: 16px;\n}\n", ""]);
 
 // exports
 
@@ -26758,98 +26771,39 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      {
-        on: {
-          click: function($event) {
-            _vm.routerPush("menu")
+  return _c(
+    "div",
+    [
+      _vm._l(_vm.menus, function(menu, key, index) {
+        return _c(
+          "div",
+          {
+            staticClass: "box",
+            on: {
+              click: function($event) {
+                _vm.routerPush(key)
+              }
+            }
+          },
+          [_vm._v("\n        " + _vm._s(menu) + "\n    ")]
+        )
+      }),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass: "box",
+          on: {
+            click: function($event) {
+              _vm.logout()
+            }
           }
-        }
-      },
-      [_c("mt-cell", { attrs: { title: "菜單管理" } })],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        on: {
-          click: function($event) {
-            _vm.routerPush("menu-type")
-          }
-        }
-      },
-      [_c("mt-cell", { attrs: { title: "菜單種類管理" } })],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        on: {
-          click: function($event) {
-            _vm.routerPush("menu-taste")
-          }
-        }
-      },
-      [_c("mt-cell", { attrs: { title: "口味管理" } })],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        on: {
-          click: function($event) {
-            _vm.routerPush("system-table-manager")
-          }
-        }
-      },
-      [_c("mt-cell", { attrs: { title: "桌位管理" } })],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        on: {
-          click: function($event) {
-            _vm.routerPush("store")
-          }
-        }
-      },
-      [_c("mt-cell", { attrs: { title: "店家管理" } })],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        on: {
-          click: function($event) {
-            _vm.routerPush("order")
-          }
-        }
-      },
-      [_c("mt-cell", { attrs: { title: "點餐管理" } })],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        on: {
-          click: function($event) {
-            _vm.logout()
-          }
-        }
-      },
-      [_c("mt-cell", { attrs: { title: "登出" } })],
-      1
-    )
-  ])
+        },
+        [_vm._v("\n        登出\n    ")]
+      )
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
