@@ -190,14 +190,15 @@ class MenuController extends Controller
             return responseSuccess(['menus' => []]);
         }
 
-        $menuIDs = collectionMapField($storeMenus, 'menu_id');
+        $menuIDs = extractByField($storeMenus, 'menu_id');
 
         $selectRaw = [
             'menus.name as menu_name',
             'menus.id as menu_id',
             'menus.user_id as user_id',
             'menu_types.id as menu_type_id',
-            'menus.price as menu_price'
+            'menus.price as menu_price',
+            'menus.taste_ids as menu_taste_ids'
         ];
 
         $menus = Menu::selectRaw(implode(',', $selectRaw))

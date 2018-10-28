@@ -62,8 +62,8 @@ if (!function_exists('checkRequestExist')) {
 /**
  * 將 collection 取 單一欄位陣列
  */
-if (!function_exists('collectionMapField')) {
-    function collectionMapField(\Illuminate\Database\Eloquent\Collection $collection, string $filedName)
+if (!function_exists('extractByField')) {
+    function extractByField(\Illuminate\Database\Eloquent\Collection $collection, string $filedName)
     {
         $fieldCollection = [];
         foreach ($collection as $row) {

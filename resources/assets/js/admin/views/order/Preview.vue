@@ -1,9 +1,8 @@
 <template>
     <div class="main-container">
-        <div v-for="menu,index in menus">
-            <div @click="regulate(menu)">
-                <mt-cell :title="menu.name">
-                    <span style="color: green">{{`X${amount(menu.id)}`}}</span>
+        <div v-for="order,index in orders">
+            <div @click="regulate(index)">
+                <mt-cell :title="order.menu.menu_name" value="編輯口味">
                 </mt-cell>
             </div>
         </div>
@@ -13,25 +12,13 @@
 
 <script>
     import Regulation from './Regulation'
-    import {getTastes} from "../../cache/taste";
 
     export default {
         name: "Preview",
         components: {Regulation},
-        data() {
-            return {
-                tastes: null
-            }
-        },
-        mounted() {
-            let that = this
-            getTastes(tastes => {
-                that.tastes = tastes
-            })
-        },
         computed: {
-            menus() {
-                return this.$store.state.order.menus
+            orders() {
+                return this.$store.state.order.orders
             }
         },
         methods: {
@@ -44,8 +31,8 @@
                 })
                 return amount
             },
-            regulate(menu) {
-                this.$store.commit('setRegulateTempMenu', menu)
+            regulate(index) {
+                this.$store.commit('setRegulateOrderIndex', index)
                 this.$store.commit('setShowRegulation', true)
             },
         }

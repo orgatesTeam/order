@@ -3255,7 +3255,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -3269,7 +3268,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             selected: 'order',
-            checkMenus: [],
             storeActionSheet: false,
             storeActions: [],
             selectStore: {
@@ -3307,13 +3305,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         canOrder: function canOrder() {
             return this.tableNo > 0;
         },
+        orderMenus: function orderMenus() {
+            return this.$store.state.order.orders;
+        },
         checkMenuCount: function checkMenuCount() {
-            return this.checkMenus.length;
-        }
-    },
-    watch: {
-        checkMenuCount: function checkMenuCount() {
-            this.$store.commit('setOrderMenus', this.checkMenus);
+            return this.$store.state.order.orderCount;
         }
     },
     methods: {
@@ -3340,7 +3336,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         //選擇店家 hook
         afterSelectedStore: function afterSelectedStore() {
             var that = this;
-            that.checkMenus = [];
             this.getMenus(function () {
 
                 //未匯入菜單
@@ -3417,9 +3412,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
             return name;
         },
-        optionFormatter: function optionFormatter(menus) {
-            console.log(menus);
-            var formatter = [];
+        menuOptions: function menuOptions(menus) {
+            var menuOptions = [];
             menus.forEach(function (menu) {
                 var newMenu = {
                     label: menu.menu_name + "    $" + menu.menu_price,
@@ -3427,12 +3421,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         id: menu.menu_id,
                         name: menu.menu_name,
                         price: menu.menu_price,
-                        menu_type_id: menu.menu_type_id
+                        menu_type_id: menu.menu_type_id,
+                        menu_taste_ids: menu.menu_taste_ids
                     }
                 };
-                formatter.push(newMenu);
+                menuOptions.push(newMenu);
             });
-            return formatter;
+            return menuOptions;
         },
         menuClass: function menuClass(id) {
             return "menu-" + id;
@@ -3445,8 +3440,47 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 scrollLeft: 0
             }, 300);
 
-            __WEBPACK_IMPORTED_MODULE_2_jquery___default()('.mint-checklist').css("color", "black");
-            $scrollTo.find('.mint-checklist').css("color", "#ff9900");
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default()('.mint-cell-text').css("color", "black");
+            $scrollTo.find('.mint-cell-text').css("color", "#ff9900");
+        },
+        addMenu: function addMenu(menu) {
+            var that = this;
+            __WEBPACK_IMPORTED_MODULE_2_jquery___default.a.confirm({
+                title: '新增菜單:' + menu.menu_name,
+                content: '',
+                buttons: {
+                    okSubmit: {
+                        text: '確定 +1',
+                        btnClass: 'btn-red',
+                        action: function action() {
+                            that.$store.commit('pushOrder', { menu: menu });
+                        }
+                    },
+                    addThree: {
+                        text: '確定 +3',
+                        btnClass: 'btn-blue',
+                        action: function action() {
+                            Array.from({ length: 3 }, function (index) {
+                                that.$store.commit('pushOrder', { menu: menu });
+                            });
+                        }
+                    },
+                    addFive: {
+                        text: '確定 +5',
+                        btnClass: 'btn-orange',
+                        action: function action() {
+                            Array.from({ length: 5 }, function (index) {
+                                that.$store.commit('pushOrder', { menu: menu });
+                            });
+                        }
+                    },
+                    cancelSubmit: {
+                        text: '取消',
+                        btnClass: 'btn-default',
+                        action: function action() {}
+                    }
+                }
+            });
         }
     }
 });
@@ -3460,7 +3494,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Regulation__ = __webpack_require__("./resources/assets/js/admin/views/order/Regulation.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Regulation___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Regulation__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__cache_taste__ = __webpack_require__("./resources/assets/js/admin/cache/taste.js");
 //
 //
 //
@@ -3473,29 +3506,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Preview",
     components: { Regulation: __WEBPACK_IMPORTED_MODULE_0__Regulation___default.a },
-    data: function data() {
-        return {
-            tastes: null
-        };
-    },
-    mounted: function mounted() {
-        var that = this;
-        Object(__WEBPACK_IMPORTED_MODULE_1__cache_taste__["a" /* getTastes */])(function (tastes) {
-            that.tastes = tastes;
-        });
-    },
-
     computed: {
-        menus: function menus() {
-            return this.$store.state.order.menus;
+        orders: function orders() {
+            return this.$store.state.order.orders;
         }
     },
     methods: {
@@ -3508,8 +3527,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
             return amount;
         },
-        regulate: function regulate(menu) {
-            this.$store.commit('setRegulateTempMenu', menu);
+        regulate: function regulate(index) {
+            this.$store.commit('setRegulateOrderIndex', index);
             this.$store.commit('setShowRegulation', true);
         }
     }
@@ -3522,6 +3541,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__cache_taste__ = __webpack_require__("./resources/assets/js/admin/cache/taste.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_helper__ = __webpack_require__("./resources/assets/js/admin/utils/helper.js");
 //
 //
 //
@@ -3555,6 +3576,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3562,23 +3589,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             containerShake: '',
-            amountValue: 1,
-            amount: 1,
-            regulateData: {}
+            tastes: null,
+            tastesOptions: []
         };
     },
 
     watch: {
         show: function show() {
-            var menuID = this.selectedMenu.id;
-            var amount = 1;
-            this.order.regulateMenus.forEach(function (menu) {
-                if (menu.id == menuID) {
-                    amount = menu.amount;
+            var that = this;
+            var getTastesOptions = function getTastesOptions() {
+                var tastesOptions = [];
+                if (that.selectedOrder.tastesOptions !== undefined) {
+                    tastesOptions = that.selectedOrder.tastesOptions;
+                } else {
+                    Object(__WEBPACK_IMPORTED_MODULE_0__cache_taste__["a" /* getTastes */])(function (tastes) {
+                        var tasteIDs = that.selectedOrder.menu.menu_taste_ids.split(',');
+                        tastes.forEach(function (taste) {
+                            if (tasteIDs.includes(String(taste.id))) {
+                                var tasteTemp = Object(__WEBPACK_IMPORTED_MODULE_1__utils_helper__["a" /* deepObjectClone */])(taste);
+                                var options = [];
+                                tasteTemp.options.forEach(function (option) {
+                                    option.showActionsheet = false;
+                                    //預設口味第一個
+                                    option.select = option.checks[0].name;
+                                    options.push(option);
+                                });
+                                tasteTemp.options = options;
+                                tastesOptions.push(tasteTemp);
+                            }
+                        });
+                    });
                 }
-            });
+                that.tastesOptions = tastesOptions;
+            };
 
-            this.amount = amount;
+            getTastesOptions();
         }
     },
     computed: {
@@ -3588,8 +3633,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         show: function show() {
             return this.order.showRegulation;
         },
-        selectedMenu: function selectedMenu() {
-            return this.order.regulateTempMenu;
+        selectedOrder: function selectedOrder() {
+            var index = this.order.regulateOrderIndex;
+            return this.order.orders[index];
         }
     },
     methods: {
@@ -3607,19 +3653,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         save: function save() {
-            var menu = { amount: this.amount, id: this.selectedMenu.id };
-            this.$store.commit('setRegulateMenus', menu);
+            this.selectedOrder.tastesOptions = this.tastesOptions;
             this.close();
         },
-        addAmount: function addAmount() {
-            this.amount = parseInt(this.amount);
-            this.amount += 1;
+        buildActionsByTasteOption: function buildActionsByTasteOption(tasteOptionsID, tasteOptionIndex, tasteOption) {
+            var actions = [];
+            var that = this;
+            tasteOption.checks.forEach(function (check) {
+                actions.push({
+                    name: check.name, method: function method() {
+                        that.selectTasteOptions(tasteOptionsID, tasteOptionIndex, check.name);
+                    }
+                });
+            });
+            return actions;
         },
-        minusAmount: function minusAmount() {
-            this.amount = parseInt(this.amount);
-            if (this.amount > 1) {
-                this.amount -= 1;
-            }
+        selectTasteOptions: function selectTasteOptions(tasteOptionsID, tasteOptionIndex, checkName) {
+            this.tastesOptions.forEach(function (tasteOptions) {
+                if (tasteOptionsID == tasteOptions.id) {
+                    tasteOptions.options[tasteOptionIndex].select = checkName;
+                }
+            });
         }
     }
 });
@@ -26565,59 +26619,79 @@ var render = function() {
                 [
                   _c("div", { staticClass: "box" }, [
                     _c("div", { staticClass: "box-title" }, [
-                      _c("span", [_vm._v(_vm._s(_vm.selectedMenu.name))])
+                      _c("span", [
+                        _vm._v(_vm._s(_vm.selectedOrder.menu.menu_name))
+                      ])
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "box-content" }, [
-                      _c(
-                        "div",
-                        [
-                          _c(
-                            "mt-field",
-                            {
-                              attrs: { label: "數量", type: "tel" },
-                              model: {
-                                value: _vm.amount,
-                                callback: function($$v) {
-                                  _vm.amount = $$v
+                    _c(
+                      "div",
+                      { staticClass: "box-content" },
+                      _vm._l(_vm.tastesOptions, function(tasteOptions) {
+                        return _c(
+                          "div",
+                          _vm._l(tasteOptions.options, function(
+                            option,
+                            optionIndex
+                          ) {
+                            return _c("div", [
+                              _c(
+                                "div",
+                                {
+                                  on: {
+                                    click: function($event) {
+                                      option.showActionsheet = !option.showActionsheet
+                                    }
+                                  }
                                 },
-                                expression: "amount"
-                              }
-                            },
-                            [
-                              _c("div", { staticClass: "amount-regulation" }, [
-                                _c(
-                                  "a",
-                                  {
-                                    staticClass: "waves-effect waves-light btn",
-                                    on: {
-                                      click: function($event) {
-                                        _vm.addAmount()
+                                [
+                                  _c(
+                                    "mt-field",
+                                    {
+                                      attrs: {
+                                        label: option.name,
+                                        type: "tel"
+                                      },
+                                      model: {
+                                        value: option.select,
+                                        callback: function($$v) {
+                                          _vm.$set(option, "select", $$v)
+                                        },
+                                        expression: "option.select"
                                       }
-                                    }
-                                  },
-                                  [_vm._v("＋")]
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "a",
-                                  {
-                                    staticClass: "waves-effect waves-light btn",
-                                    on: {
-                                      click: function($event) {
-                                        _vm.minusAmount()
-                                      }
-                                    }
-                                  },
-                                  [_vm._v("一")]
-                                )
-                              ])
-                            ]
-                          )
-                        ],
-                        1
-                      )
-                    ]),
+                                    },
+                                    [
+                                      _c("mt-actionsheet", {
+                                        attrs: {
+                                          actions: _vm.buildActionsByTasteOption(
+                                            tasteOptions.id,
+                                            optionIndex,
+                                            option
+                                          )
+                                        },
+                                        model: {
+                                          value: option.showActionsheet,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              option,
+                                              "showActionsheet",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "option.showActionsheet"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ])
+                          })
+                        )
+                      })
+                    ),
                     _vm._v(" "),
                     _c("div", { staticClass: "box-buttons" }, [
                       _c(
@@ -26678,23 +26752,21 @@ var render = function() {
     "div",
     { staticClass: "main-container" },
     [
-      _vm._l(_vm.menus, function(menu, index) {
+      _vm._l(_vm.orders, function(order, index) {
         return _c("div", [
           _c(
             "div",
             {
               on: {
                 click: function($event) {
-                  _vm.regulate(menu)
+                  _vm.regulate(index)
                 }
               }
             },
             [
-              _c("mt-cell", { attrs: { title: menu.name } }, [
-                _c("span", { staticStyle: { color: "green" } }, [
-                  _vm._v(_vm._s("X" + _vm.amount(menu.id)))
-                ])
-              ])
+              _c("mt-cell", {
+                attrs: { title: order.menu.menu_name, value: "編輯口味" }
+              })
             ],
             1
           )
@@ -27252,21 +27324,30 @@ var render = function() {
             "div",
             { class: _vm.menuClass(typeID) },
             [
-              _c("mt-checklist", {
-                attrs: {
-                  title: _vm.menuTypeName(typeID),
-                  options: _vm.optionFormatter(typeMenus)
-                },
-                model: {
-                  value: _vm.checkMenus,
-                  callback: function($$v) {
-                    _vm.checkMenus = $$v
+              _c("label", { staticClass: "mint-checklist-title" }, [
+                _vm._v(_vm._s(_vm.menuTypeName(typeID)))
+              ]),
+              _vm._v(" "),
+              _vm._l(typeMenus, function(menu) {
+                return _c(
+                  "div",
+                  {
+                    on: {
+                      click: function($event) {
+                        _vm.addMenu(menu)
+                      }
+                    }
                   },
-                  expression: "checkMenus"
-                }
+                  [
+                    _c("mt-cell-swipe", {
+                      attrs: { title: menu.menu_name + "  $" + menu.menu_price }
+                    })
+                  ],
+                  1
+                )
               })
             ],
-            1
+            2
           )
         })
       ),
@@ -44390,34 +44471,24 @@ var menu = {
 "use strict";
 var order = {
     state: {
-        menus: null,
+        orders: [],
+        orderCount: 0,
         showRegulation: false,
-        regulateTempMenu: null,
-        regulateMenus: []
+        regulateOrderIndex: 0
     },
     mutations: {
-        setOrderMenus: function setOrderMenus(state, menus) {
-            state.menus = menus;
+        pushOrder: function pushOrder(state, _ref) {
+            var menu = _ref.menu,
+                tastesOptions = _ref.tastesOptions;
+
+            state.orders.push({ menu: menu, tastesOptions: tastesOptions });
+            state.orderCount = state.orders.length;
         },
         setShowRegulation: function setShowRegulation(state, show) {
             state.showRegulation = show;
         },
-        setRegulateTempMenu: function setRegulateTempMenu(state, menu) {
-            state.regulateTempMenu = menu;
-        },
-        setRegulateMenus: function setRegulateMenus(state, regulateMenu) {
-
-            var exist = false;
-            state.regulateMenus.forEach(function (menu, index) {
-                if (menu.id == regulateMenu.id) {
-                    exist = true;
-                    state.regulateMenus[index] = regulateMenu;
-                }
-            });
-
-            if (true) {
-                state.regulateMenus.push(regulateMenu);
-            }
+        setRegulateOrderIndex: function setRegulateOrderIndex(state, index) {
+            state.regulateOrderIndex = index;
         }
     },
     actions: {}

@@ -7,16 +7,20 @@
                     <div class="container" :class="containerShake">
                         <div class="box">
                             <div class="box-title">
-                                <span>{{selectedMenu.name}}</span>
+                                <span>{{selectedOrder.menu.menu_name}}</span>
                             </div>
                             <div class="box-content">
-                                <div>
-                                    <mt-field label="數量" type="tel" v-model="amount">
-                                        <div class="amount-regulation">
-                                            <a class="waves-effect waves-light btn" @click="addAmount()">＋</a>
-                                            <a class="waves-effect waves-light btn" @click="minusAmount()">一</a>
+                                <div v-for="tasteOptions in tastesOptions">
+                                    <div v-for="option,optionIndex in tasteOptions.options">
+                                        <div @click="option.showActionsheet = !option.showActionsheet">
+                                            <mt-field :label="option.name" type="tel" v-model="option.select">
+                                                <mt-actionsheet
+                                                        :actions="buildActionsByTasteOption(tasteOptions.id,optionIndex,option)"
+                                                        v-model="option.showActionsheet">
+                                                </mt-actionsheet>
+                                            </mt-field>
                                         </div>
-                                    </mt-field>
+                                    </div>
                                 </div>
                             </div>
                             <div class="box-buttons">
@@ -32,28 +36,48 @@
 </template>
 
 <script>
+    import {getTastes} from "../../cache/taste";
+    import {deepObjectClone} from "../../utils/helper";
 
     export default {
         name: "Regulation",
         data() {
             return {
                 containerShake: '',
-                amountValue: 1,
-                amount: 1,
-                regulateData: {},
+                tastes: null,
+                tastesOptions: [],
             }
         },
         watch: {
             show() {
-                let menuID = this.selectedMenu.id
-                let amount = 1
-                this.order.regulateMenus.forEach(menu => {
-                    if (menu.id == menuID) {
-                        amount = menu.amount
+                let that = this
+                let getTastesOptions = () => {
+                    let tastesOptions = []
+                    if (that.selectedOrder.tastesOptions !== undefined) {
+                        tastesOptions = that.selectedOrder.tastesOptions
+                    } else {
+                        getTastes(tastes => {
+                            let tasteIDs = that.selectedOrder.menu.menu_taste_ids.split(',')
+                            tastes.forEach(taste => {
+                                if (tasteIDs.includes(String(taste.id))) {
+                                    let tasteTemp = deepObjectClone(taste)
+                                    let options = [];
+                                    tasteTemp.options.forEach(option => {
+                                        option.showActionsheet = false;
+                                        //預設口味第一個
+                                        option.select = option.checks[0].name;
+                                        options.push(option)
+                                    })
+                                    tasteTemp.options = options
+                                    tastesOptions.push(tasteTemp)
+                                }
+                            })
+                        })
                     }
-                })
+                    that.tastesOptions = tastesOptions
+                }
 
-                this.amount = amount
+                getTastesOptions()
             }
         },
         computed: {
@@ -63,9 +87,10 @@
             show() {
                 return this.order.showRegulation
             },
-            selectedMenu() {
-                return this.order.regulateTempMenu
-            }
+            selectedOrder() {
+                let index = this.order.regulateOrderIndex
+                return this.order.orders[index]
+            },
         },
         methods: {
             close() {
@@ -82,19 +107,27 @@
                 }
             },
             save() {
-                let menu = {amount: this.amount, id: this.selectedMenu.id}
-                this.$store.commit('setRegulateMenus', menu)
+                this.selectedOrder.tastesOptions = this.tastesOptions
                 this.close()
             },
-            addAmount() {
-                this.amount = parseInt(this.amount)
-                this.amount += 1
+            buildActionsByTasteOption(tasteOptionsID, tasteOptionIndex, tasteOption) {
+                let actions = []
+                let that = this
+                tasteOption.checks.forEach((check) => {
+                    actions.push({
+                        name: check.name, method: () => {
+                            that.selectTasteOptions(tasteOptionsID, tasteOptionIndex, check.name)
+                        }
+                    })
+                })
+                return actions
             },
-            minusAmount() {
-                this.amount = parseInt(this.amount)
-                if (this.amount > 1) {
-                    this.amount -= 1
-                }
+            selectTasteOptions(tasteOptionsID, tasteOptionIndex, checkName) {
+                this.tastesOptions.forEach(tasteOptions => {
+                    if (tasteOptionsID == tasteOptions.id) {
+                        tasteOptions.options[tasteOptionIndex].select = checkName;
+                    }
+                })
             }
         }
     }

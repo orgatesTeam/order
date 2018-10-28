@@ -48,11 +48,10 @@
             </div>
             <div v-show="canOrder" class="order" id="order">
                 <div v-for="typeMenus,typeID in menus" :class="menuClass(typeID)">
-                    <mt-checklist
-                            :title=menuTypeName(typeID)
-                            v-model="checkMenus"
-                            :options=optionFormatter(typeMenus)>
-                    </mt-checklist>
+                    <label class="mint-checklist-title">{{menuTypeName(typeID)}}</label>
+                    <div v-for="menu in typeMenus" @click="addMenu(menu)">
+                        <mt-cell-swipe :title="menu.menu_name+'  $'+menu.menu_price"></mt-cell-swipe>
+                    </div>
                 </div>
             </div>
             <div>
@@ -82,7 +81,6 @@
         data() {
             return {
                 selected: 'order',
-                checkMenus: [],
                 storeActionSheet: false,
                 storeActions: [],
                 selectStore: {
@@ -92,7 +90,7 @@
                 },
                 tableNo: 0,
                 menuTypes: null,
-                menus: []
+                menus: [],
             }
         },
         mounted() {
@@ -119,13 +117,11 @@
             canOrder() {
                 return this.tableNo > 0
             },
-            checkMenuCount() {
-                return this.checkMenus.length
+            orderMenus() {
+                return this.$store.state.order.orders
             },
-        },
-        watch: {
             checkMenuCount() {
-                this.$store.commit('setOrderMenus', this.checkMenus)
+                return this.$store.state.order.orderCount
             }
         },
         methods: {
@@ -151,7 +147,6 @@
             //選擇店家 hook
             afterSelectedStore() {
                 let that = this
-                that.checkMenus = []
                 this.getMenus(() => {
 
                     //未匯入菜單
@@ -230,9 +225,8 @@
                 })
                 return name
             },
-            optionFormatter(menus) {
-                console.log(menus)
-                let formatter = []
+            menuOptions(menus) {
+                let menuOptions = []
                 menus.forEach((menu) => {
                     let newMenu = {
                         label: `${menu.menu_name}    $${menu.menu_price}`,
@@ -240,12 +234,13 @@
                             id: menu.menu_id,
                             name: menu.menu_name,
                             price: menu.menu_price,
-                            menu_type_id: menu.menu_type_id
+                            menu_type_id: menu.menu_type_id,
+                            menu_taste_ids: menu.menu_taste_ids
                         }
                     }
-                    formatter.push(newMenu)
+                    menuOptions.push(newMenu)
                 })
-                return formatter
+                return menuOptions
             },
             menuClass(id) {
                 return `menu-${id}`
@@ -258,8 +253,48 @@
                     scrollLeft: 0
                 }, 300);
 
-                $('.mint-checklist').css("color", "black");
-                $scrollTo.find('.mint-checklist').css("color", "#ff9900");
+                $('.mint-cell-text').css("color", "black");
+                $scrollTo.find('.mint-cell-text').css("color", "#ff9900");
+            },
+            addMenu(menu) {
+                let that = this
+                $.confirm({
+                    title: '新增菜單:' + menu.menu_name,
+                    content: '',
+                    buttons: {
+                        okSubmit: {
+                            text: '確定 +1',
+                            btnClass: 'btn-red',
+                            action: function () {
+                                that.$store.commit('pushOrder', {menu})
+                            }
+                        },
+                        addThree: {
+                            text: '確定 +3',
+                            btnClass: 'btn-blue',
+                            action: function () {
+                                Array.from({length: 3}, index => {
+                                    that.$store.commit('pushOrder', {menu})
+                                })
+                            }
+                        },
+                        addFive: {
+                            text: '確定 +5',
+                            btnClass: 'btn-orange',
+                            action: function () {
+                                Array.from({length: 5}, index => {
+                                    that.$store.commit('pushOrder', {menu})
+                                })
+                            }
+                        },
+                        cancelSubmit: {
+                            text: '取消',
+                            btnClass: 'btn-default',
+                            action: function () {
+                            }
+                        },
+                    },
+                });
             }
         }
     }
