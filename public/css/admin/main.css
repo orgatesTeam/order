@@ -19,3 +19,57 @@ html, body {
 .main-container {
     margin-top: 1rem;
 }
+
+.flex-container {
+    display: flex;
+}
+
+.font-2 {
+    font-size: 2vw;
+}
+
+.font-3 {
+    font-size: 4vw;
+}
+
+.font-4 {
+    font-size: 4vw;
+}
+
+.font-5 {
+    font-size: 5vw;
+}
+
+.font-6 {
+    font-size: 6vw;
+}
+
+.font-7 {
+    font-size: 7vw;
+}
+
+.font-8 {
+    font-size: 8vw;
+}
+
+.font-9 {
+    font-size: 9vw;
+}
+
+.font-10 {
+    font-size: 10vw;
+}
+
+.font-4 {
+    font-size: 4vw;
+}
+
+.container-10 {
+    padding: 0 10px;
+}
+
+.flex-middle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

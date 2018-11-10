@@ -65,6 +65,9 @@
         <div :class="selectedClass('preview')">
             <preview></preview>
         </div>
+        <div :class="selectedClass('total')">
+            <total></total>
+        </div>
     </div>
 </template>
 
@@ -74,10 +77,11 @@
     import {getMenuTypes} from "../../cache/menu";
     import $ from 'jquery'
     import Preview from './Preview'
+    import Total from './Total'
 
     export default {
         name: "Order",
-        components: {Preview},
+        components: {Preview, Total},
         data() {
             return {
                 selected: 'order',
