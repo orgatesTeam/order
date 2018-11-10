@@ -12,7 +12,9 @@ class Taste extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'name', 'options',
+        'user_id',
+        'name',
+        'options',
     ];
 
     /**
@@ -21,5 +23,7 @@ class Taste extends Model
      * @var array
      */
     protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
 }

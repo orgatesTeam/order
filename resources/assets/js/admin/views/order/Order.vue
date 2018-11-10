@@ -97,6 +97,7 @@
             console.log(Preview)
             this.$store.commit('setFormTitle', `點餐管理`)
             let that = this
+            this.useVuexSelectStore()
             getStores(stores => {
                 stores.forEach((store) => {
                     that.storeActions.push({
@@ -107,6 +108,7 @@
                             that.selectStore.name = store.name
                             that.selectStore.tableTotal = store.table_total
                             that.$store.commit('setFormTitle', `${store.name}-點餐管理`)
+                            that.$store.commit('setSelectStore', store)
                             that.afterSelectedStore()
                         }
                     })
@@ -125,6 +127,15 @@
             }
         },
         methods: {
+            useVuexSelectStore() {
+                let store = this.$store.state.order.selectStore
+                if (store !== null) {
+                    this.selectStore.id = store.id
+                    this.selectStore.name = store.name
+                    this.selectStore.tableTotal = store.table_total
+                    this.afterSelectedStore()
+                }
+            },
             selectedClass(selected) {
                 return this.selected == selected ? 'show' : 'not-show'
             },

@@ -3284,6 +3284,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         console.log(__WEBPACK_IMPORTED_MODULE_3__Preview___default.a);
         this.$store.commit('setFormTitle', "\u9EDE\u9910\u7BA1\u7406");
         var that = this;
+        this.useVuexSelectStore();
         Object(__WEBPACK_IMPORTED_MODULE_0__cache_storeManager__["a" /* getStores */])(function (stores) {
             stores.forEach(function (store) {
                 that.storeActions.push({
@@ -3294,6 +3295,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         that.selectStore.name = store.name;
                         that.selectStore.tableTotal = store.table_total;
                         that.$store.commit('setFormTitle', store.name + "-\u9EDE\u9910\u7BA1\u7406");
+                        that.$store.commit('setSelectStore', store);
                         that.afterSelectedStore();
                     }
                 });
@@ -3313,6 +3315,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
+        useVuexSelectStore: function useVuexSelectStore() {
+            var store = this.$store.state.order.selectStore;
+            if (store !== null) {
+                this.selectStore.id = store.id;
+                this.selectStore.name = store.name;
+                this.selectStore.tableTotal = store.table_total;
+                this.afterSelectedStore();
+            }
+        },
         selectedClass: function selectedClass(selected) {
             return this.selected == selected ? 'show' : 'not-show';
         },
@@ -3541,8 +3552,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__cache_taste__ = __webpack_require__("./resources/assets/js/admin/cache/taste.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_helper__ = __webpack_require__("./resources/assets/js/admin/utils/helper.js");
 //
 //
 //
@@ -3580,52 +3589,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
-
-
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Regulation",
     data: function data() {
         return {
             containerShake: '',
-            tastes: null,
-            tastesOptions: []
+            tastes: null
         };
     },
 
-    watch: {
-        show: function show() {
-            var that = this;
-            var getTastesOptions = function getTastesOptions() {
-                var tastesOptions = [];
-                if (that.selectedOrder.tastesOptions !== undefined) {
-                    tastesOptions = that.selectedOrder.tastesOptions;
-                } else {
-                    Object(__WEBPACK_IMPORTED_MODULE_0__cache_taste__["a" /* getTastes */])(function (tastes) {
-                        var tasteIDs = that.selectedOrder.menu.menu_taste_ids.split(',');
-                        tastes.forEach(function (taste) {
-                            if (tasteIDs.includes(String(taste.id))) {
-                                var tasteTemp = Object(__WEBPACK_IMPORTED_MODULE_1__utils_helper__["a" /* deepObjectClone */])(taste);
-                                var options = [];
-                                tasteTemp.options.forEach(function (option) {
-                                    option.showActionsheet = false;
-                                    //預設口味第一個
-                                    option.select = option.checks[0].name;
-                                    options.push(option);
-                                });
-                                tasteTemp.options = options;
-                                tastesOptions.push(tasteTemp);
-                            }
-                        });
-                    });
-                }
-                that.tastesOptions = tastesOptions;
-            };
-
-            getTastesOptions();
-        }
-    },
     computed: {
         order: function order() {
             return this.$store.state.order;
@@ -3634,8 +3610,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.order.showRegulation;
         },
         selectedOrder: function selectedOrder() {
-            var index = this.order.regulateOrderIndex;
-            return this.order.orders[index];
+            return this.order.orders[this.regulateOrderIndex];
+        },
+        regulateOrderIndex: function regulateOrderIndex() {
+            return this.order.regulateOrderIndex;
+        },
+        tastesOptions: function tastesOptions() {
+            return this.selectedOrder.tastesOptions;
         }
     },
     methods: {
@@ -3645,6 +3626,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         shake: function shake(event) {
             if (event.target.className == 'cell') {
+                this.close();
+                return;
                 this.containerShake = 'shake';
                 var that = this;
                 setTimeout(function () {
@@ -3654,6 +3637,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         save: function save() {
             this.selectedOrder.tastesOptions = this.tastesOptions;
+            this.close();
+        },
+        remove: function remove() {
+            var index = this.regulateOrderIndex;
+            this.$store.commit('removeOrdersByIndex', index);
             this.close();
         },
         buildActionsByTasteOption: function buildActionsByTasteOption(tasteOptionsID, tasteOptionIndex, tasteOption) {
@@ -26693,6 +26681,20 @@ var render = function() {
                       })
                     ),
                     _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass:
+                          "waves-effect waves-light btn-orange btn red ",
+                        on: {
+                          click: function($event) {
+                            _vm.remove()
+                          }
+                        }
+                      },
+                      [_vm._v("刪除")]
+                    ),
+                    _vm._v(" "),
                     _c("div", { staticClass: "box-buttons" }, [
                       _c(
                         "a",
@@ -44469,26 +44471,71 @@ var menu = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__cache_taste__ = __webpack_require__("./resources/assets/js/admin/cache/taste.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_helper__ = __webpack_require__("./resources/assets/js/admin/utils/helper.js");
+
+
+
 var order = {
     state: {
         orders: [],
         orderCount: 0,
         showRegulation: false,
-        regulateOrderIndex: 0
+        regulateOrderIndex: 0,
+        selectStore: null
     },
     mutations: {
         pushOrder: function pushOrder(state, _ref) {
             var menu = _ref.menu,
                 tastesOptions = _ref.tastesOptions;
 
+
+            //口味
+            if (tastesOptions === undefined) {
+                tastesOptions = [];
+                Object(__WEBPACK_IMPORTED_MODULE_0__cache_taste__["a" /* getTastes */])(function (tastes) {
+                    var tasteIDs = menu.menu_taste_ids.split(',');
+                    tastes.forEach(function (taste) {
+                        if (tasteIDs.includes(String(taste.id))) {
+                            var tasteTemp = Object(__WEBPACK_IMPORTED_MODULE_1__utils_helper__["a" /* deepObjectClone */])(taste);
+                            var options = [];
+                            tasteTemp.options.forEach(function (option) {
+                                option.showActionsheet = false;
+                                //預設口味第一個
+                                option.select = option.checks[0].name;
+                                options.push(option);
+                            });
+                            tasteTemp.options = options;
+                            tastesOptions.push(tasteTemp);
+                        }
+                    });
+                });
+            }
+
             state.orders.push({ menu: menu, tastesOptions: tastesOptions });
+            //排序
+            var orders = state.orders.sort(function (a, b) {
+                return a.menu.menu_id < b.menu.menu_id ? -1 : 0;
+            });
+
+            state.orders = orders;
             state.orderCount = state.orders.length;
+        },
+        removeOrdersByIndex: function removeOrdersByIndex(state, index) {
+            if (state.orders[index]) {
+                console.log(state.orders);
+                console.log(index);
+                state.orders.splice(index, 1);
+            }
         },
         setShowRegulation: function setShowRegulation(state, show) {
             state.showRegulation = show;
         },
         setRegulateOrderIndex: function setRegulateOrderIndex(state, index) {
             state.regulateOrderIndex = index;
+        },
+        setSelectStore: function setSelectStore(state, store) {
+            state.selectStore = store;
         }
     },
     actions: {}

@@ -23,10 +23,13 @@
                                     </div>
                                 </div>
                             </div>
+                            <a class="waves-effect waves-light btn-orange btn red " @click="remove()">刪除</a>
+
                             <div class="box-buttons">
                                 <a class="waves-effect waves-light btn" @click="save()">儲存</a>
                                 <a class="waves-effect waves-light btn" @click="close()">取消</a>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -36,48 +39,12 @@
 </template>
 
 <script>
-    import {getTastes} from "../../cache/taste";
-    import {deepObjectClone} from "../../utils/helper";
-
     export default {
         name: "Regulation",
         data() {
             return {
                 containerShake: '',
                 tastes: null,
-                tastesOptions: [],
-            }
-        },
-        watch: {
-            show() {
-                let that = this
-                let getTastesOptions = () => {
-                    let tastesOptions = []
-                    if (that.selectedOrder.tastesOptions !== undefined) {
-                        tastesOptions = that.selectedOrder.tastesOptions
-                    } else {
-                        getTastes(tastes => {
-                            let tasteIDs = that.selectedOrder.menu.menu_taste_ids.split(',')
-                            tastes.forEach(taste => {
-                                if (tasteIDs.includes(String(taste.id))) {
-                                    let tasteTemp = deepObjectClone(taste)
-                                    let options = [];
-                                    tasteTemp.options.forEach(option => {
-                                        option.showActionsheet = false;
-                                        //預設口味第一個
-                                        option.select = option.checks[0].name;
-                                        options.push(option)
-                                    })
-                                    tasteTemp.options = options
-                                    tastesOptions.push(tasteTemp)
-                                }
-                            })
-                        })
-                    }
-                    that.tastesOptions = tastesOptions
-                }
-
-                getTastesOptions()
             }
         },
         computed: {
@@ -88,9 +55,14 @@
                 return this.order.showRegulation
             },
             selectedOrder() {
-                let index = this.order.regulateOrderIndex
-                return this.order.orders[index]
+                return this.order.orders[this.regulateOrderIndex]
             },
+            regulateOrderIndex() {
+                return this.order.regulateOrderIndex
+            },
+            tastesOptions(){
+                return this.selectedOrder.tastesOptions
+            }
         },
         methods: {
             close() {
@@ -99,6 +71,8 @@
             },
             shake(event) {
                 if (event.target.className == 'cell') {
+                    this.close()
+                    return
                     this.containerShake = 'shake'
                     let that = this
                     setTimeout(() => {
@@ -108,6 +82,11 @@
             },
             save() {
                 this.selectedOrder.tastesOptions = this.tastesOptions
+                this.close()
+            },
+            remove() {
+                let index = this.regulateOrderIndex
+                this.$store.commit('removeOrdersByIndex', index)
                 this.close()
             },
             buildActionsByTasteOption(tasteOptionsID, tasteOptionIndex, tasteOption) {
