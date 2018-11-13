@@ -13,7 +13,7 @@
                                 <div v-for="tasteOptions in tastesOptions">
                                     <div v-for="option,optionIndex in tasteOptions.options">
                                         <div @click="option.showActionsheet = !option.showActionsheet">
-                                            <mt-field :label="option.name" type="tel" v-model="option.select">
+                                            <mt-field :label="option.name" type="tel" v-model="option.select" disabled>
                                                 <mt-actionsheet
                                                         :actions="buildActionsByTasteOption(tasteOptions.id,optionIndex,option)"
                                                         v-model="option.showActionsheet">
@@ -60,7 +60,7 @@
             regulateOrderIndex() {
                 return this.order.regulateOrderIndex
             },
-            tastesOptions(){
+            tastesOptions() {
                 return this.selectedOrder.tastesOptions
             }
         },
@@ -114,6 +114,10 @@
 
 <style scoped>
 
+    input[type=tel]:disabled {
+        color:red;
+    }
+    
     .shake {
         -webkit-animation: shake .82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
         animation: shake .82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;

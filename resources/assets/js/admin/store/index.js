@@ -7,6 +7,7 @@ import storeManager from './modules/storeManager'
 import order from './modules/order'
 import getters from './getters'
 import taste from './modules/taste'
+import habit from './modules/habit'
 
 Vue.use(Vuex)
 
@@ -17,7 +18,8 @@ const store = new Vuex.Store({
         popup,
         storeManager,
         order,
-        taste
+        taste,
+        habit
     },
 })
 

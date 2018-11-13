@@ -1,24 +1,43 @@
-<style scoped>
-    .price > .title {
-        font-weight: bold;
-        flex: 1
+<style scoped lang="scss">
+
+    #drag {
+        position: fixed;
+        width: 150px;
+        height: 70px;
+        padding: 10px;
+        bottom: 300px;
+        right: 10px;
+        z-index: 9999999;
+        .offer {
+            position: absolute;
+            top: 0;
+        }
+        .sum {
+            position: absolute;
+            top: 0;
+            left: 80px;
+        }
     }
 
-    .price > .math {
-        flex: 1;
-        color: red;
+    .price {
+        .title {
+            font-weight: bold;
+            flex: 1
+        }
+        .math {
+            flex: 1;
+            color: red;
+        }
     }
 
     .details {
         margin-top: 20px;
-    }
-
-    .details > .name {
-        flex: 3.5;
-    }
-
-    .details > .sum {
-        flex: 3;
+        .name {
+            flex: 3.5;
+        }
+        .sum {
+            flex: 3;
+        }
     }
 
     .over-auto {
@@ -47,11 +66,11 @@
                 <div class="sum"> x {{detail.number}}</div>
             </div>
         </div>
-        <div class="function-btn font-8">
-            <div @click="storeActionSheet = true" class="inline-dev">
+        <div id="drag" class="function-btn">
+            <div class="inline-dev offer">
                 <mt-button type="danger">優惠</mt-button>
             </div>
-            <div @click="storeActionSheet = true" class="inline-dev">
+            <div class="inline-dev sum">
                 <mt-button type="primary">總結</mt-button>
             </div>
         </div>
@@ -63,10 +82,42 @@
         name: "Total",
         data() {
             return {
-                totalPrice: 0
+                totalPrice: 0,
+            }
+        },
+        mounted() {
+
+            //註冊move
+            let lastPt = null;
+            let el = this.moveElement
+            let that = this
+            el.addEventListener("touchmove", handleMove, false);
+
+            function handleMove(e) {
+                e.preventDefault();
+                if (lastPt != null) {
+                }
+                lastPt = {x: e.touches[0].pageX, y: e.touches[0].pageY};
+                el.style.top = `${lastPt.y}px`
+                el.style.left = `${lastPt.x}px`
+                that.$store.commit('setOrderTotalMoveLastPt', lastPt)
+            }
+
+            this.setMoveLastPt()
+        },
+        watch: {
+            moving(value) {
+                if (value === true) {
+                    console.log(1)
+                } else {
+                    console.log(2)
+                }
             }
         },
         computed: {
+            moveElement() {
+                return document.getElementById('drag');
+            },
             orders() {
                 return this.$store.state.order.orders
             },
@@ -101,6 +152,15 @@
                 })
             }
         },
-        methods: {}
+        methods: {
+            setMoveLastPt() {
+                let lastPt = this.$store.state.habit.orderTotalMoveLastPt
+                let el = this.moveElement
+                if (lastPt !== null) {
+                    el.style.top = `${lastPt.y}px`
+                    el.style.left = `${lastPt.x}px`
+                }
+            }
+        }
     }
 </script>
