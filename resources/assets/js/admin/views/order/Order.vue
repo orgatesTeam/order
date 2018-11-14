@@ -12,7 +12,7 @@
                 </a>
                 <a class="mint-tab-item" :class="isSelected('total')" @click="setSelected('total')">
                     <div class="mint-tab-item-icon"></div>
-                    <div class="mint-tab-item-label">總結</div>
+                    <div class="mint-tab-item-label">總計</div>
                 </a>
             </div>
         </div>

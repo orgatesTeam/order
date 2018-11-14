@@ -23,11 +23,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <a class="waves-effect waves-light btn-orange btn red " @click="remove()">刪除</a>
 
                             <div class="box-buttons">
-                                <a class="waves-effect waves-light btn" @click="save()">儲存</a>
-                                <a class="waves-effect waves-light btn" @click="close()">取消</a>
+                                <a class="waves-effect waves-light btn-orange btn red " @click="remove()">刪除</a>
+                                <!--<a class="waves-effect waves-light btn" @click="save()">儲存</a>-->
+                                <!--<a class="waves-effect waves-light btn" @click="close()">取消</a>-->
                             </div>
 
                         </div>

@@ -26936,45 +26936,19 @@ var render = function() {
                       })
                     ),
                     _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        staticClass:
-                          "waves-effect waves-light btn-orange btn red ",
-                        on: {
-                          click: function($event) {
-                            _vm.remove()
-                          }
-                        }
-                      },
-                      [_vm._v("刪除")]
-                    ),
-                    _vm._v(" "),
                     _c("div", { staticClass: "box-buttons" }, [
                       _c(
                         "a",
                         {
-                          staticClass: "waves-effect waves-light btn",
+                          staticClass:
+                            "waves-effect waves-light btn-orange btn red ",
                           on: {
                             click: function($event) {
-                              _vm.save()
+                              _vm.remove()
                             }
                           }
                         },
-                        [_vm._v("儲存")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass: "waves-effect waves-light btn",
-                          on: {
-                            click: function($event) {
-                              _vm.close()
-                            }
-                          }
-                        },
-                        [_vm._v("取消")]
+                        [_vm._v("刪除")]
                       )
                     ])
                   ])
@@ -27499,7 +27473,7 @@ var render = function() {
           [
             _c("div", { staticClass: "mint-tab-item-icon" }),
             _vm._v(" "),
-            _c("div", { staticClass: "mint-tab-item-label" }, [_vm._v("總結")])
+            _c("div", { staticClass: "mint-tab-item-label" }, [_vm._v("總計")])
           ]
         )
       ])
@@ -27727,7 +27701,7 @@ var render = function() {
       _c(
         "div",
         { staticClass: "inline-dev sum" },
-        [_c("mt-button", { attrs: { type: "primary" } }, [_vm._v("總結")])],
+        [_c("mt-button", { attrs: { type: "primary" } }, [_vm._v("結算")])],
         1
       )
     ])

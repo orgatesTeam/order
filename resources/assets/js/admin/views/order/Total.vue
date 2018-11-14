@@ -71,7 +71,7 @@
                 <mt-button type="danger">優惠</mt-button>
             </div>
             <div class="inline-dev sum">
-                <mt-button type="primary">總結</mt-button>
+                <mt-button type="primary">結算</mt-button>
             </div>
         </div>
     </div>
