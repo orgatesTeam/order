@@ -2295,6 +2295,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -3187,6 +3189,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Preview___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Preview__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Total__ = __webpack_require__("./resources/assets/js/admin/views/order/Total.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Total___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__Total__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_mint_ui__ = __webpack_require__("./node_modules/mint-ui/lib/mint-ui.common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_mint_ui__);
 //
 //
 //
@@ -3260,6 +3264,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -3471,6 +3476,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         btnClass: 'btn-red',
                         action: function action() {
                             that.$store.commit('pushOrder', { menu: menu });
+                            Object(__WEBPACK_IMPORTED_MODULE_5_mint_ui__["Toast"])({
+                                message: menu.menu_name + " +1",
+                                position: 'middle',
+                                duration: 2000
+                            });
                         }
                     },
                     addThree: {
@@ -3479,6 +3489,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         action: function action() {
                             Array.from({ length: 3 }, function (index) {
                                 that.$store.commit('pushOrder', { menu: menu });
+                                Object(__WEBPACK_IMPORTED_MODULE_5_mint_ui__["Toast"])({
+                                    message: menu.menu_name + " +3",
+                                    position: 'middle',
+                                    duration: 2000
+                                });
                             });
                         }
                     },
@@ -3488,6 +3503,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         action: function action() {
                             Array.from({ length: 5 }, function (index) {
                                 that.$store.commit('pushOrder', { menu: menu });
+                                Object(__WEBPACK_IMPORTED_MODULE_5_mint_ui__["Toast"])({
+                                    message: menu.menu_name + " +5",
+                                    position: 'middle',
+                                    duration: 2000
+                                });
                             });
                         }
                     },
@@ -3511,6 +3531,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Regulation__ = __webpack_require__("./resources/assets/js/admin/views/order/Regulation.vue");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Regulation___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Regulation__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_orderService__ = __webpack_require__("./resources/assets/js/admin/utils/orderService.js");
 //
 //
 //
@@ -3568,6 +3589,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -3592,6 +3614,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         regulate: function regulate(index) {
             this.$store.commit('setRegulateOrderIndex', index);
             this.$store.commit('setShowRegulation', true);
+        },
+        countPrice: function countPrice(order) {
+            return Object(__WEBPACK_IMPORTED_MODULE_1__utils_orderService__["a" /* tastesOptionsCountPrice */])(order.tastesOptions) + order.menu.menu_price;
         }
     }
 });
@@ -3701,16 +3726,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             tasteOption.checks.forEach(function (check) {
                 actions.push({
                     name: check.name, method: function method() {
-                        that.selectTasteOptions(tasteOptionsID, tasteOptionIndex, check.name);
+                        that.selectTasteOptions(tasteOptionsID, tasteOptionIndex, check);
                     }
                 });
             });
             return actions;
         },
-        selectTasteOptions: function selectTasteOptions(tasteOptionsID, tasteOptionIndex, checkName) {
+        selectTasteOptions: function selectTasteOptions(tasteOptionsID, tasteOptionIndex, check) {
             this.tastesOptions.forEach(function (tasteOptions) {
                 if (tasteOptionsID == tasteOptions.id) {
-                    tasteOptions.options[tasteOptionIndex].select = checkName;
+                    tasteOptions.options[tasteOptionIndex].select = {
+                        'name': check.name,
+                        'price': check.price
+                    };
                 }
             });
         }
@@ -3724,6 +3752,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_orderService__ = __webpack_require__("./resources/assets/js/admin/utils/orderService.js");
 //
 //
 //
@@ -3803,6 +3832,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Total",
@@ -3858,7 +3889,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var menuID = menu.menu_id;
 
                 //總金額
-                that.totalPrice += menu.menu_price;
+                that.totalPrice += menu.menu_price + Object(__WEBPACK_IMPORTED_MODULE_0__utils_orderService__["a" /* tastesOptionsCountPrice */])(order.tastesOptions);
 
                 //各個菜單數量
                 if (details[menuID] === undefined) {
@@ -4767,7 +4798,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\ninput[type=tel][data-v-20a956c4]:disabled {\n    color:red;\n}\n.shake[data-v-20a956c4] {\n    -webkit-animation: shake .82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    animation: shake .82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n}\n.bg[data-v-20a956c4] {\n    position: fixed;\n    top: 0;\n    height: 100%;\n    width: 100%;\n    background-color: #444;\n    opacity: .2;\n}\n.regulation[data-v-20a956c4] {\n    position: fixed;\n    top: 0;\n    height: 100%;\n    width: 100%;\n    z-index: 99999999;\n}\n.regulation .table[data-v-20a956c4] {\n    -webkit-perspective: 500px;\n    perspective: 500px;\n    -webkit-perspective-origin: center;\n    perspective-origin: center;\n    display: table;\n    width: 100%;\n    height: 100%;\n}\n.regulation .row[data-v-20a956c4] {\n    display: table-row;\n    width: 100%;\n}\n.regulation .cell[data-v-20a956c4] {\n    display: table-cell;\n    vertical-align: middle;\n}\n.regulation .container[data-v-20a956c4] {\n    margin: 0 auto;\n    max-width: 1280px;\n    width: 90%;\n}\n.regulation .box[data-v-20a956c4] {\n    background: white;\n    border-radius: 4px;\n    position: relative;\n    outline: 0;\n    padding: 15px 15px 0;\n    overflow: hidden;\n    margin-left: auto;\n    margin-right: auto;\n    border-top: solid 7px #e74c3c;\n}\n.box-title[data-v-20a956c4] {\n    display: block;\n    font-size: 22px;\n    line-height: 20px;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    cursor: default;\n    padding-bottom: 15px;\n}\n.box-content[data-v-20a956c4] {\n    margin-bottom: 15px;\n    height: auto;\n    -webkit-transition: height .4s ease-in;\n    transition: height .4s ease-in;\n    display: inline-block;\n    width: 100%;\n    position: relative;\n    overflow-x: hidden;\n    overflow-y: auto;\n}\n.box-buttons[data-v-20a956c4] {\n    float: right;\n    adding-bottom: 11px;\n    padding-bottom: 10px;\n}\n.amount-regulation[data-v-20a956c4] {\n    float: right;\n}\n", ""]);
+exports.push([module.i, "\ninput[type=tel][data-v-20a956c4]:disabled {\n    color: red;\n}\n.shake[data-v-20a956c4] {\n    -webkit-animation: shake .82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    animation: shake .82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;\n    -webkit-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n}\n.bg[data-v-20a956c4] {\n    position: fixed;\n    top: 0;\n    height: 100%;\n    width: 100%;\n    background-color: #444;\n    opacity: .2;\n}\n.regulation[data-v-20a956c4] {\n    position: fixed;\n    top: 0;\n    height: 100%;\n    width: 100%;\n    z-index: 99999999;\n}\n.regulation .table[data-v-20a956c4] {\n    -webkit-perspective: 500px;\n    perspective: 500px;\n    -webkit-perspective-origin: center;\n    perspective-origin: center;\n    display: table;\n    width: 100%;\n    height: 100%;\n}\n.regulation .row[data-v-20a956c4] {\n    display: table-row;\n    width: 100%;\n}\n.regulation .cell[data-v-20a956c4] {\n    display: table-cell;\n    vertical-align: middle;\n}\n.regulation .container[data-v-20a956c4] {\n    margin: 0 auto;\n    max-width: 1280px;\n    width: 90%;\n}\n.regulation .box[data-v-20a956c4] {\n    background: white;\n    border-radius: 4px;\n    position: relative;\n    outline: 0;\n    padding: 15px 15px 0;\n    overflow: hidden;\n    margin-left: auto;\n    margin-right: auto;\n    border-top: solid 7px #e74c3c;\n}\n.box-title[data-v-20a956c4] {\n    display: block;\n    font-size: 22px;\n    line-height: 20px;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    cursor: default;\n    padding-bottom: 15px;\n}\n.box-content[data-v-20a956c4] {\n    margin-bottom: 15px;\n    height: auto;\n    -webkit-transition: height .4s ease-in;\n    transition: height .4s ease-in;\n    display: inline-block;\n    width: 100%;\n    position: relative;\n    overflow-x: hidden;\n    overflow-y: auto;\n}\n.box-buttons[data-v-20a956c4] {\n    float: right;\n    adding-bottom: 11px;\n    padding-bottom: 10px;\n}\n.amount-regulation[data-v-20a956c4] {\n    float: right;\n}\n", ""]);
 
 // exports
 
@@ -26896,11 +26927,11 @@ var render = function() {
                                         disabled: ""
                                       },
                                       model: {
-                                        value: option.select,
+                                        value: option.select.name,
                                         callback: function($$v) {
-                                          _vm.$set(option, "select", $$v)
+                                          _vm.$set(option.select, "name", $$v)
                                         },
-                                        expression: "option.select"
+                                        expression: "option.select.name"
                                       }
                                     },
                                     [
@@ -27009,7 +27040,7 @@ var render = function() {
                 _c("div", { staticClass: "money" }, [
                   _vm._v(
                     "\n                    " +
-                      _vm._s(order.menu.menu_price) +
+                      _vm._s(_vm.countPrice(order)) +
                       "\n                "
                   )
                 ])
@@ -27028,7 +27059,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "content" }, [
-                          _vm._v(_vm._s(option.select))
+                          _vm._v(_vm._s(option.select.name))
                         ])
                       ]
                     )
@@ -27731,133 +27762,136 @@ var render = function() {
       "div",
       { staticClass: "section no-pad-bot", attrs: { id: "index-banner" } },
       [
-        _c(
-          "div",
-          { staticClass: "container" },
-          [
-            _c("div", { staticClass: "section" }, [
-              _c("table", { staticClass: "highlight responsive-table" }, [
-                _c("thead", [
-                  _c("tr", [
-                    _c("th", [_vm._v("菜單名稱")]),
+        _c("div", { staticClass: "container" }, [
+          _c("div", { staticClass: "section" }, [
+            _c("table", { staticClass: "highlight responsive-table" }, [
+              _c("thead", [
+                _c("tr", [
+                  _c("th", [_vm._v("菜單名稱")]),
+                  _vm._v(" "),
+                  _c("th", [_vm._v("價格")]),
+                  _vm._v(" "),
+                  _c("th", [_vm._v("種類")]),
+                  _vm._v(" "),
+                  _c("th", [_vm._v("口味")]),
+                  _vm._v(" "),
+                  _c("th", [_vm._v("建立時間")]),
+                  _vm._v(" "),
+                  _c("th", [_vm._v("更新時間")]),
+                  _vm._v(" "),
+                  _c("th", [
+                    _c("div", { staticClass: "section" }, [
+                      _c(
+                        "div",
+                        {
+                          on: {
+                            click: function($event) {
+                              _vm.create()
+                            }
+                          }
+                        },
+                        [
+                          _c(
+                            "mt-palette-button",
+                            {
+                              attrs: {
+                                content: "+",
+                                mainButtonStyle:
+                                  "color:#fff;background-color:#26a2ff;"
+                              }
+                            },
+                            [
+                              _c("div", { staticClass: "my-icon-button" }),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "my-icon-button" }),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "my-icon-button" })
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.menus, function(menu, index) {
+                  return _c("tr", [
+                    _c("td", [_vm._v(_vm._s(menu.name))]),
                     _vm._v(" "),
-                    _c("th", [_vm._v("價格")]),
+                    _c("td", [_vm._v(_vm._s(menu.price))]),
                     _vm._v(" "),
-                    _c("th", [_vm._v("種類")]),
+                    _c("td", [_vm._v(_vm._s(menu.type))]),
                     _vm._v(" "),
-                    _c("th", [_vm._v("口味")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("建立時間")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("更新時間")]),
-                    _vm._v(" "),
-                    _c("th", [
-                      _c("div", { staticClass: "section" }, [
+                    _c("td", [
+                      _c("div", { staticClass: "tastes" }, [
                         _c(
-                          "div",
+                          "a",
                           {
+                            staticClass: "waves-effect tabs btn orange",
                             on: {
                               click: function($event) {
-                                _vm.create()
+                                _vm.showTastes(menu)
                               }
                             }
                           },
                           [
-                            _c(
-                              "mt-palette-button",
-                              {
-                                attrs: {
-                                  content: "+",
-                                  mainButtonStyle:
-                                    "color:#fff;background-color:#26a2ff;"
-                                }
-                              },
-                              [
-                                _c("div", { staticClass: "my-icon-button" }),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "my-icon-button" }),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "my-icon-button" })
-                              ]
+                            _vm._v(
+                              _vm._s(_vm.getTastesCount(menu.taste_ids)) + "種"
                             )
-                          ],
-                          1
+                          ]
                         )
                       ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(menu.created_at))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(menu.updated_at))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "waves-effect waves-light btn",
+                          on: {
+                            click: function($event) {
+                              _vm.edit(index)
+                            }
+                          }
+                        },
+                        [_vm._v("編輯")]
+                      )
                     ])
                   ])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  _vm._l(_vm.menus, function(menu, index) {
-                    return _c("tr", [
-                      _c("td", [_vm._v(_vm._s(menu.name))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(menu.price))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(menu.type))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("div", { staticClass: "tastes" }, [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "waves-effect tabs btn orange",
-                              on: {
-                                click: function($event) {
-                                  _vm.showTastes(menu)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                _vm._s(_vm.getTastesCount(menu.taste_ids)) +
-                                  "種"
-                              )
-                            ]
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(menu.created_at))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(menu.updated_at))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "waves-effect waves-light btn",
-                            on: {
-                              click: function($event) {
-                                _vm.edit(index)
-                              }
-                            }
-                          },
-                          [_vm._v("編輯")]
-                        )
-                      ])
-                    ])
+                })
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _vm.paginate.pageCount > 1
+            ? _c(
+                "div",
+                { attrs: { id: "paginate" } },
+                [
+                  _c("paginate", {
+                    attrs: {
+                      "page-count": _vm.paginate.pageCount,
+                      "click-handler": _vm.clickPage,
+                      "prev-text": "上一頁",
+                      "next-text": "下一頁",
+                      "container-class": "pagination",
+                      value: _vm.paginate.currentPage,
+                      "page-range": _vm.paginate.range
+                    }
                   })
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("paginate", {
-              attrs: {
-                "page-count": _vm.paginate.pageCount,
-                "click-handler": _vm.clickPage,
-                "prev-text": "上一頁",
-                "next-text": "下一頁",
-                "container-class": "pagination",
-                value: _vm.paginate.currentPage,
-                "page-range": _vm.paginate.range
-              }
-            })
-          ],
-          1
-        )
+                ],
+                1
+              )
+            : _vm._e()
+        ])
       ]
     )
   ])
@@ -44912,7 +44946,8 @@ var order = {
                             tasteTemp.options.forEach(function (option) {
                                 option.showActionsheet = false;
                                 //預設口味第一個
-                                option.select = option.checks[0].name;
+                                var selectCheck = option.checks[0];
+                                option.select = { 'name': selectCheck.name, 'price': selectCheck.price };
                                 options.push(option);
                             });
                             tasteTemp.options = options;
@@ -45104,6 +45139,25 @@ function hackReset(instance) {
             instance.$store.commit('setHackAppMainResetStatue', true);
         });
     }
+}
+
+/***/ }),
+
+/***/ "./resources/assets/js/admin/utils/orderService.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = tastesOptionsCountPrice;
+function tastesOptionsCountPrice(tastesOptions) {
+    var totalPrice = 0;
+    tastesOptions.forEach(function (tasteOptions) {
+        tasteOptions.options.forEach(function (option) {
+            var checkPrice = option.select.price;
+            checkPrice = checkPrice == undefined ? 0 : parseInt(checkPrice, 10);
+            totalPrice += checkPrice;
+        });
+    });
+    return totalPrice;
 }
 
 /***/ }),

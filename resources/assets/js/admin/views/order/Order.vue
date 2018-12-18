@@ -77,7 +77,8 @@
     import {getMenuTypes} from "../../cache/menu";
     import $ from 'jquery'
     import Preview from './Preview'
-    import Total from './Total'
+    import Total from './Total';
+    import {Toast} from 'mint-ui'
 
     export default {
         name: "Order",
@@ -282,6 +283,11 @@
                             btnClass: 'btn-red',
                             action: function () {
                                 that.$store.commit('pushOrder', {menu})
+                                Toast({
+                                    message: `${menu.menu_name} +1`,
+                                    position: 'middle',
+                                    duration: 2000
+                                });
                             }
                         },
                         addThree: {
@@ -290,6 +296,11 @@
                             action: function () {
                                 Array.from({length: 3}, index => {
                                     that.$store.commit('pushOrder', {menu})
+                                    Toast({
+                                        message: `${menu.menu_name} +3`,
+                                        position: 'middle',
+                                        duration: 2000
+                                    });
                                 })
                             }
                         },
@@ -299,6 +310,11 @@
                             action: function () {
                                 Array.from({length: 5}, index => {
                                     that.$store.commit('pushOrder', {menu})
+                                    Toast({
+                                        message: `${menu.menu_name} +5`,
+                                        position: 'middle',
+                                        duration: 2000
+                                    });
                                 })
                             }
                         },

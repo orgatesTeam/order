@@ -45,16 +45,18 @@
                         </tbody>
                     </table>
                 </div>
-                <paginate
-                        :page-count="paginate.pageCount"
-                        :click-handler="clickPage"
-                        :prev-text="'上一頁'"
-                        :next-text="'下一頁'"
-                        :container-class="'pagination'"
-                        :value="paginate.currentPage"
-                        :page-range="paginate.range"
-                >
-                </paginate>
+                <div id="paginate" v-if="paginate.pageCount>1">
+                    <paginate
+                            :page-count="paginate.pageCount"
+                            :click-handler="clickPage"
+                            :prev-text="'上一頁'"
+                            :next-text="'下一頁'"
+                            :container-class="'pagination'"
+                            :value="paginate.currentPage"
+                            :page-range="paginate.range"
+                    >
+                    </paginate>
+                </div>
             </div>
         </div>
     </div>

@@ -40,13 +40,13 @@
                         {{order.menu.menu_name}}
                     </div>
                     <div class="money">
-                        {{order.menu.menu_price}}
+                        {{countPrice(order)}}
                     </div>
                 </div>
                 <div v-for="tasteOption in order.tastesOptions">
                     <div class="order-taste flex-container font-4" v-for="option in tasteOption.options">
                         <div class="title">{{option.name}}</div>
-                        <div class="content">{{option.select}}</div>
+                        <div class="content">{{option.select.name}}</div>
                     </div>
                 </div>
             </div>
@@ -57,6 +57,7 @@
 
 <script>
     import Regulation from './Regulation'
+    import {tastesOptionsCountPrice} from "../../utils/orderService";
 
     export default {
         name: "Preview",
@@ -80,6 +81,9 @@
                 this.$store.commit('setRegulateOrderIndex', index)
                 this.$store.commit('setShowRegulation', true)
             },
+            countPrice(order) {
+                return tastesOptionsCountPrice(order.tastesOptions) + order.menu.menu_price;
+            }
         }
     }
 </script>

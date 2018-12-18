@@ -78,6 +78,8 @@
 </template>
 
 <script>
+    import {tastesOptionsCountPrice} from "../../utils/orderService";
+
     export default {
         name: "Total",
         data() {
@@ -132,7 +134,7 @@
                     let menuID = menu.menu_id
 
                     //總金額
-                    that.totalPrice += menu.menu_price
+                    that.totalPrice += (menu.menu_price + tastesOptionsCountPrice(order.tastesOptions));
 
                     //各個菜單數量
                     if (details[menuID] === undefined) {

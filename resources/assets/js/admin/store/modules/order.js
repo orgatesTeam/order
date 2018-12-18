@@ -24,7 +24,8 @@ const order = {
                             tasteTemp.options.forEach(option => {
                                 option.showActionsheet = false;
                                 //預設口味第一個
-                                option.select = option.checks[0].name;
+                                let selectCheck = option.checks[0];
+                                option.select = {'name': selectCheck.name, 'price': selectCheck.price};
                                 options.push(option)
                             })
                             tasteTemp.options = options

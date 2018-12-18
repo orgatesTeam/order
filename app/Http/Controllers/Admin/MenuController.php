@@ -111,7 +111,7 @@ class MenuController extends Controller
         $keys = ['name',
             'price',
             'menu_type_id',
-            'taste_ids'
+//            'taste_ids'
         ];
         checkRequestExist($keys);
 

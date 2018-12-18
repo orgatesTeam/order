@@ -13,7 +13,7 @@
                                 <div v-for="tasteOptions in tastesOptions">
                                     <div v-for="option,optionIndex in tasteOptions.options">
                                         <div @click="option.showActionsheet = !option.showActionsheet">
-                                            <mt-field :label="option.name" type="tel" v-model="option.select" disabled>
+                                            <mt-field :label="option.name" type="tel" v-model="option.select.name" disabled>
                                                 <mt-actionsheet
                                                         :actions="buildActionsByTasteOption(tasteOptions.id,optionIndex,option)"
                                                         v-model="option.showActionsheet">
@@ -95,16 +95,19 @@
                 tasteOption.checks.forEach((check) => {
                     actions.push({
                         name: check.name, method: () => {
-                            that.selectTasteOptions(tasteOptionsID, tasteOptionIndex, check.name)
+                            that.selectTasteOptions(tasteOptionsID, tasteOptionIndex, check)
                         }
                     })
                 })
                 return actions
             },
-            selectTasteOptions(tasteOptionsID, tasteOptionIndex, checkName) {
+            selectTasteOptions(tasteOptionsID, tasteOptionIndex, check) {
                 this.tastesOptions.forEach(tasteOptions => {
                     if (tasteOptionsID == tasteOptions.id) {
-                        tasteOptions.options[tasteOptionIndex].select = checkName;
+                        tasteOptions.options[tasteOptionIndex].select = {
+                            'name': check.name,
+                            'price': check.price
+                        };
                     }
                 })
             }
@@ -115,9 +118,9 @@
 <style scoped>
 
     input[type=tel]:disabled {
-        color:red;
+        color: red;
     }
-    
+
     .shake {
         -webkit-animation: shake .82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
         animation: shake .82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
