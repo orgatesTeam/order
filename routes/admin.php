@@ -69,6 +69,12 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
             Route::post('/update', 'StoreController@update');
             Route::post('/setting-table-total', 'StoreController@settingTableTotal');
         });
+        /**
+         * 點餐 order
+         */
+        Route::group(['prefix' => 'order'], function () {
+            Route::post('/checkout', 'OrderController@checkout');
+        });
     });
 });
 

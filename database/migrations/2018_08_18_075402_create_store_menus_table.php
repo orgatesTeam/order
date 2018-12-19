@@ -16,6 +16,8 @@ class CreateStoreMenusTable extends Migration
         Schema::create('store_menus', function (Blueprint $table) {
             $table->integer('store_id');
             $table->integer('menu_id');
+
+            $table->index(['store_id']);
         });
     }
 

@@ -66,7 +66,7 @@
             <preview></preview>
         </div>
         <div :class="selectedClass('total')">
-            <total></total>
+            <total :position="position"></total>
         </div>
     </div>
 </template>
@@ -102,8 +102,19 @@
             console.log(Preview)
             this.$store.commit('setFormTitle', `點餐管理`)
             let that = this
-            this.useVuexSelectStore()
+
+            //上一次選的
+            if (this.$store.state.order.selectStore) {
+                this.doSelectStore(this.$store.state.order.selectStore)
+            }
+
             getStores(stores => {
+
+                //只有一個
+                if (Array.isArray(stores) && stores.length == 1) {
+                    that.doSelectStore(stores[0])
+                }
+
                 stores.forEach((store) => {
                     that.storeActions.push({
                         name: store.name,
@@ -129,11 +140,16 @@
             },
             checkMenuCount() {
                 return this.$store.state.order.orderCount
+            },
+            position() {
+                return {
+                    'storeID': this.selectStore.id,
+                    'tableNo': this.tableNo
+                }
             }
         },
         methods: {
-            useVuexSelectStore() {
-                let store = this.$store.state.order.selectStore
+            doSelectStore(store) {
                 if (store !== null) {
                     this.selectStore.id = store.id
                     this.selectStore.name = store.name

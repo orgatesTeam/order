@@ -7,7 +7,7 @@ const order = {
         orderCount: 0,
         showRegulation: false,
         regulateOrderIndex: 0,
-        selectStore: null
+        selectStore: null,
     },
     mutations: {
         pushOrder(state, {menu, tastesOptions}) {
@@ -25,7 +25,9 @@ const order = {
                                 option.showActionsheet = false;
                                 //預設口味第一個
                                 let selectCheck = option.checks[0];
-                                option.select = {'name': selectCheck.name, 'price': selectCheck.price};
+                                let price = selectCheck.price == undefined ? 0 : selectCheck.price;
+                                let name = selectCheck.name;
+                                option.select = {name, price};
                                 options.push(option)
                             })
                             tasteTemp.options = options

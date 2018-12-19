@@ -22,6 +22,9 @@ class CreateStoresTable extends Migration
             $table->integer('table_total')->comment('總桌數')->default(1);;
             $table->smallInteger('enable')->comment('開啟')->default('1');
             $table->timestamps();
+
+            $table->index(['user_id']);
+
         });
     }
 

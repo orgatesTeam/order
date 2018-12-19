@@ -108,12 +108,11 @@ class MenuController extends Controller
 
     public function createMenu()
     {
-        $keys = ['name',
+        checkRequestExist([
+            'name',
             'price',
             'menu_type_id',
-//            'taste_ids'
-        ];
-        checkRequestExist($keys);
+        ]);
 
         $menuType = MenuType::where('id', request('menu_type_id'))->where('user_id', auth()->user()->id)->first();
         if (!$menuType) {

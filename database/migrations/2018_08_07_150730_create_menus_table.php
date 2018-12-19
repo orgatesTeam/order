@@ -21,6 +21,9 @@ class CreateMenusTable extends Migration
             $table->integer('menu_type_id')->default(0)->comment('菜單種類,關聯 menu_types');
             $table->string('taste_ids')->nullable()->comment('口味');
             $table->timestamps();
+
+            $table->index(['user_id']);
+
         });
 
         Schema::create('menu_types', function (Blueprint $table) {

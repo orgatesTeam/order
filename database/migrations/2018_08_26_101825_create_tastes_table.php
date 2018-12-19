@@ -19,6 +19,9 @@ class CreateTastesTable extends Migration
             $table->string('name');
             $table->text('options')->commnet('選項');
             $table->timestamps();
+
+            $table->index(['user_id']);
+
         });
     }
 

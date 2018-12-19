@@ -55,9 +55,10 @@ service.interceptors.response.use(
                 statusText: statusText,
                 data: data
             },
-            duration: 50000
+            duration: 5000
         });
         console.log('err' + error) // for debug
+        app.$store.commit('setLoadingStatus', false)
         return Promise.reject(error)
     })
 

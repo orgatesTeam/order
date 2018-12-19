@@ -3295,8 +3295,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         console.log(__WEBPACK_IMPORTED_MODULE_3__Preview___default.a);
         this.$store.commit('setFormTitle', "\u9EDE\u9910\u7BA1\u7406");
         var that = this;
-        this.useVuexSelectStore();
+
+        //上一次選的
+        if (this.$store.state.order.selectStore) {
+            this.doSelectStore(this.$store.state.order.selectStore);
+        }
+
         Object(__WEBPACK_IMPORTED_MODULE_0__cache_storeManager__["a" /* getStores */])(function (stores) {
+
+            //只有一個
+            if (Array.isArray(stores) && stores.length == 1) {
+                that.doSelectStore(stores[0]);
+            }
+
             stores.forEach(function (store) {
                 that.storeActions.push({
                     name: store.name,
@@ -3323,11 +3334,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         checkMenuCount: function checkMenuCount() {
             return this.$store.state.order.orderCount;
+        },
+        position: function position() {
+            return {
+                'storeID': this.selectStore.id,
+                'tableNo': this.tableNo
+            };
         }
     },
     methods: {
-        useVuexSelectStore: function useVuexSelectStore() {
-            var store = this.$store.state.order.selectStore;
+        doSelectStore: function doSelectStore(store) {
             if (store !== null) {
                 this.selectStore.id = store.id;
                 this.selectStore.name = store.name;
@@ -3616,7 +3632,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$store.commit('setShowRegulation', true);
         },
         countPrice: function countPrice(order) {
-            return Object(__WEBPACK_IMPORTED_MODULE_1__utils_orderService__["a" /* tastesOptionsCountPrice */])(order.tastesOptions) + order.menu.menu_price;
+            return Object(__WEBPACK_IMPORTED_MODULE_1__utils_orderService__["b" /* tastesOptionsCountPrice */])(order.tastesOptions) + order.menu.menu_price;
         }
     }
 });
@@ -3753,6 +3769,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_orderService__ = __webpack_require__("./resources/assets/js/admin/utils/orderService.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api_order__ = __webpack_require__("./resources/assets/js/admin/api/order.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_mint_ui__ = __webpack_require__("./node_modules/mint-ui/lib/mint-ui.common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_mint_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_mint_ui__);
 //
 //
 //
@@ -3829,13 +3848,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
+
+
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['position'],
     name: "Total",
     data: function data() {
         return {
@@ -3889,7 +3909,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var menuID = menu.menu_id;
 
                 //總金額
-                that.totalPrice += menu.menu_price + Object(__WEBPACK_IMPORTED_MODULE_0__utils_orderService__["a" /* tastesOptionsCountPrice */])(order.tastesOptions);
+                that.totalPrice += menu.menu_price + Object(__WEBPACK_IMPORTED_MODULE_0__utils_orderService__["b" /* tastesOptionsCountPrice */])(order.tastesOptions);
 
                 //各個菜單數量
                 if (details[menuID] === undefined) {
@@ -3917,6 +3937,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 el.style.top = lastPt.y + "px";
                 el.style.left = lastPt.x + "px";
             }
+        },
+        checkout: function checkout() {
+            var details = Object(__WEBPACK_IMPORTED_MODULE_0__utils_orderService__["a" /* formatOrderCheckoutDetails */])(this.orders);
+            var tableNo = this.position.tableNo;
+            var storeID = this.position.storeID;
+            var data = { tableNo: tableNo, details: details, storeID: storeID };
+            Object(__WEBPACK_IMPORTED_MODULE_1__api_order__["a" /* checkout */])(data).then(function (response) {
+                console.log(response);
+                if (response.data.code == 202) {
+                    Object(__WEBPACK_IMPORTED_MODULE_2_mint_ui__["Toast"])({
+                        message: "\u9EDE\u9910\u6210\u529F,\u8ACB\u8010\u5FC3\u7B49\u5F85\uFF5E",
+                        position: 'middle',
+                        duration: 5000
+                    });
+                }
+            });
         }
     }
 });
@@ -27671,7 +27707,12 @@ var render = function() {
     _vm._v(" "),
     _c("div", { class: _vm.selectedClass("preview") }, [_c("preview")], 1),
     _vm._v(" "),
-    _c("div", { class: _vm.selectedClass("total") }, [_c("total")], 1)
+    _c(
+      "div",
+      { class: _vm.selectedClass("total") },
+      [_c("total", { attrs: { position: _vm.position } })],
+      1
+    )
   ])
 }
 var staticRenderFns = []
@@ -27724,14 +27765,14 @@ var render = function() {
     _c("div", { staticClass: "function-btn", attrs: { id: "drag" } }, [
       _c(
         "div",
-        { staticClass: "inline-dev offer" },
-        [_c("mt-button", { attrs: { type: "danger" } }, [_vm._v("優惠")])],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "inline-dev sum" },
+        {
+          staticClass: "inline-dev sum",
+          on: {
+            click: function($event) {
+              _vm.checkout()
+            }
+          }
+        },
         [_c("mt-button", { attrs: { type: "primary" } }, [_vm._v("結算")])],
         1
       )
@@ -44345,6 +44386,24 @@ function deleteMenuType(data) {
 
 /***/ }),
 
+/***/ "./resources/assets/js/admin/api/order.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = checkout;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_request__ = __webpack_require__("./resources/assets/js/admin/utils/request.js");
+
+
+function checkout(data) {
+    return Object(__WEBPACK_IMPORTED_MODULE_0__utils_request__["a" /* default */])({
+        url: '/admin/order/checkout',
+        method: 'post',
+        data: data
+    });
+};
+
+/***/ }),
+
 /***/ "./resources/assets/js/admin/api/store.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -44947,7 +45006,9 @@ var order = {
                                 option.showActionsheet = false;
                                 //預設口味第一個
                                 var selectCheck = option.checks[0];
-                                option.select = { 'name': selectCheck.name, 'price': selectCheck.price };
+                                var price = selectCheck.price == undefined ? 0 : selectCheck.price;
+                                var name = selectCheck.name;
+                                option.select = { name: name, price: price };
                                 options.push(option);
                             });
                             tasteTemp.options = options;
@@ -45147,7 +45208,11 @@ function hackReset(instance) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = tastesOptionsCountPrice;
+/* harmony export (immutable) */ __webpack_exports__["b"] = tastesOptionsCountPrice;
+/* harmony export (immutable) */ __webpack_exports__["a"] = formatOrderCheckoutDetails;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helper__ = __webpack_require__("./resources/assets/js/admin/utils/helper.js");
+
+
 function tastesOptionsCountPrice(tastesOptions) {
     var totalPrice = 0;
     tastesOptions.forEach(function (tasteOptions) {
@@ -45158,6 +45223,49 @@ function tastesOptionsCountPrice(tastesOptions) {
         });
     });
     return totalPrice;
+}
+
+function parseTastesOptions(tastesOptions) {
+    var tastesName = [];
+    var tastesPrice = 0;
+    tastesOptions.forEach(function (tasteOption) {
+        tasteOption.options.forEach(function (option) {
+            var _option$select = option.select,
+                name = _option$select.name,
+                price = _option$select.price;
+
+            tastesName.push(name);
+            tastesPrice += price;
+        });
+    });
+    return { tastesName: tastesName, tastesPrice: tastesPrice };
+}
+
+function formatOrderCheckoutDetails(orders) {
+    var totalPrice = 0;
+    var orderSpec = {
+        menuName: '',
+        menuPrice: 0,
+        tastesName: []
+    };
+    var orderCheckDetails = [];
+    orders.forEach(function (order) {
+        var tempOrderSpec = Object(__WEBPACK_IMPORTED_MODULE_0__helper__["a" /* deepObjectClone */])(orderSpec);
+        var menu = order.menu,
+            tastesOptions = order.tastesOptions;
+
+        var _parseTastesOptions = parseTastesOptions(tastesOptions),
+            tastesName = _parseTastesOptions.tastesName,
+            tastesPrice = _parseTastesOptions.tastesPrice;
+
+        tempOrderSpec.menuName = menu.menu_name;
+        tempOrderSpec.menuPrice = menu.menu_price + tastesPrice;
+        tempOrderSpec.tastesName = tastesName;
+        totalPrice += tempOrderSpec.menuPrice;
+        orderCheckDetails.push(tempOrderSpec);
+    });
+
+    return { totalPrice: totalPrice, orderCheckDetails: orderCheckDetails };
 }
 
 /***/ }),
@@ -45244,9 +45352,10 @@ service.interceptors.response.use(function (response) {
             statusText: statusText,
             data: data
         },
-        duration: 50000
+        duration: 5000
     });
     console.log('err' + error); // for debug
+    app.$store.commit('setLoadingStatus', false);
     return Promise.reject(error);
 });
 
