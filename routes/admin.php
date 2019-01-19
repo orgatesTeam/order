@@ -73,7 +73,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
          * 點餐 order
          */
         Route::group(['prefix' => 'order'], function () {
-            Route::post('/checkout', 'OrderController@checkout');
+            Route::post('/check', 'OrderController@check');
         });
     });
 });

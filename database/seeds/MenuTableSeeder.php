@@ -113,6 +113,7 @@ class MenuTableSeeder extends Seeder
                 '大杯'
             ]),
         ]);
+        $cup[0]['checks'][1]['price'] = 10;
 
         $user = \App\User::first();
         \App\Taste::create([
@@ -335,87 +336,87 @@ class MenuTableSeeder extends Seeder
             ['name'      => '阿薩姆奶茶',
              'price'     => '35',
              'type'      => '1',
-             'taste_ids' => '1'
+             'taste_ids' => '1,4'
             ],
             ['name'      => '珍珠奶茶',
              'price'     => '40',
              'type'      => '1',
-             'taste_ids' => '1'
+             'taste_ids' => '1,4'
             ],
             ['name'      => '奶茶三兄弟',
              'price'     => '45',
              'type'      => '1',
-             'taste_ids' => '1'
+             'taste_ids' => '1,4'
             ],
             ['name'      => '仙草凍奶茶',
              'price'     => '40',
              'type'      => '1',
-             'taste_ids' => '1'
+             'taste_ids' => '1,4'
             ],
             ['name'      => '布丁奶茶',
              'price'     => '40',
              'type'      => '1',
-             'taste_ids' => '1'
+             'taste_ids' => '1,4'
             ],
             ['name'      => '茉香奶茶',
              'price'     => '40',
              'type'      => '1',
-             'taste_ids' => '1'
+             'taste_ids' => '1,4'
             ],
             ['name'      => '西谷米奶茶',
              'price'     => '40',
              'type'      => '1',
-             'taste_ids' => '1'
+             'taste_ids' => '1,4'
             ],
             ['name'      => '紅豆奶茶',
              'price'     => '45',
              'type'      => '1',
-             'taste_ids' => '1'
+             'taste_ids' => '1,4'
             ],
             ['name'      => '醇品綠茶',
              'price'     => '25',
              'type'      => '2',
-             'taste_ids' => '1'
+             'taste_ids' => '1,4'
             ],
             ['name'      => '莊園紅茶',
              'price'     => '30',
              'type'      => '2',
-             'taste_ids' => '1'
+             'taste_ids' => '1,4'
             ],
             ['name'      => '台灣包種茶',
              'price'     => '30',
              'type'      => '2',
-             'taste_ids' => '1'
+             'taste_ids' => '1,4'
             ],
             ['name'      => '蕎麥包種茶',
              'price'     => '30',
              'type'      => '2',
-             'taste_ids' => '1'
+             'taste_ids' => '1,4'
             ],
             ['name'      => '檸檬包種茶',
              'price'     => '30',
              'type'      => '2',
-             'taste_ids' => '1'
+             'taste_ids' => '1,4'
             ],
             ['name'      => '南非國寶茶',
              'price'     => '25',
              'type'      => '2',
-             'taste_ids' => '1'
+             'taste_ids' => '1,4'
             ],
             ['name'      => '冬瓜西谷米',
              'price'     => '40',
              'type'      => '2',
-             'taste_ids' => '1'
+             'taste_ids' => '1,4'
             ],
             ['name'      => '檸檬冬瓜露',
              'price'     => '40',
              'type'      => '2',
-             'taste_ids' => '1'
+             'taste_ids' => '1,4'
             ],
             ['name'      => '綠茶養樂多',
              'price'     => '50',
              'type'      => '2',
-             'taste_ids' => '1'
+             'taste_ids' => '1,4'
             ],
             ['name'      => '檸檬養樂多',
              'price'     => '50',

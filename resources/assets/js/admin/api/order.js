@@ -1,8 +1,8 @@
 import request from '../utils/request'
 
-export function checkout(data) {
+export function check(data) {
     return request({
-        url: '/admin/order/checkout',
+        url: '/admin/order/check',
         method: 'post',
         data: data
     })

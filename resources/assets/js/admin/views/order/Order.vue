@@ -125,6 +125,7 @@
                             that.selectStore.tableTotal = store.table_total
                             that.$store.commit('setFormTitle', `${store.name}-點餐管理`)
                             that.$store.commit('setSelectStore', store)
+                            that.$store.commit('refreshOrders');
                             that.afterSelectedStore()
                         }
                     })

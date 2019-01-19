@@ -19,7 +19,7 @@ function parseTastesOptions(tastesOptions) {
         tasteOption.options.forEach(option => {
             let {name, price} = option.select;
             tastesName.push(name);
-            tastesPrice += price;
+            tastesPrice += parseInt(price, 10);
         })
     })
     return {tastesName, tastesPrice};

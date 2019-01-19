@@ -61,6 +61,13 @@ const order = {
         },
         setSelectStore(state, store) {
             state.selectStore = store
+        },
+        refreshOrders(state) {
+            state.orders = [];
+            state.orderCount = 0;
+            state.showRegulation = false;
+            state.regulateOrderIndex = 0;
+            state.selectStore = null;
         }
     },
     actions: {}

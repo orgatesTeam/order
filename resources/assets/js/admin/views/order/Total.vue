@@ -67,7 +67,7 @@
             </div>
         </div>
         <div id="drag" class="function-btn">
-            <div class="inline-dev sum" @click="checkout()">
+            <div class="inline-dev sum" @click="check()">
                 <mt-button type="primary">結算</mt-button>
             </div>
         </div>
@@ -76,7 +76,7 @@
 
 <script>
     import {tastesOptionsCountPrice} from "../../utils/orderService";
-    import {checkout} from "../../api/order";
+    import {check} from "../../api/order";
     import {formatOrderCheckoutDetails} from "../../utils/orderService";
     import {Toast} from 'mint-ui';
 
@@ -164,12 +164,12 @@
                     el.style.left = `${lastPt.x}px`
                 }
             },
-            checkout() {
+            check() {
                 let details = formatOrderCheckoutDetails(this.orders);
                 let tableNo = this.position.tableNo;
                 let storeID = this.position.storeID;
                 let data = {tableNo, details, storeID};
-                checkout(data).then(response => {
+                check(data).then(response => {
                     console.log(response);
                     if (response.data.code == 202) {
                         Toast({

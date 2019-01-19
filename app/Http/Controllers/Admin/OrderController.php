@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\OrderCheckouts;
+use App\OrderChecks;
 
 /**
  * 點餐管理
@@ -15,7 +15,7 @@ class OrderController extends Controller
      *
      * @throws \App\Exceptions\LackRequestException
      */
-    public function checkout()
+    public function check()
     {
         checkRequestExist([
             'details',
@@ -25,10 +25,16 @@ class OrderController extends Controller
         // 包含 totalPrice & details
         $details = request('details');
 
+        //沒有金額
+        if ($details['totalPrice'] === null) {
+            logError('Field TotalPrice is null');
+            return responseFail('點餐失敗');
+        }
+
         try {
-            $result = OrderCheckouts::create([
+            $result = OrderChecks::create([
                 'details'     => json_encode($details['orderCheckDetails']),
-                'total_price' => json_encode($details['totalPrice']),
+                'total_price' => $details['totalPrice'],
                 'store_id'    => request('storeID'),
                 'user_id'     => auth()->user()->id,
                 'table_no'    => request('tableNo'),

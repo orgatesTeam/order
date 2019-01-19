@@ -3318,6 +3318,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         that.selectStore.tableTotal = store.table_total;
                         that.$store.commit('setFormTitle', store.name + "-\u9EDE\u9910\u7BA1\u7406");
                         that.$store.commit('setSelectStore', store);
+                        that.$store.commit('refreshOrders');
                         that.afterSelectedStore();
                     }
                 });
@@ -3938,12 +3939,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 el.style.left = lastPt.x + "px";
             }
         },
-        checkout: function checkout() {
+        check: function check() {
             var details = Object(__WEBPACK_IMPORTED_MODULE_0__utils_orderService__["a" /* formatOrderCheckoutDetails */])(this.orders);
             var tableNo = this.position.tableNo;
             var storeID = this.position.storeID;
             var data = { tableNo: tableNo, details: details, storeID: storeID };
-            Object(__WEBPACK_IMPORTED_MODULE_1__api_order__["a" /* checkout */])(data).then(function (response) {
+            Object(__WEBPACK_IMPORTED_MODULE_1__api_order__["a" /* check */])(data).then(function (response) {
                 console.log(response);
                 if (response.data.code == 202) {
                     Object(__WEBPACK_IMPORTED_MODULE_2_mint_ui__["Toast"])({
@@ -27769,7 +27770,7 @@ var render = function() {
           staticClass: "inline-dev sum",
           on: {
             click: function($event) {
-              _vm.checkout()
+              _vm.check()
             }
           }
         },
@@ -44390,13 +44391,13 @@ function deleteMenuType(data) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = checkout;
+/* harmony export (immutable) */ __webpack_exports__["a"] = check;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_request__ = __webpack_require__("./resources/assets/js/admin/utils/request.js");
 
 
-function checkout(data) {
+function check(data) {
     return Object(__WEBPACK_IMPORTED_MODULE_0__utils_request__["a" /* default */])({
-        url: '/admin/order/checkout',
+        url: '/admin/order/check',
         method: 'post',
         data: data
     });
@@ -45042,6 +45043,13 @@ var order = {
         },
         setSelectStore: function setSelectStore(state, store) {
             state.selectStore = store;
+        },
+        refreshOrders: function refreshOrders(state) {
+            state.orders = [];
+            state.orderCount = 0;
+            state.showRegulation = false;
+            state.regulateOrderIndex = 0;
+            state.selectStore = null;
         }
     },
     actions: {}
@@ -45235,7 +45243,7 @@ function parseTastesOptions(tastesOptions) {
                 price = _option$select.price;
 
             tastesName.push(name);
-            tastesPrice += price;
+            tastesPrice += parseInt(price, 10);
         });
     });
     return { tastesName: tastesName, tastesPrice: tastesPrice };
