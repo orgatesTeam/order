@@ -23,6 +23,7 @@
                     'system-table-manager': '桌位管理',
                     'order': '點餐管理',
                     'store': '店家管理',
+                    'order-cooked': '出餐管理',
                 }
             }
         },

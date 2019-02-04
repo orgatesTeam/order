@@ -22,7 +22,7 @@ const router = new VueRouter({
             path: '/admin/dashboard', component: require('../views/layout/Layout'),
             children: [
                 {
-                    path: '/',
+                    path: '',
                     name: 'dashboard',
                     component: require('../views/dashboard/Dashboard')
                 },
@@ -33,7 +33,7 @@ const router = new VueRouter({
             path: '/admin/menu', component: require('../views/layout/Layout'),
             children: [
                 {
-                    path: '/',
+                    path: '',
                     name: 'menu',
                     component: require('../views/menu/Menu')
                 },
@@ -59,7 +59,7 @@ const router = new VueRouter({
             path: '/admin/store', component: require('../views/layout/Layout'),
             children: [
                 {
-                    path: '/',
+                    path: '',
                     name: 'store',
                     component: require('../views/store/Store')
                 },
@@ -80,7 +80,7 @@ const router = new VueRouter({
             path: '/admin/report', component: require('../views/layout/Layout'),
             children: [
                 {
-                    path: '/',
+                    path: '',
                     name: 'report',
                     component: require('../views/report/Report')
                 }
@@ -91,10 +91,15 @@ const router = new VueRouter({
             path: '/admin/order', component: require('../views/layout/Layout'),
             children: [
                 {
-                    path: '/',
+                    path: '',
                     name: 'order',
                     component: require('../views/order/Order')
-                }
+                },
+                {
+                    path: 'cooked',
+                    name: 'order-cooked',
+                    component: require('../views/order/cooked/Cooked')
+                },
             ]
         },
         //system
@@ -102,7 +107,7 @@ const router = new VueRouter({
             path: '/admin/system', component: require('../views/layout/Layout'),
             children: [
                 {
-                    path: '/',
+                    path: '',
                     name: 'system',
                     component: require('../views/system/System')
                 },

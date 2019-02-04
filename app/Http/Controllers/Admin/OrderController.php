@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\OrderChecks;
+use App\Store;
 
 /**
  * 點餐管理
@@ -28,6 +29,13 @@ class OrderController extends Controller
         //沒有金額
         if ($details['totalPrice'] === null) {
             logError('Field TotalPrice is null');
+            return responseFail('點餐失敗');
+        }
+
+        //權限處理
+        $store = Store::find(request('storeID'));
+        if (!$store->user_id === auth()->user()->id) {
+            logError('Not ordering by login User');
             return responseFail('點餐失敗');
         }
 

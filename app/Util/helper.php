@@ -30,13 +30,13 @@ if (!function_exists('logError')) {
     function logError($message, $recordRequest = true)
     {
         if (auth()->check()) {
-            $user = auth()->user()->id;
+            $userID = auth()->user()->id;
         }
 
         $records = [
             'ip'   => request()->ip(),
             'url'  => request()->url(),
-            'user' => $user ?? '未登入'
+            'user' => $userID ?? '未登入'
         ];
 
         if ($recordRequest) {
