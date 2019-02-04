@@ -13,7 +13,8 @@
                                 <div v-for="tasteOptions in tastesOptions">
                                     <div v-for="option,optionIndex in tasteOptions.options">
                                         <div @click="option.showActionsheet = !option.showActionsheet">
-                                            <mt-field :label="option.name" type="tel" v-model="option.select.name" disabled>
+                                            <mt-field :label="option.name" type="tel" v-model="option.select.name"
+                                                      disabled>
                                                 <mt-actionsheet
                                                         :actions="buildActionsByTasteOption(tasteOptions.id,optionIndex,option)"
                                                         v-model="option.showActionsheet">
@@ -106,7 +107,7 @@
                     if (tasteOptionsID == tasteOptions.id) {
                         tasteOptions.options[tasteOptionIndex].select = {
                             'name': check.name,
-                            'price': check.price
+                            'price': check.price === undefined ? 0 : check.price
                         };
                     }
                 })

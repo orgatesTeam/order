@@ -3685,6 +3685,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Regulation",
@@ -3754,7 +3755,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (tasteOptionsID == tasteOptions.id) {
                     tasteOptions.options[tasteOptionIndex].select = {
                         'name': check.name,
-                        'price': check.price
+                        'price': check.price === undefined ? 0 : check.price
                     };
                 }
             });
