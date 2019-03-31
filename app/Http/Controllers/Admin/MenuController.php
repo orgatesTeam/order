@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Menu\CreateRequest;
+use App\Http\Requests\Menu\UpdateRequest;
 use App\Menu;
 use App\MenuType;
 use App\Store;
-use App\StoreMenu;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Validator;
 
 /**
  * 菜單管理
@@ -75,57 +77,25 @@ class MenuController extends Controller
         return responseSuccess(['menuTypes' => $menuTypes]);
     }
 
-    public function updateMenu()
+    public function updateMenu(UpdateRequest $request)
     {
-        $keys = ['name',
-            'price',
-            'menu_type_id',
-            'id',
-            'taste_ids'
-        ];
-        checkRequestExist($keys);
-
-        $menu = Menu::find(request('id'));
-        if (!$menu) {
-            logError('找無此菜單ID');
-            return responseFail('資料錯誤');
-        }
-
-        $menuType = MenuType::where('id', request('menu_type_id'))->where('user_id', auth()->user()->id)->first();
-        if (!$menuType) {
-            logError('找無此菜單種類ID');
-            return responseFail('資料錯誤');
-        }
-
-        $menu->name = request('name');
-        $menu->price = request('price');
-        $menu->menu_type_id = request('menu_type_id');
-        $menu->taste_ids = request('taste_ids');
+        $menu = $request->get('modelInstance')['menu'];
+        $menu->name = $request->get('name');
+        $menu->price = $request->get('price');
+        $menu->menu_type_id = $request->get('menu_type_id');
+        $menu->taste_ids = $request->get('taste_ids');
         $menu->save();
-
         return responseSuccess(['menu' => $menu]);
     }
 
-    public function createMenu()
+    public function createMenu(CreateRequest $request)
     {
-        checkRequestExist([
-            'name',
-            'price',
-            'menu_type_id',
-        ]);
-
-        $menuType = MenuType::where('id', request('menu_type_id'))->where('user_id', auth()->user()->id)->first();
-        if (!$menuType) {
-            logError('找無此菜單種類ID');
-            return responseFail('資料錯誤');
-        }
-
         $menu = Menu::create([
             'user_id'      => auth()->user()->id,
-            'name'         => request('name'),
-            'price'        => request('price'),
-            'menu_type_id' => request('menu_type_id'),
-            'taste_ids'    => request('taste_ids')
+            'name'         => $request->get('name'),
+            'price'        => $request->get('price'),
+            'menu_type_id' => $request->get('menu_type_id'),
+            'taste_ids'    => $request->get('taste_ids')
         ]);
 
         return responseSuccess(['menu' => $menu]);

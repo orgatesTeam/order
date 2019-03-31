@@ -52,6 +52,15 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof RequestException) {
+            logError('請求參數缺失');
+            $message = json_decode($exception->getMessage());
+            if(json_last_error()){
+                $message = $exception->getMessage();
+            }
+            return responseFail($message);
+        }
+
         if ($exception instanceof LackRequestException) {
             logError('請求參數缺失');
             return responseFail('資料錯誤');
