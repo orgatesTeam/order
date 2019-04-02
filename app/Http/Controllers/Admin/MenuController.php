@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Menu\CreateRequest;
+use App\Http\Requests\Menu\DeleteMenuTypeRequest;
 use App\Http\Requests\Menu\ListByStoreMenuRequest;
+use App\Http\Requests\Menu\UpdateMenuTypeRequest;
 use App\Http\Requests\Menu\UpdateRequest;
 use App\Menu;
 use App\MenuType;
@@ -29,14 +31,13 @@ class MenuController extends Controller
         $menus = Menu::where('user_id', $user->id)->orderBy('id', 'desc')->paginate(10);
 
         $menuTypes = $this->makeMappingMenuTypes($menus);
-
         foreach ($menus as $menu) {
 
             if (!isset($menuTypes[$menu->menu_type_id])) {
                 Log::error(__FUNCTION__ . ': 資料有誤, menu_type_id: ' . $menu->menu_type_id);
             }
 
-            $menu->type = $menuTypes[$menu->menu_type_id];
+            $menu->type = $menuTypes[$menu->menu_type_id] ?? '';
         }
         return responseSuccess(['menus' => $menus]);
     }
@@ -189,27 +190,15 @@ class MenuController extends Controller
     /**
      * 更新 菜單種類
      */
-    public function updateMenuType()
+    public function updateMenuType(UpdateMenuTypeRequest $request)
     {
-        $userID = auth()->user()->id;
-        checkRequestExist(['menu_type_id',
-            'menu_type_name'
-        ]);
-
-        $menuType = MenuType::find(request('menu_type_id'));
-
-        if ($menuType->user_id != $userID) {
-            logError('無權限改變');
-            return responseFail('錯誤請求');
-        }
-
-        if ($menuType) {
-            $menuType->name = request('menu_type_name');
-            $menuType = $menuType->save();
+        $menuType = $request->get('modelInstance')['menuType'];
+        $menuType->name = request('menu_type_name');
+        if ($menuType->save()) {
             return responseSuccess(['menuType' => $menuType]);
         }
 
-        return responseFail('錯誤請求');
+        return responseFail('儲存錯誤');
     }
 
     /**
@@ -231,20 +220,14 @@ class MenuController extends Controller
     /**
      * 刪除 菜單種類
      */
-    public function deleteMenuType()
+    public function deleteMenuType(DeleteMenuTypeRequest $request)
     {
-        checkRequestExist([
-            'menu_type_name',
-            'menu_type_id'
-        ]);
+        $menuType = $request->get('modelInstance')['menuType'];
 
-        $menuType = MenuType::find(request('menu_type_id'));
-        //使用者看到的名稱相同 並且是有權限修改
-        if ($menuType->name == request('menu_type_name') && $menuType->user_id == auth()->user()->id) {
-            $menuType = $menuType->delete();
+        $menuType = $menuType->delete();
+        if ($menuType) {
             return responseSuccess(['menuType' => $menuType]);
         }
-
         return responseFail('刪除失敗');
     }
 }

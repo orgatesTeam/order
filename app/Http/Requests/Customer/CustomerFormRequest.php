@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Exceptions\RequestException;
 use Illuminate\Contracts\Validation\Validator;
 
-class CustomerFormRequest extends FormRequest
+class CustomerFormRequest extends FormRequest implements CustomerInterface
 {
     /**
      * Validate the class instance.
@@ -24,8 +24,8 @@ class CustomerFormRequest extends FormRequest
         } elseif (!$instance->passes()) {
             $this->failedValidation($instance);
         } else {
-            if (method_exists($this, 'customerSomething')) {
-                $this->customerSomething();
+            if (method_exists($this, 'customerDoing')) {
+                $this->customerDoing();
             }
         }
     }
@@ -42,5 +42,10 @@ class CustomerFormRequest extends FormRequest
     protected function failedValidation(Validator $validator)
     {
         throw (new RequestException(json_encode($validator->errors()->messages())));
+    }
+
+    public function customerDoing()
+    {
+
     }
 }

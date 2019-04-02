@@ -36,7 +36,7 @@ class UpdateRequest extends CustomerFormRequest
         ];
     }
 
-    public function customerSomething()
+    public function customerDoing()
     {
         $menu = Menu::find(request('id'));
         if (!$menu) {

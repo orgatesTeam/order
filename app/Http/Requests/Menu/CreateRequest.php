@@ -32,7 +32,7 @@ class CreateRequest extends CustomerFormRequest
         ];
     }
 
-    public function customerSomething()
+    public function customerDoing()
     {
         $menuType = MenuType::where('id', request('menu_type_id'))
             ->where('user_id', auth()->user()->id)->first();

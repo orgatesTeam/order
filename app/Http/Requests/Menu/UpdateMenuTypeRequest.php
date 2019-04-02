@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests\Menu;
 
-use App\Enums\Admin\ExceptionEnum;
-use App\Exceptions\RequestException;
 use App\Http\Requests\Customer\CustomerFormRequest;
-use App\Store;
+use App\MenuType;
+use App\Exceptions\RequestException;
+use App\Enums\Admin\ExceptionEnum;
 
-class ListByStoreMenuRequest extends CustomerFormRequest
+class UpdateMenuTypeRequest extends CustomerFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,19 +27,21 @@ class ListByStoreMenuRequest extends CustomerFormRequest
     public function rules()
     {
         return [
-            'store_id' => 'required'
+            'menu_type_id'   => 'required|integer',
+            'menu_type_name' => 'required|max:10'
         ];
     }
 
     public function customerDoing()
     {
-        $store = Store::find(request('store_id'));
-        if ($store === null) {
-            throw (new RequestException('store not exist'));
-        }
+        $menuType = MenuType::find(request('menu_type_id'));
 
-        if ($store->user_id != auth()->user()->id) {
+        if ($menuType === null || $menuType->user_id != auth()->user()->id) {
             throw (new RequestException(ExceptionEnum::NOT_PERMISSION));
         }
+
+        $this->request->set('modelInstance', [
+            'menuType' => $menuType
+        ]);
     }
 }
