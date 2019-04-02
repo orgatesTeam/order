@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Menu\CreateRequest;
+use App\Http\Requests\Menu\ListByStoreMenuRequest;
 use App\Http\Requests\Menu\UpdateRequest;
 use App\Menu;
 use App\MenuType;
@@ -117,17 +118,16 @@ class MenuController extends Controller
     }
 
     /**
-     * 所有店家配置菜單以及狀態
+     * 店家配置的菜單以及狀態
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function listByStoreMenu()
+    public function listByStoreMenu(ListByStoreMenuRequest $request)
     {
         $userID = auth()->user()->id;
-        checkRequestExist(['store_id']);
 
         $menus = Menu::selectRaw('menus.id as menu_id , name , (store_id > 0) as isChecked,user_id')
-            ->leftJoin(DB::raw('(select * from store_menus where store_id = ' . request('store_id') . ') as store_menus '), function ($join) {
+            ->leftJoin(DB::raw('(select * from store_menus where store_id = ' . $request->get('store_id') . ') as store_menus '), function ($join) {
                 $join->on('menus.id', '=', 'store_menus.menu_id');
             })
             ->where('menus.user_id', '=', $userID)
@@ -233,7 +233,8 @@ class MenuController extends Controller
      */
     public function deleteMenuType()
     {
-        checkRequestExist(['menu_type_name',
+        checkRequestExist([
+            'menu_type_name',
             'menu_type_id'
         ]);
 
