@@ -12,7 +12,6 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $input = $request->only(['email', 'password']);
-
         //Tymon\JWTAuth
         if (!$token = JWTAuth::attempt($input)) {
             return responseFail('email or password was wrong');
